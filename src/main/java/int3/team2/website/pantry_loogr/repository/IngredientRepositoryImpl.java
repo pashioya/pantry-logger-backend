@@ -1,7 +1,6 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.Ingredient;
-import int3.team2.website.pantry_loogr.domain.Recipe;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -23,27 +22,23 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     private Ingredient mapRow(ResultSet rs, int rowid) throws SQLException {
-        Ingredient ingr = new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
-        return ingr;
+        return new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
     }
 
     @Override
     public List<Ingredient> findAll() {
-        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapRow);
-        return ingredients;
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapRow);
     }
 
 
     @Override
     public Ingredient get(int id) {
-        Ingredient ingredient = jdbcTemplate.query("SELECT * FROM INGREDIENT where ingredient_id = " + id, this::mapRow).get(0);
-        return ingredient;
+        return jdbcTemplate.query("SELECT * FROM INGREDIENT where ingredient_id = " + id, this::mapRow).get(0);
     }
 
     @Override
     public List<Ingredient> findByName(String name) {
-        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER('" + name + "') in LOWER(NAME)) > 0", this::mapRow);
-        return ingredients;
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER('" + name + "') in LOWER(NAME)) > 0", this::mapRow);
     }
 
 }

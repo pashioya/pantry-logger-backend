@@ -4,7 +4,6 @@ import int3.team2.website.pantry_loogr.domain.Difficulty;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
 import int3.team2.website.pantry_loogr.repository.RecipeRepository;
-import int3.team2.website.pantry_loogr.repository.RecipeRepositoryImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package int3.team2.website.pantry_loogr.service;
 import int3.team2.website.pantry_loogr.domain.Difficulty;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
-import int3.team2.website.pantry_loogr.repository.RecipeRepository;
 
 import java.util.List;
 

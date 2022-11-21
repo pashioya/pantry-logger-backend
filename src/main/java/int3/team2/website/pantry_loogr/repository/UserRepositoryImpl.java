@@ -1,9 +1,6 @@
 package int3.team2.website.pantry_loogr.repository;
 
-import int3.team2.website.pantry_loogr.domain.Difficulty;
 import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.Recipe;
-import int3.team2.website.pantry_loogr.domain.Time;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -38,51 +35,51 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<EndUser> findAll() {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS", this::mapRow);
     }
 
     @Override
     public EndUser get(int id) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE ID = " + id, this::mapRow).get(0);
     }
 
     @Override
     public List<EndUser> findByUsername(String username) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + username + "') in LOWER(USERNAME)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByFirstName(String firstName) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + firstName + "') in LOWER(FIRST_NAME)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByLastName(String lastName) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + lastName + "') in LOWER(LAST_NAME)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByEmail(String email) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + email + "') in LOWER(EMAIL)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByCity(String city) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + city + "') in LOWER(CITY)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByStateRegion(String stateRegion) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + stateRegion + "') in LOWER(STATE_REGION)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByZip(String zip) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + zip + "') in LOWER(ZIP)) > 0", this::mapRow);
     }
 
     @Override
     public List<EndUser> findByCountry(String country) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + country + "') in LOWER(COUNTRY)) > 0", this::mapRow);
     }
 }

@@ -1,11 +1,13 @@
 package int3.team2.website.pantry_loogr.presentation;
 
+import int3.team2.website.pantry_loogr.domain.EndUser;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Tag;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.RecipeService;
 import int3.team2.website.pantry_loogr.service.TagService;
+import int3.team2.website.pantry_loogr.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +24,13 @@ public class RecipeController {
     IngredientService ingredientService;
     TagService tagService;
 
-    public RecipeController(RecipeService recipeService, IngredientService ingredientService, TagService tagService) {
+    UserService userService;
+
+    public RecipeController(RecipeService recipeService, IngredientService ingredientService, TagService tagService, UserService userService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.tagService = tagService;
+        this.userService = userService;
     }
     // @RequestParam(required = false) String recipe_name,
     @GetMapping
@@ -73,5 +78,15 @@ public class RecipeController {
         model.addAttribute("tags", tags);
         return "tags";
     }
+
+    @GetMapping("/users")
+    public String getAllUsers(Model model) {
+        List<EndUser> users;
+        users = userService.getAll();
+
+        model.addAttribute("users", users);
+        return "users";
+    }
+
 
 }

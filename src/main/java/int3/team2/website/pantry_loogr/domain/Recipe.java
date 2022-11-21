@@ -1,27 +1,12 @@
 package int3.team2.website.pantry_loogr.domain;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "recipe")
 public class Recipe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long recipe_id;
-
-    @Column(name = "recipe_name")
     private String recipe_name;
-
-    @Column(name = "recipe_difficulty")
     private Difficulty recipe_difficulty;
 
-    @Column(name = "recipe_description")
     private String recipe_description;
-
-    @Column(name = "recipe_instructions")
     private String recipe_instructions;
-
-    @Column(name = "recipe_time")
     private Time recipe_time;
 
 
@@ -29,6 +14,15 @@ public class Recipe {
     }
 
     public Recipe(String recipe_name, Difficulty recipe_difficulty, String recipe_description, String recipe_instructions, Time recipe_time) {
+        this.recipe_name = recipe_name;
+        this.recipe_difficulty = recipe_difficulty;
+        this.recipe_description = recipe_description;
+        this.recipe_instructions = recipe_instructions;
+        this.recipe_time = recipe_time;
+    }
+
+    public Recipe(int ID, String recipe_name, Difficulty recipe_difficulty, String recipe_description, String recipe_instructions, Time recipe_time) {
+        this.recipe_id = ID;
         this.recipe_name = recipe_name;
         this.recipe_difficulty = recipe_difficulty;
         this.recipe_description = recipe_description;

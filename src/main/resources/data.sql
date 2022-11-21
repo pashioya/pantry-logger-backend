@@ -1,31 +1,31 @@
-INSERT INTO RECIPES(RECIPE_NAME, RECIPE_TIME, RECIPE_DIFFICULTY, RECIPE_DESCRIPTION, RECIPE_INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, DESCRIPTION, INSTRUCTIONS)
 VALUES ('Chili',
         'LONG',
         'MEDIUM',
         'This traditional chili recipe is just like mom used to make with ground beef, beans, and a simple homemade blend of chili seasonings.',
         'https://www.food.com/recipe/the-best-chili-you-will-ever-taste-73166');
 
-INSERT INTO RECIPES(RECIPE_NAME, RECIPE_TIME, RECIPE_DIFFICULTY, RECIPE_INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
 VALUES ('Sausage Lentil Soup',
         'MEDIUM',
         'MEDIUM',
         'https://www.food.com/recipe/spicy-sausage-lentil-soup-279315');
 
-INSERT INTO RECIPES(RECIPE_NAME, RECIPE_TIME, RECIPE_DIFFICULTY, RECIPE_DESCRIPTION, RECIPE_INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, DESCRIPTION, INSTRUCTIONS)
 VALUES ('Spaghetti Carbonara',
         'MEDIUM',
         'EASY',
         'Comfort food. Spaghetti, cheese, bacon, creamy and filling. Sure to be a favorite for you. It is for me.',
         'https://www.food.com/recipe/the-best-chili-you-will-ever-taste-73166');
 
-INSERT INTO RECIPES(RECIPE_NAME, RECIPE_TIME, RECIPE_DIFFICULTY, RECIPE_INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
 VALUES ('Mac & Cheese',
         'QUICK',
         'EASY',
         'https://www.food.com/recipe/spicy-sausage-lentil-soup-279315');
 
 
-insert into TAGS (TAG_NAME)
+insert into TAGS (NAME)
 VALUES ('meat'),
        ('dairy'),
        ('nuts & seeds'),
@@ -35,7 +35,7 @@ VALUES ('meat'),
        ('eggs');
 
 
-INSERT INTO INGREDIENTS(INGREDIENT_NAME)
+INSERT INTO INGREDIENTS(NAME)
 VALUES ('onion'),
        ('garlic'),
        ('ground beef'),
@@ -68,7 +68,7 @@ VALUES ('onion'),
 
 
 
-INSERT INTO INGREDIENT_TAG(INGREDIENT_ID, TAG_ID)
+INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
 VALUES (3, 1),
        (4, 1),
        (6, 4),
@@ -81,8 +81,3 @@ VALUES (3, 1),
        (26, 2),
        (28, 2),
        (29, 2);
-
-INSERT INTO PANTRY_ZONE(NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
-VALUES ("Pantry 1", 10, 15, 100, 200, 100, 200)
-VALUES ("Pantry 1", 10, 15, 100, 200, 100, 200)
-VALUES ("Pantry 1", 10, 15, 100, 200, 100, 200)

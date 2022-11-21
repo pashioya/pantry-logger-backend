@@ -81,3 +81,8 @@ VALUES (3, 1),
        (26, 2),
        (28, 2),
        (29, 2);
+
+INSERT INTO PANTRY_ZONE(NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
+VALUES ("Pantry 1", 10, 15, 100, 200, 100, 200)
+VALUES ("Pantry 1", 10, 15, 100, 200, 100, 200)
+VALUES ("Pantry 1", 10, 15, 100, 200, 100, 200)

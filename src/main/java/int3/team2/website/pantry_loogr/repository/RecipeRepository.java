@@ -11,5 +11,5 @@ public interface RecipeRepository {
     List<Recipe> findByDifficulty(Difficulty recipe_difficulty);
     List<Recipe> findByTime(Time recipe_time);
     List<Recipe> findAll();
-    List<Recipe> findById(long id);
+    Recipe get(int id);
 }

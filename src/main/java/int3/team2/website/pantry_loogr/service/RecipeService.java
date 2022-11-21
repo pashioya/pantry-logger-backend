@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface RecipeService {
     List<Recipe> getAll();
+    Recipe get(int recipeID);
     List<Recipe> add(Recipe recipe);
 }

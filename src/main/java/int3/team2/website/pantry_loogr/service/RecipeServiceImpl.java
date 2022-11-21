@@ -21,6 +21,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public Recipe get(int recipeID) {
+        return recipeRepository.get(recipeID);
+    }
+
+    @Override
     public List<Recipe> add(Recipe recipe) {
         return null;
     }

@@ -5,6 +5,7 @@ import int3.team2.website.pantry_loogr.service.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -26,5 +27,14 @@ public class RecipeController {
 
         model.addAttribute("recipes", recipes);
         return "recipes";
+    }
+
+    @GetMapping("/recipes/{recipeID}")
+    public String recipeDetails(Model model, @PathVariable int recipeID) {
+        Recipe recipe = recipeService.get(recipeID);
+
+        model.addAttribute("recipe", recipe);
+
+        return "recipeDetails";
     }
 }

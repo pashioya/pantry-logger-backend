@@ -62,9 +62,8 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     }
 
     @Override
-    public List<Recipe> findById(long id) {
-        return recipeList.stream()
-                .filter(recipe -> recipe.getRecipe_id() == id)
-                .toList();
+    public Recipe get(int id) {
+        Recipe recipe = jdbcTemplate.query("SELECT * FROM RECIPES where recipe_id = " + id, this::mapRow).get(0);
+        return recipe;
     }
 }

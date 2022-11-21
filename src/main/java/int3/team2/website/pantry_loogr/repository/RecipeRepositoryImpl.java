@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.Difficulty;
+import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,12 +27,13 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     }
 
     private Recipe mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new Recipe(rs.getInt("RECIPE_ID"),
-                rs.getString("RECIPE_NAME"),
-                Difficulty.valueOf(rs.getString("RECIPE_DIFFICULTY")),
-                rs.getString("RECIPE_DESCRIPTION"),
-                rs.getString("RECIPE_INSTRUCTIONS"),
-                Time.valueOf(rs.getString("RECIPE_TIME")));
+        return new Recipe(rs.getInt("ID"),
+                rs.getString("NAME"),
+                Difficulty.valueOf(rs.getString("DIFFICULTY")),
+                rs.getString("DESCRIPTION"),
+                rs.getString("INSTRUCTIONS"),
+                Time.valueOf(rs.getString("TIME")));
+
     }
 
     @Override
@@ -41,29 +43,23 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     }
 
     @Override
-    public List<Recipe> findByName(String recipe_name) {
-        return recipeList.stream()
-                .filter(recipe -> recipe.getRecipe_name().equals(recipe_name))
-                .toList();
-    }
-
-    @Override
-    public List<Recipe> findByDifficulty(Difficulty recipe_difficulty) {
-        return recipeList.stream()
-                .filter(recipe -> recipe.getRecipe_difficulty() == recipe_difficulty)
-                .toList();
-    }
-
-    @Override
-    public List<Recipe> findByTime(Time recipe_time) {
-        return recipeList.stream()
-                .filter(recipe -> recipe.getRecipe_time() == recipe_time)
-                .toList();
-    }
-
-    @Override
     public Recipe get(int id) {
-        Recipe recipe = jdbcTemplate.query("SELECT * FROM RECIPES where recipe_id = " + id, this::mapRow).get(0);
+        Recipe recipe = jdbcTemplate.query("SELECT * FROM RECIPE where ID = " + id, this::mapRow).get(0);
         return recipe;
+    }
+
+    @Override
+    public List<Recipe> findByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Recipe> findByDifficulty(Difficulty difficulty) {
+        return null;
+    }
+
+    @Override
+    public List<Recipe> findByTime(Time time) {
+        return null;
     }
 }

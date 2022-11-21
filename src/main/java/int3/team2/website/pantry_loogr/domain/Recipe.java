@@ -1,88 +1,88 @@
 package int3.team2.website.pantry_loogr.domain;
 
 public class Recipe {
-    private long recipe_id;
-    private String recipe_name;
-    private Difficulty recipe_difficulty;
+    private int id;
+    private String name;
+    private Difficulty difficulty;
 
-    private String recipe_description;
-    private String recipe_instructions;
-    private Time recipe_time;
+    private String description;
+    private String instructions;
+    private Time time;
 
 
     public Recipe() {
     }
 
-    public Recipe(String recipe_name, Difficulty recipe_difficulty, String recipe_description, String recipe_instructions, Time recipe_time) {
-        this.recipe_name = recipe_name;
-        this.recipe_difficulty = recipe_difficulty;
-        this.recipe_description = recipe_description;
-        this.recipe_instructions = recipe_instructions;
-        this.recipe_time = recipe_time;
+    public Recipe(String name, Difficulty difficulty, String description, String instructions, Time time) {
+        this.name = name;
+        this.difficulty = difficulty;
+        this.description = description;
+        this.instructions = instructions;
+        this.time = time;
     }
 
-    public Recipe(int ID, String recipe_name, Difficulty recipe_difficulty, String recipe_description, String recipe_instructions, Time recipe_time) {
-        this.recipe_id = ID;
-        this.recipe_name = recipe_name;
-        this.recipe_difficulty = recipe_difficulty;
-        this.recipe_description = recipe_description;
-        this.recipe_instructions = recipe_instructions;
-        this.recipe_time = recipe_time;
+    public Recipe(int ID, String name, Difficulty difficulty, String description, String instructions, Time time) {
+        this.id = ID;
+        this.name = name;
+        this.difficulty = difficulty;
+        this.description = description;
+        this.instructions = instructions;
+        this.time = time;
     }
 
-    public long getRecipe_id() {
-        return recipe_id;
+    public long getId() {
+        return id;
     }
 
-    public String getRecipe_name() {
-        return recipe_name;
+    public String getName() {
+        return name;
     }
 
-    public void setRecipe_name(String recipe_name) {
-        this.recipe_name = recipe_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Difficulty getRecipe_difficulty() {
-        return recipe_difficulty;
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
-    public void setRecipe_difficulty(Difficulty recipe_difficulty) {
-        this.recipe_difficulty = recipe_difficulty;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
-    public String getRecipe_description() {
-        return recipe_description;
+    public String getDescription() {
+        return description;
     }
 
-    public void setRecipe_description(String recipe_description) {
-        this.recipe_description = recipe_description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getRecipe_instructions() {
-        return recipe_instructions;
+    public String getInstructions() {
+        return instructions;
     }
 
-    public void setRecipe_instructions(String recipe_instructions) {
-        this.recipe_instructions = recipe_instructions;
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 
-    public Time getRecipe_time() {
-        return recipe_time;
+    public Time getTime() {
+        return time;
     }
 
-    public void setRecipe_time(Time recipe_time) {
-        this.recipe_time = recipe_time;
+    public void setTime(Time time) {
+        this.time = time;
     }
 
     @Override
     public String toString() {
         return "Model{" +
-                "recipe_id=" + recipe_id +
-                ", recipe_name='" + recipe_name + '\'' +
-                ", recipe_difficulty=" + recipe_difficulty +
-                ", recipe_description='" + recipe_description + '\'' +
-                ", recipe_instructions='" + recipe_instructions + '\'' +
-                ", recipe_time=" + recipe_time +
+                "recipe_id=" + id +
+                ", recipe_name='" + name + '\'' +
+                ", recipe_difficulty=" + difficulty +
+                ", recipe_description='" + description + '\'' +
+                ", recipe_instructions='" + instructions + '\'' +
+                ", recipe_time=" + time +
                 '}';
     }
 }

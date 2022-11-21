@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.Ingredient;
+import int3.team2.website.pantry_loogr.domain.Recipe;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -22,8 +23,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     private Ingredient mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new Ingredient(rs.getInt("INGREDIENT_ID"),
-                rs.getString("INGREDIENT_NAME"));
+        Ingredient ingr = new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
+        return ingr;
     }
 
     @Override
@@ -38,4 +39,11 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         Ingredient ingredient = jdbcTemplate.query("SELECT * FROM INGREDIENT where ingredient_id = " + id, this::mapRow).get(0);
         return ingredient;
     }
+
+    @Override
+    public List<Ingredient> findByName(String name) {
+        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER('" + name + "') in LOWER(NAME)) > 0", this::mapRow);
+        return ingredients;
+    }
+
 }

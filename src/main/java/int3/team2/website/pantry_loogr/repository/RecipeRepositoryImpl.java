@@ -44,22 +44,25 @@ public class RecipeRepositoryImpl implements RecipeRepository {
 
     @Override
     public Recipe get(int id) {
-        Recipe recipe = jdbcTemplate.query("SELECT * FROM RECIPE where ID = " + id, this::mapRow).get(0);
+        Recipe recipe = jdbcTemplate.query("SELECT * FROM RECIPE WHERE ID = " + id, this::mapRow).get(0);
         return recipe;
     }
 
     @Override
     public List<Recipe> findByName(String name) {
-        return null;
+        List<Recipe> recipes = jdbcTemplate.query("SELECT * FROM RECIPES WHERE position(LOWER('" + name + "') in LOWER(NAME)) > 0", this::mapRow);
+        return recipes;
     }
 
     @Override
     public List<Recipe> findByDifficulty(Difficulty difficulty) {
-        return null;
+        List<Recipe> recipes = jdbcTemplate.query("SELECT * FROM RECIPES WHERE DIFFICULTY = " + difficulty, this::mapRow);
+        return recipes;
     }
 
     @Override
     public List<Recipe> findByTime(Time time) {
-        return null;
+        List<Recipe> recipes = jdbcTemplate.query("SELECT * FROM RECIPES WHERE TIME = " + time, this::mapRow);
+        return recipes;
     }
 }

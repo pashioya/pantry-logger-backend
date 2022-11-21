@@ -7,4 +7,6 @@ import java.util.List;
 public interface IngredientRepository {
     List<Ingredient> findAll();
     Ingredient get(int id);
+    List<Ingredient> findByName(String name);
+
 }

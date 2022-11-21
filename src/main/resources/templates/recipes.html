@@ -8,12 +8,12 @@
     <table>
         <tr><td>Id</td><td>Name</td><td>Difficulty</td><td>Description</td><td>Instructions</td><td>Time</td></tr>
         <tr th:each="recipe: ${recipes}">
-            <td th:text="${recipe.recipe_id}"></td>
-            <td th:text="${recipe.recipe_name}"></td>
-            <td th:text="${recipe.recipe_difficulty}"></td>
-            <td th:text="${recipe.recipe_description}"></td>
-            <td th:text="${recipe.recipe_instructions}"></td>
-            <td th:text="${recipe.recipe_time}"></td>
+            <td th:text="${recipe.id}"></td>
+            <td th:text="${recipe.name}"></td>
+            <td th:text="${recipe.difficulty}"></td>
+            <td th:text="${recipe.description}"></td>
+            <td th:text="${recipe.instructions}"></td>
+            <td th:text="${recipe.time}"></td>
         </tr>
     </table>
 </body>

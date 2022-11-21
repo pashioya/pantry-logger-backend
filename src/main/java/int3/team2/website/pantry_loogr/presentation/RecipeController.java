@@ -42,6 +42,16 @@ public class RecipeController {
         return "recipeDetails";
     }
 
+    @GetMapping("/search/{name}")
+    public String getRecipeByName(Model model, @PathVariable String name) {
+        List<Recipe> recipes = recipeService.getByName(name);
+
+        model.addAttribute("recipes", recipes);
+
+        return "recipes";
+
+    }
+
     @GetMapping("/ingredients")
     public String getAllIngredient(Model model) {
         List<Ingredient> ingredients;
@@ -49,6 +59,5 @@ public class RecipeController {
 
         model.addAttribute("ingredients", ingredients);
         return "ingredients";
-
     }
 }

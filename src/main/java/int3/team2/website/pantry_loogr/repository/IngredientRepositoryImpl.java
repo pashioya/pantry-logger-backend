@@ -33,7 +33,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     @Override
     public Ingredient get(int id) {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENT where ingredient_id = " + id, this::mapRow).get(0);
+        return jdbcTemplate.query("SELECT * FROM INGREDIENT where id = " + id, this::mapRow).get(0);
     }
 
     @Override

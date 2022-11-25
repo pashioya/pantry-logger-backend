@@ -33,4 +33,9 @@ public class IngredientServiceImpl implements IngredientService {
     public List<Ingredient> getByName(String name) {
         return ingredientRepository.findByName(name);
     }
+
+    @Override
+    public List<Ingredient> getIngredientsByRecipeId(int id) {
+        return ingredientRepository.findIngredientsByRecipeId(id);
+    }
 }

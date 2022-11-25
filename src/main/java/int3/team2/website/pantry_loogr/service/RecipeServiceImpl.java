@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Difficulty;
+import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
 import int3.team2.website.pantry_loogr.repository.RecipeRepository;
@@ -11,9 +12,11 @@ import java.util.List;
 @Component
 public class RecipeServiceImpl implements RecipeService {
     private RecipeRepository recipeRepository;
+    private IngredientService ingredientService;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientService ingredientService) {
         this.recipeRepository = recipeRepository;
+        this.ingredientService = ingredientService;
     }
 
     @Override
@@ -23,7 +26,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe get(int recipeID) {
-        return recipeRepository.get(recipeID);
+        Recipe recipe = recipeRepository.get(recipeID);
+        recipe.setIngredients(ingredientService.getIngredientsByRecipeId(recipe.getId()));
+        return recipe;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.Difficulty;
+import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,7 +41,7 @@ public class RecipeRepositoryImpl implements RecipeRepository {
 
     @Override
     public Recipe get(int id) {
-        return jdbcTemplate.query("SELECT * FROM RECIPE WHERE ID = " + id, this::mapRow).get(0);
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE ID = " + id, this::mapRow).get(0);
     }
 
     @Override

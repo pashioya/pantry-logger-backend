@@ -9,5 +9,6 @@ public interface IngredientService {
     Ingredient get(int ingredientID);
     List<Ingredient> add(Ingredient ingredient);
     List<Ingredient> getByName(String name);
+    List<Ingredient> getIngredientsByRecipeId(int id);
 
 }

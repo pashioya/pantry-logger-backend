@@ -30,15 +30,18 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         return jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapRow);
     }
 
-
     @Override
     public Ingredient get(int id) {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENT where id = " + id, this::mapRow).get(0);
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS where id = " + id, this::mapRow).get(0);
     }
 
     @Override
     public List<Ingredient> findByName(String name) {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER('" + name + "') in LOWER(NAME)) > 0", this::mapRow);
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapRow);
     }
 
+    @Override
+    public List<Ingredient> findIngredientsByRecipeId(int id) {
+        return jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id, this::mapRow);
+    }
 }

@@ -1,0 +1,6 @@
+
+<header th:fragment="header (list)">
+	<div th:each="item : ${list}">
+		<div th:replace="fragments/fragment_parts/header-parts :: ${item.type}(${item.content})"></div>
+	</div>
+</header>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head th:replace="fragments/head :: head (${title})"></head>
+	<body id="create-recipe">
+		<header th:replace="fragments/header :: header (${headerList})"></header>
+
+		<section class="new-recipe-section">
+			<!-- <div class="recipe-image">
+				<img
+					src="../resources/images/filler-image.png"
+					alt="recipe image"
+					class="recipe-image"
+				/>
+			</div> -->
+			<form
+					class="create-recipe-form"
+					action="#"
+					method="post"
+			>
+				<input
+						type="image"
+						src="/images/filler-image.png"
+						alt="camera icon"
+						class="icon"
+				/>
+				<input type="file" accept="image/*" />
+
+				<label for="recipe-name">Recipe Name</label>
+				<input id="recipe-name" type="text"  />
+
+				<label for="recipe-description">Description</label>
+				<input id="recipe-description" type="text" />
+
+				<label for="cooking-steps">Cooking Steps</label>
+				<input id="cooking-steps" type="text" />
+
+				<label for="recipe-ingredients">Ingredients</label>
+				<input id="recipe-ingredients" type="text" />
+
+				<label for="recipe-Allergies">Allergies</label>
+				<input id="recipe-Allergies" type="text"  />
+
+				<label for="recipe-Cuisine">Cuisine</label>
+				<input id="recipe-Cuisine" type="text"  />
+				<input type="submit" value="Submit" />
+			</form>
+		</section>
+		<script src="/js/createrecipe.js" defer></script>
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<div th:fragment="header-title (content)" class="header-title">
+	<h1 id="title" th:text="${content}"></h1>
+</div>
+
+<div th:fragment="header-titles (content)" class="header-titles">
+	<a href="/items/areas">
+		<h1 target="selected">Areas</h1>
+	</a>
+	<a href="/items/">
+		<h1 target="undefined">Items</h1>
+	</a>
+</div>
+
+<div th:fragment="back-button (content)" class="back-button">
+	<a href="/items/areas">
+		<img
+				src="/icons/back-icon-1.png"
+				alt="back icon"
+				class="icon"
+		/>
+	</a>
+</div>
+
+<div th:fragment="search-container (content)" class="search-container">
+	<form action="/search" method="get">
+		<input
+				class="search expandright"
+				id="searchright"
+				type="search"
+				name="q"
+				placeholder="Search"
+		/>
+		<label class="button searchbutton" for="searchright"
+		><img
+				src="/icons/search-icon-1.png"
+				alt="search icon"
+				class="button"
+		/>
+		</label>
+	</form>
+</div>
+
+<div th:fragment="dropdown (content)" class="dropdown">
+	<img
+			src="/icons/down-arrow.png"
+			alt="dropdown icon"
+			class="icon"
+	/>
+	<div class="dropdown-content">
+		<img
+				src="/icons/list-icon-1.png"
+				alt=""
+				class="icon"
+				id="list-view-button"
+		/>
+		<img
+				src="/icons/image-icon-1.png"
+				alt=""
+				class="icon"
+				id="image-view-button"
+		/>
+	</div>
+</div>
+
+<div th:fragment="logo (content)" class="logo">
+	<img
+			src="/images/logo.png"
+			alt="logo"
+			class="icon"
+	/>
+</div>

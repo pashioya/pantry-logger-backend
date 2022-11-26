@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="fragments/head :: head (${title})"></head>
+<body>
+	<header th:replace="fragments/header :: header (${headerList})"></header>
+
+	<section class="areas-section">
+		<div class="storage-spaces">
+			<div class="storage-space">
+				<img
+						src="/icons/fridge-icon-1.png"
+						alt="fridge icon"
+						class="icon"
+				/>
+				<h3>Fridge</h3>
+			</div>
+			<div class="storage-space">
+				<img
+						src="/icons/cabinet-icon-1.png"
+						alt="cabinet icon"
+						class="icon"
+				/>
+				<h3>Kitchen Cabinet 1</h3>
+			</div>
+			<div class="storage-space">
+				<img
+						src="/icons/cabinet-icon-1.png"
+						alt="cabinet icon"
+						class="icon"
+				/>
+				<h3>Kitchen Cabinet 2</h3>
+			</div>
+			<div class="storage-space">
+				<img
+						src="/icons/cabinet-icon-1.png"
+						alt="cabinet icon"
+						class="icon"
+				/>
+				<h3>Pantry</h3>
+			</div>
+			<div class="storage-space">
+				<img
+						src="/icons/fridge-icon-1.png"
+						alt="fridge icon"
+						class="icon"
+				/>
+				<h3>Wine Fridge</h3>
+			</div>
+			<div class="storage-space">
+				<img
+						src="/icons/cabinet-icon-1.png"
+						alt="cabinet icon"
+						class="icon"
+				/>
+				<h3>Pantry Cabinet</h3>
+			</div>
+			<div class="storage-space">
+				<img
+						src="/icons/cabinet-icon-1.png"
+						alt="cabinet icon"
+						class="icon"
+				/>
+				<h3>Snack hiding spot</h3>
+			</div>
+		</div>
+	</section>
+
+	<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+</body>
+</html>

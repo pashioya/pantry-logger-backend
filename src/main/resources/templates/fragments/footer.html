@@ -1,0 +1,16 @@
+<footer th:fragment="footer (leftList, rightList)">
+	<div class="footer-section" >
+		<div th:each="item : ${leftList}" class="button-container">
+			<a th:replace="fragments/fragment_parts/footer-parts :: ${item.type} (${item.content})">
+
+			</a>
+		</div>
+	</div>
+	<div class="footer-section">
+		<div th:each="item : ${rightList}" class="button-container">
+			<a th:replace="fragments/fragment_parts/footer-parts :: ${item.type} (${item.content})">
+
+			</a>
+		</div>
+	</div>
+</footer>

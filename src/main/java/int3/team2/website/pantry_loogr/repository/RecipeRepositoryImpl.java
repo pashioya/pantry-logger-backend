@@ -17,7 +17,6 @@ import java.util.List;
 public class RecipeRepositoryImpl implements RecipeRepository {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert inserter;
-    private List<Recipe> recipeList = new ArrayList<>();
 
     public RecipeRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -33,33 +32,30 @@ public class RecipeRepositoryImpl implements RecipeRepository {
                 rs.getString("DESCRIPTION"),
                 rs.getString("INSTRUCTIONS"),
                 Time.valueOf(rs.getString("TIME")));
-
     }
 
     @Override
     public List<Recipe> findAll() {
-        List<Recipe> recipes = jdbcTemplate.query("SELECT * FROM RECIPES", this::mapRow);
-        return recipes;
+        return jdbcTemplate.query("SELECT * FROM RECIPES", this::mapRow);
     }
 
     @Override
     public Recipe get(int id) {
-        Recipe recipe = jdbcTemplate.query("SELECT * FROM RECIPE where ID = " + id, this::mapRow).get(0);
-        return recipe;
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE ID = " + id, this::mapRow).get(0);
     }
 
     @Override
     public List<Recipe> findByName(String name) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE position(LOWER('" + name + "') in LOWER(NAME)) > 0", this::mapRow);
     }
 
     @Override
     public List<Recipe> findByDifficulty(Difficulty difficulty) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE DIFFICULTY = " + difficulty, this::mapRow);
     }
 
     @Override
     public List<Recipe> findByTime(Time time) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE TIME = " + time, this::mapRow);
     }
 }

@@ -40,6 +40,6 @@ public class BrowserController {
                 new DataItem(HtmlItems.REFRESH),
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
-        return "reccomandations";
+        return "recommendations";
     }
 }

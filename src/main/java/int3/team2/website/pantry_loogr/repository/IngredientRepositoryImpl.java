@@ -22,20 +22,26 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     private Ingredient mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new Ingredient(rs.getInt("INGREDIENT_ID"),
-                rs.getString("INGREDIENT_NAME"));
+        return new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
     }
 
     @Override
     public List<Ingredient> findAll() {
-        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapRow);
-        return ingredients;
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapRow);
     }
-
 
     @Override
     public Ingredient get(int id) {
-        Ingredient ingredient = jdbcTemplate.query("SELECT * FROM INGREDIENT where ingredient_id = " + id, this::mapRow).get(0);
-        return ingredient;
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS where id = " + id, this::mapRow).get(0);
+    }
+
+    @Override
+    public List<Ingredient> findByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapRow);
+    }
+
+    @Override
+    public List<Ingredient> findIngredientsByRecipeId(int id) {
+        return jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id, this::mapRow);
     }
 }

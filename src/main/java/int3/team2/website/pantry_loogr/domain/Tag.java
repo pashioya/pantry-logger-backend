@@ -1,14 +1,14 @@
 package int3.team2.website.pantry_loogr.domain;
 
-public class Ingredient {
+public class Tag {
     private int id;
     private String name;
 
-    public Ingredient(String name) {
+    public Tag(String name) {
         this.name = name;
     }
 
-    public Ingredient(int id, String name) {
+    public Tag(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -31,7 +31,7 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return "Ingredient{" +
+        return "Tag{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

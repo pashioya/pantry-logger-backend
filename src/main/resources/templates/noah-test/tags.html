@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags</title>
+</head>
+<body>
+<table>
+    <tr><td>Id</td><td>Name</td></tr>
+    <tr th:each="tag: ${tags}">
+        <td th:text="${tag.id}"></td>
+        <td th:text="${tag.name}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

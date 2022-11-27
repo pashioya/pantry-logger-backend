@@ -136,3 +136,9 @@ VALUES (1, 1, 2, FALSE),
        (5, 34, 0.5, TRUE),
        (5, 35, 4, FALSE),
        (5, 14, 4, FALSE);
+
+INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
+VALUES ('tom', 'tom@gmail.com', '12'),
+       ('noah', 'noah@gmail.com', '34'),
+       ('henry', 'henry@gmail.com', '56'),
+       ('paul', 'paul@gmail.com', '78');

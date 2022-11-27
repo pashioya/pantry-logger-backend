@@ -2,12 +2,19 @@ package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -41,6 +48,26 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public EndUser get(int id) {
         return jdbcTemplate.query("SELECT * FROM END_USERS WHERE ID = " + id, this::mapRow).get(0);
+    }
+
+    @Override
+    public EndUser add(EndUser user) {
+        PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
+                "INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD) " +
+                        "VALUES (?, ?, ?)" ,
+                Types.VARCHAR, Types.VARCHAR, Types.VARCHAR
+        );
+        pscf.setReturnGeneratedKeys(true);
+        PreparedStatementCreator psc = pscf.newPreparedStatementCreator(
+                Arrays.asList(
+                        user.getUsername(),
+                        user.getEmail(),
+                        user.getPassword()
+                )
+        );
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(psc, keyHolder);
+        return this.get(Objects.requireNonNull(keyHolder.getKey()).intValue());
     }
 
     @Override

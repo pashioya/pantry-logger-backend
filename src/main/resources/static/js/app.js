@@ -75,6 +75,7 @@ document.getElementById("itemscan-back").onclick = function() {
 }
 document.getElementById("item-continue").onclick = function() {
     document.getElementsByTagName("body")[0].setAttribute("stage", "two");
+    console.log(document.getElementById("item-name").value)
     console.log("continue")
 }
 

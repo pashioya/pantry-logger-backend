@@ -9,6 +9,8 @@ public interface UserRepository {
     List<EndUser> findAll();
     EndUser get(int id);
 
+    EndUser add(EndUser user);
+
     List<EndUser> findByUsername(String username);
     List<EndUser> findByFirstName(String firstName);
     List<EndUser> findByLastName(String lastName);

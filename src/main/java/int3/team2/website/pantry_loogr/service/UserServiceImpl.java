@@ -2,15 +2,20 @@ package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
 import int3.team2.website.pantry_loogr.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class UserServiceImpl implements UserService {
+
+    private Logger logger;
     private UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
+        logger = LoggerFactory.getLogger(this.getClass());
         this.userRepository = userRepository;
     }
 
@@ -26,13 +31,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<EndUser> add(EndUser endUser) {
-        return null;
+    public EndUser add(EndUser endUser) {
+        if (
+                !this.usernameExists(endUser.getUsername())
+                && !this.emailExists(endUser.getEmail())
+        ) {
+            return userRepository.add(endUser);
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public List<EndUser> getByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public EndUser getByUsername(String username) {
+        List<EndUser> list = userRepository.findByUsername(username);
+        if (list.size() > 1) {
+            logger.error("More then one user was returned when searching by username. Usernames should be unique.");
+        }
+        return list.get(0);
     }
 
     @Override
@@ -46,8 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<EndUser> getByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public EndUser getByEmail(String email) {
+        List<EndUser> list = userRepository.findByEmail(email);
+        if (list.size() > 1) {
+            logger.error("More then one user was returned when searching by email. Emails should be unique.");
+        }
+        return list.get(0);
     }
 
     @Override
@@ -68,5 +88,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<EndUser> getByCountry(String country) {
         return userRepository.findByCountry(country);
+    }
+
+    @Override
+    public boolean usernameExists(String username) {
+        return this.getByUsername(username) != null;
+    }
+
+    @Override
+    public boolean emailExists(String email) {
+        return this.getByEmail(email) != null;
     }
 }

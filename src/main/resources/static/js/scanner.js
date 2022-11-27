@@ -252,6 +252,26 @@ $(function() {
             $node.find("img").attr("src", canvas.toDataURL());
             $("#picture-display").append($node);
             $("body").attr("stage", "one");
+
+
+            $.ajax({
+                url:"/scanner/checkForItem?code=" +code,
+                type: "GET",
+                success: function (data) {
+                    if (data.found == "true") {
+                        const name = document.getElementById("item-name");
+                        name.value = data.name;
+                        name.readOnly = true;
+
+                        const amount = document.getElementById("item-amount");
+                        amount.value = data.amount;
+                        amount.readOnly = true;
+                    }
+                },
+                error: function (data) {
+                    console.log("ERROR: Code search did not work!");
+                }
+            })
         }
 
 

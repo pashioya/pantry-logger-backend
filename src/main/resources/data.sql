@@ -81,3 +81,34 @@ VALUES (3, 1),
        (26, 2),
        (28, 2),
        (29, 2);
+
+
+INSERT INTO END_USERS(USERNAME, FIRST_NAME, LAST_NAME, EMAIL, CITY, STATE_REGION, ZIP, COUNTRY)
+VALUES ('bleyHenr', 'Henry', 'Bley', 'henry.bley@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE'),
+       ('ellmthom', 'Thomas', 'Ellmen...', 'thomas.elm@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE'),
+       ('didenoah', 'Noah', 'diderich', 'noah.diderich@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE'),
+       ('ashipaul', 'Paul', 'ashioya', 'paul.ashiyoa@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE');
+
+INSERT INTO PANTRY_ZONES(USER_ID, NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
+VALUES (1, 'Fridge', 3, 8, 100, 200, 100, 200),
+       (1, 'Pantry', 10, 15, 100, 200, 100, 200);
+
+INSERT INTO SENSOR_DATA(PANTRY_ZONE_ID, TIME_STAMP, SENSOR_VALUE, SENSOR_TYPE)
+VALUES (1, '2022-11-23 00:00:00.000', 5, 'TEMPERATURE'),
+       (1, '2022-11-23 01:00:00.000', 6, 'TEMPERATURE'),
+       (1, '2022-11-23 02:00:00.000', 4, 'TEMPERATURE'),
+       (1, '2022-11-23 00:00:00.000', 100, 'HUMIDITY'),
+       (1, '2022-11-23 01:00:00.000', 110, 'HUMIDITY'),
+       (1, '2022-11-23 02:00:00.000', 120, 'HUMIDITY'),
+       (1, '2022-11-23 00:00:00.000', 100, 'BRIGHTNESS'),
+       (1, '2022-11-23 01:00:00.000', 110, 'BRIGHTNESS'),
+       (1, '2022-11-23 02:00:00.000', 120, 'BRIGHTNESS'),
+       (2, '2022-11-23 00:00:00.000', 5, 'TEMPERATURE'),
+       (2, '2022-11-23 01:00:00.000', 8, 'TEMPERATURE'),
+       (2, '2022-11-23 02:00:00.000', 9, 'TEMPERATURE'),
+       (2, '2022-11-23 00:00:00.000', 100, 'HUMIDITY'),
+       (2, '2022-11-23 01:00:00.000', 110, 'HUMIDITY'),
+       (2, '2022-11-23 02:00:00.000', 120, 'HUMIDITY'),
+       (2, '2022-11-23 00:00:00.000', 100, 'BRIGHTNESS'),
+       (2, '2022-11-23 01:00:00.000', 110, 'BRIGHTNESS'),
+       (2, '2022-11-23 02:00:00.000', 120, 'BRIGHTNESS');

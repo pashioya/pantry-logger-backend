@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingredients</title>
+</head>
+<body>
+<table>
+    <tr><td>Id</td><td>Name</td></tr>
+    <tr th:each="ingredient: ${ingredients}">
+        <td th:text="${ingredient.id}"></td>
+        <td th:text="${ingredient.name}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

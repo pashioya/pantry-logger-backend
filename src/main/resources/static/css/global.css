@@ -1,0 +1,950 @@
+/*
+global
+login
+createaccount
+items
+storage-spaces
+scanner
+raccomandations
+create-recipe
+*/
+
+body {
+    margin: 0px;
+    width: 100vw;
+    height: 100vh;
+    background-color: lavender;
+    --header-size: 60px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.icon {
+    width: 50px;
+}
+
+
+h1, h2, h3, h4 {
+    margin: 0px;
+}
+
+h3 {
+    font-size: 1em;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+.back-button > a > img{
+    --back-icon-width: 50px;
+    --back-button-margin-width: 4px;
+    --combined-back-button-width: calc(var(--back-button-width) + var(--back-button-margin-width));
+    width: var(--back-icon-width);
+    margin: 4px;
+}
+
+header {
+    display: flex;
+    --view-selectors-height: 50px;
+}
+
+.header-titles {
+    font-size: 0.7em;
+    height: var(--header-size);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.header-titles > a > h1 {
+    padding: 10px 30px 5px 30px;
+    border: 0px solid black;
+    border-radius: 0px 0px 10px 10px;
+}
+
+.header-titles > a > h1[target="selected"] {
+    background-color: rgba(147, 112, 216, 0.6);
+}
+
+/* drop-down view selector menus */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    top: 5px;
+    margin-right: 5px;
+  }
+  
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+/* min-width: 160px; */
+padding: 12px 16px;
+}
+
+.dropdown:hover .dropdown-content {
+display: flex;
+flex-direction: column-reverse;
+padding: 0;
+}
+/* drop down menu */
+
+
+/* Search Bar */
+.button {
+	display: inline-block;
+	height: 50px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.button:hover {
+	transition-duration: 0.4s;
+	-moz-transition-duration: 0.4s;
+	-webkit-transition-duration: 0.4s;
+	-o-transition-duration: 0.4s;
+	background-color: white;
+	color: black;
+}
+
+.search-container {
+	position: relative;
+	display: inline-block;
+	margin: 4px 2px;
+	height: 50px;
+	width: 50px;
+	vertical-align: bottom;
+}
+
+
+
+.searchbutton {
+	position: relative;
+	font-size: 22px;
+	width: 100%;
+}
+
+.search:focus + .searchbutton {
+	transition-duration: 0.4s;
+	-moz-transition-duration: 0.4s;
+	-webkit-transition-duration: 0.4s;
+	-o-transition-duration: 0.4s;
+	background-color: white;
+	color: black;
+}
+
+.search {
+	position: absolute;
+	left: 49px; /* Button width-1px (Not 50px/100% because that will sometimes show a 1px line between the search box and button) */
+	background-color: white;
+	outline: none;
+	border: none;
+	padding: 0;
+	width: 0;
+	height: 100%;
+	/* z-index: 10; */
+	transition-duration: 0.4s;
+	-moz-transition-duration: 0.4s;
+	-webkit-transition-duration: 0.4s;
+	-o-transition-duration: 0.4s;
+}
+
+.search:focus {
+	width:calc(100vw - var(--header-size)) ; /* Bar width+1px */
+	padding: 0 16px 0 0;
+}
+
+.expandright {
+	left: auto;
+	right: 1vw; /* Button width-1px */
+}
+
+.expandright:focus {
+	padding: 0 0 0 16px;
+}
+
+/* Search Bar */
+
+
+section {
+    padding-bottom: 90px;
+}
+
+
+footer {
+    width: calc(100vw - 20px);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0;
+    background-color: rgba(147, 112, 216, 0.6);
+    border: 0px solid gray;
+    border-radius: 10px 10px 0px 0px;
+}
+
+footer > .footer-section {
+    display: flex;
+}
+
+footer > .footer-section > .button-container {
+    width: 70px;
+    height: 70px;
+    background-color: white;
+    border: 0px solid white;
+    border-radius: 100%;
+    margin: 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*global end*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*login start*/
+
+.login-container{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ccc;
+    margin: 0 auto;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.login-container > form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.login-container > form > input{
+    margin: 5px 0;
+}
+
+
+
+#login body {
+    display: flex;
+    background-color: lavender;
+    --header-size: 60px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.login-container h1{
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+
+
+/*login end*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*create account start*/
+
+
+.createaccount-container{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #ccc;
+    margin: 0 auto;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.createaccount-container > form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.createaccount-container > form > input{
+    margin: 5px 0;
+}
+
+
+
+#create-account body {
+    display: flex;
+    background-color: lavender;
+    --header-size: 60px;
+    font-family: 'Raleway', sans-serif;
+}
+
+.createaccount-container h1{
+    margin: 0 0 20px;
+    text-align: center;
+}
+
+
+/*create account end*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/* items start*/
+
+#items section {
+    --view-selectors-height: 40px;
+}
+
+.search:focus {
+    --search-icon-width: 50px;
+    width: calc(100vw - var(--search-icon-width));
+    padding: 0 16px 0 0;
+}
+
+.view-selectors {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 0px 5px;
+}
+
+.view-selectors > img {
+    width: var(--view-selectors-height);
+}
+
+
+.items-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    --item-padding-width: 20px;
+    --item-margin-width: 20px;
+    --item-combined-spacing: calc(var(--item-margin-width) + var(--item-padding-width));
+    display: flex;
+    background-color: white;
+    border: 0px solid white;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    padding: calc(var(--item-padding-width) / 2);
+    margin: calc(var(--item-margin-width) / 2);
+}
+
+.item > .item-texts {
+    display: flex;
+    flex-direction: column;
+}
+
+.item > .item-texts > :not(h4:first-child) {
+    font-size: 0.7em;
+}
+
+.item > .modify-container {
+    display: none;
+    width: 100%;
+    --border-none: 1px solid white;
+    --button-radius: 25px;
+    --button-color: lightgray;
+}
+
+.item > .exit-button {
+    display: none;
+    z-index: 1000;
+}
+
+.modify-container > .remove-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.remove-section > table {
+    --header-heigth: 30px;
+    background-color: var(--button-color);
+    border: var(--border-none);
+    border-radius: var(--button-radius);
+    width: 75%;
+    height: 90%;
+    margin-right: 10px;
+}
+
+.remove-section > table th {
+    height: var(--header-heigth);
+}
+
+.remove-section > table td {
+    text-align: center;
+    background-color: white;
+    border: 5px solid var(--button-color);
+    border-top: 2px;
+}
+
+.remove-section > table tr:first-child td {
+    border-top-left-radius: var(--button-radius);
+    border-top-right-radius: var(--button-radius);
+}
+
+.remove-section > table tr:last-child td {
+    border-bottom-left-radius: var(--button-radius);
+    border-bottom-right-radius: var(--button-radius);
+}
+
+.remove-section > .change-to-add-button {
+    padding: 15px 20px;
+    text-align: center;
+    background-color: var(--button-color);
+    border: var(--border-none);
+    border-radius: var(--button-radius);
+}
+
+.modify-container > .add-section {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.modify-container > .add-section > .amount-editor {
+    --flex-gap: 5px;
+    --font-size: 36px;
+    display: flex;
+    gap: var(--flex-gap);
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    width: 75%;
+    font-size: var(--font-size);
+}
+
+.add-section > .amount-editor > * {
+    height: 100px;
+    width: 100%;
+}
+
+.add-section > .amount-editor > .multiply-amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--flex-gap);
+    background-color: var(--button-color);
+    border-radius: 0px 0px var(--button-radius) var(--button-radius);
+}
+
+.add-section > .amount-editor > .specific-amount {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--flex-gap);
+}
+
+.add-section > .amount-editor > .specific-amount > * {
+    width: 33.3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-section > .amount-editor > .specific-amount > .amount-remove {
+    background-color: var(--button-color);
+    border-top-left-radius: var(--button-radius);
+
+}
+
+.add-section > .amount-editor > .specific-amount > .show-amount {
+    background-color: var(--button-color);
+}
+
+.specific-amount > .show-amount > input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    text-align: center;
+    font-size: var(--font-size);
+}
+
+.specific-amount > .show-amount > input:focus {
+    outline: none;
+}
+
+.add-section > .amount-editor > .specific-amount > .amount-add {
+    background-color: var(--button-color);
+    border-top-right-radius: var(--button-radius);
+
+}
+
+.add-section > .add-buttons {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    padding: 25px 0px;
+    background-color: var(--button-color);
+    border: var(--border-none);
+    border-radius: var(--button-radius);
+}
+
+.add-buttons > input {
+    background-color: none;
+    border: none;
+    font-size: inherit;
+}
+
+.item[look="image"] {
+    flex-direction: column;
+    width: calc(50% - var(--item-combined-spacing));
+}
+
+.item[look="image"] > .item-image > img {
+    width: 100%;
+}
+
+.item[look="image"] > .item-texts > h4 {
+    padding-bottom: 5px;
+}
+
+.item[look="list"] {
+    --list-image-height: 60px;
+    flex-direction: row;
+    gap: 20px;
+    width: calc(100% - var(--item-combined-spacing));
+}
+
+.item[look="list"] > .item-image {
+    height: var(--list-image-height);
+}
+
+.item[look="list"] > .item-image > img {
+    height: 100%;
+}
+
+.item[look="list"] > .item-texts {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10%;
+}
+
+
+.item[look="list"] > .item-texts > h4:first-child {
+    width: 100%;
+}
+
+body[item-selected="true"]#items section {
+    height: calc(100% - var(--header-size));
+    padding-bottom: 0px;
+}
+
+body[item-selected="true"]#items section .items-container {
+    height: calc(100% - var(--view-selectors-height));
+}
+
+body[item-selected="true"]#items > footer {
+    display: none;
+}
+
+body[item-selected="true"]#items .item[change="none"] {
+    display: none;
+}
+
+body[item-selected="true"]#items .item[change="selected"] {
+    height: calc(100% - var(--item-combined-spacing));
+    position: relative;
+}
+
+.item[change="selected"] > .exit-button {
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.item[change="selected"] > .exit-button > img{
+    width: 30px;
+    padding: 5px;
+}
+/*
+.item[change="none"] > .modify-container {
+    display: none;
+}*/
+
+.item[change="selected"] > .item-texts {
+    height: var(--list-image-height);
+}
+
+.item[change="selected"] > .item-texts > h4:last-child {
+    display: none;
+}
+
+.item[change="selected"] > .modify-container {
+    display: flex;
+    align-items: center;
+    height: calc(calc(100% - var(--list-image-height)) - calc(var(--item-combined-spacing) / 2));
+}
+
+.modify-container[modify-mode="remove"] > .remove-section {
+    display: flex;
+}
+
+.modify-container[modify-mode="remove"] > .add-section {
+    display: none;
+}
+
+.modify-container[modify-mode="add"] > .remove-section {
+    display: none;
+}
+
+.modify-container[modify-mode="add"] > .add-section {
+    display: flex;
+}
+
+/* Items.css stop */
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/* FROM storage-spaces.css */
+
+.storage-spaces {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.storage-spaces > .storage-space {
+    padding: 20px;
+    margin: 10px;
+    background-color: white;
+    border: 0px solid black;
+    border-radius: 25px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.storage-spaces > .storage-space:hover,
+.storage-spaces > .storage-space:focus {
+    background-color: darkblue;
+}
+
+.storage-spaces > .storage-space:nth-child(1){
+    width: calc(100% - 60px);
+    height: 130px;
+}
+
+.storage-spaces > .storage-space:nth-child(2){
+    width: calc(60% - 60px);
+    height: 80px;
+}
+
+.storage-spaces > .storage-space:nth-child(3){
+    width: calc(40% - 60px);
+    height: 80px;
+}
+
+.storage-spaces > .storage-space:nth-child(4){
+    width: calc(100% - 60px);
+    height: 100px;
+}
+
+.storage-spaces > .storage-space:nth-child(5){
+    width: calc(50% - 60px);
+    height: 200px;
+}
+
+.storage-spaces > .storage-space:nth-child(6){
+    width: calc(50% - 60px);
+    height: 200px;
+}
+
+.storage-spaces > .storage-space:nth-child(7){
+    width: calc(70% - 60px);
+    height: 50px;
+}
+
+/* Storage-spaces.css stop*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/* START scanner.css*/
+
+#scanner section {
+    padding: 0px;
+}
+
+.container {
+    height: 100vw;
+    position: relative;
+}
+
+.current-view {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: 90vw;
+    overflow: hidden;
+}
+
+.current-view > * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.text-panel {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.text-panel > form {
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+}
+
+.text-panel > form > *{
+    width: 80%;
+}
+
+.text-panel > form > input[type="text"] {
+    height: 30px;
+    margin-bottom: 20px;
+}
+
+.text-panel > form > .submit-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.text-panel > form > .submit-container > input {
+    width: 30%;
+    height: 30px;
+}
+
+body[stage="scan"] *[view-stage="one"] {
+    display: none;
+}
+
+body[stage="scan"]#scanner *[view-stage="two"] {
+    display: none;
+}
+
+body[stage="scan"]#scanner form {
+    display: none;
+}
+
+body[stage="one"]#scanner *[view-stage="scan"] {
+    display: none;
+}
+
+body[stage="one"]#scanner *[view-stage="two"] {
+    display: none;
+}
+
+body[stage="two"]#scanner *[view-stage="scan"] {
+    display: none;
+}
+
+body[stage="two"]#scanner *[view-stage="one"] {
+    display: none;
+}
+
+body[stage="two"]#scanner .text-panel > form {
+    width: unset;
+}
+
+body[stage="two"]#scanner .text-panel > form > * {
+    width: unset;
+}
+
+#scanner .storage-space {
+    position: relative;
+}
+
+#scanner .storage-space input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: translate(-20px, -20px);
+    margin: 0px;
+}
+
+#scanner .storage-space[selected="true"] {
+    background-color: darkblue;
+}
+
+/* STOP scanner.css*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+
+
+/* START reccomandations */
+
+.recipe-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.recipe{
+    --recipe-padding-width: 20px;
+    --recipe-margin-width: 20px;
+    --recipe-combined-spacing: calc(var(--recipe-margin-width) + var(--recipe-padding-width));
+    display: flex;
+    background-color: white;
+    border: 0 solid white;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    gap: 10px;
+    padding: calc(var(--item-padding-width) / 2);
+    margin: calc(var(--item-margin-width) / 2);
+
+}
+
+.recipe-image{
+    --recipe-image-width: 200px;
+    --recipe-image-height: 200px;
+    width: calc(50% - var(--recipe-combined-spacing));
+    height: var(--recipe-image-height);
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    margin-right: calc(var(--recipe-combined-spacing) / 2);
+}
+.recipe-image > img{
+    width: 100%;
+    height: var(--recipe-image-height)
+}
+
+.favorites-button{
+    --favorites-button-width: 30px;
+    --favorites-button-height: 30px;
+    width: var(--favorites-button-width);
+    height: var(--favorites-button-height);
+}
+.favorites-button > img{
+    width: var(--favorites-button-width);
+    height: var(--favorites-button-height);
+}
+
+.recipe-image-favorites{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.recipe-name{
+    font-size: 1.2em;
+    font-weight: bold;
+
+}
+
+.recipe-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    column-gap: 10px;
+}
+.ingredients-you-have{
+    align-items: flex-start;
+}
+
+.ingredients-title{
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 0.1em;
+}
+
+.ingredients-list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    column-gap: 10px;
+    color: green;
+}
+/* raccomandations stop*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/* create recipe start*/
+
+
+#create-recipe #title{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#create-recipe .header-titles{
+    border: 0px solid black;
+    font-size: 0.9em;
+    justify-content: center;
+    align-items: center;
+    left: -48px;
+}
+
+
+#create-recipe .recipe-image > img{
+    width: 100%;
+    top: 0;
+    position: relative;
+    height: auto;
+    vertical-align: middle;
+}
+
+
+#create-recipe .create-recipe-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 500px;
+}
+
+

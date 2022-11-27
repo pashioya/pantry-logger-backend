@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+</head>
+<body>
+    <table>
+        <tr><td>Id</td><td>Name</td><td>Difficulty</td><td>Description</td><td>Instructions</td><td>Time</td></tr>
+        <tr th:each="recipe: ${recipes}">
+            <td th:text="${recipe.id}"></td>
+            <td th:text="${recipe.name}"></td>
+            <td th:text="${recipe.difficulty}"></td>
+            <td th:text="${recipe.description}"></td>
+            <td th:text="${recipe.instructions}"></td>
+            <td th:text="${recipe.time}"></td>
+        </tr>
+    </table>
+</body>
+</html>

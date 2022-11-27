@@ -1,5 +1,10 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import int3.team2.website.pantry_loogr.service.IngredientService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
 public class Recipe {
     private int id;
     private String name;
@@ -8,6 +13,7 @@ public class Recipe {
     private String description;
     private String instructions;
     private Time time;
+    private List<Ingredient> ingredients;
 
 
     public Recipe() {
@@ -30,7 +36,7 @@ public class Recipe {
         this.time = time;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -73,6 +79,15 @@ public class Recipe {
     public void setTime(Time time) {
         this.time = time;
     }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
 
     @Override
     public String toString() {

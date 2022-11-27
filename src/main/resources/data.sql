@@ -3,7 +3,7 @@ VALUES ('Chili',
         'LONG',
         'MEDIUM',
         'This traditional chili recipe is just like mom used to make with ground beef, beans, and a simple homemade blend of chili seasonings.',
-        'https://www.food.com/recipe/the-best-chili-you-will-ever-taste-73166');
+        'https://www.food.com/recipe/award-winning-chili-105865');
 
 INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
 VALUES ('Sausage Lentil Soup',
@@ -16,13 +16,19 @@ VALUES ('Spaghetti Carbonara',
         'MEDIUM',
         'EASY',
         'Comfort food. Spaghetti, cheese, bacon, creamy and filling. Sure to be a favorite for you. It is for me.',
-        'https://www.food.com/recipe/the-best-chili-you-will-ever-taste-73166');
+        'https://www.food.com/recipe/rock-roll-spaghetti-carbonara-81668');
 
 INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
 VALUES ('Mac & Cheese',
         'QUICK',
         'EASY',
-        'https://www.food.com/recipe/spicy-sausage-lentil-soup-279315');
+        'https://www.food.com/recipe/fannie-farmers-classic-baked-macaroni-cheese-135350');
+
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+VALUES ('Chinese fried rice',
+        'QUICK',
+        'EASY',
+        'https://www.food.com/recipe/chinese-fried-rice-38748');
 
 
 insert into TAGS (NAME)
@@ -64,7 +70,13 @@ VALUES ('onion'),
        ('butter'),
        ('flour'),
        ('milk'),
-       ('cream');
+       ('cream'),
+       ('jalapenos'),
+       ('soy sauce'),
+       ('sesame oil'),
+       ('chicken breast'),
+       ('peas'),
+       ('rice');
 
 
 
@@ -81,13 +93,6 @@ VALUES (3, 1),
        (26, 2),
        (28, 2),
        (29, 2);
-
-
-INSERT INTO END_USERS(USERNAME, FIRST_NAME, LAST_NAME, EMAIL, CITY, STATE_REGION, ZIP, COUNTRY)
-VALUES ('bleyHenr', 'Henry', 'Bley', 'henry.bley@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE'),
-       ('ellmthom', 'Thomas', 'Ellmen...', 'thomas.elm@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE'),
-       ('didenoah', 'Noah', 'diderich', 'noah.diderich@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE'),
-       ('ashipaul', 'Paul', 'ashioya', 'paul.ashiyoa@student.kdg.be', 'Antwerp', 'Antwerp', 2018, 'BE');
 
 INSERT INTO PANTRY_ZONES(USER_ID, NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
 VALUES (1, 'Fridge', 3, 8, 100, 200, 100, 200),
@@ -112,3 +117,50 @@ VALUES (1, '2022-11-23 00:00:00.000', 5, 'TEMPERATURE'),
        (2, '2022-11-23 00:00:00.000', 100, 'BRIGHTNESS'),
        (2, '2022-11-23 01:00:00.000', 110, 'BRIGHTNESS'),
        (2, '2022-11-23 02:00:00.000', 120, 'BRIGHTNESS');
+
+INSERT INTO RECIPE_INGREDIENTS(RECIPE_ID, INGREDIENT_ID, QUANTITY, OPTIONAL)
+VALUES (1, 1, 2, FALSE),
+       (1, 2, 3, TRUE),
+       (1, 3, 1, FALSE),
+       (1, 7, 1, FALSE),
+       (1, 30, 1, TRUE),
+       (1, 5, 14, FALSE),
+       (1, 8, 16, FALSE),
+       (1, 11, 28, FALSE),
+       (1, 12, 1, TRUE),
+       (1, 13, 1, TRUE),
+       (1, 14, 1, TRUE),
+       (2, 1, 1, FALSE),
+       (2, 15, 0.75, FALSE),
+       (2, 2, 1, TRUE),
+       (2, 16, 1, FALSE),
+       (2, 17, 5, TRUE),
+       (2, 18, 1, FALSE),
+       (2, 5, 1, FALSE),
+       (3, 18, 1, FALSE),
+       (3, 20, 3, FALSE),
+       (3, 21, 1, FALSE),
+       (3, 22, 3, TRUE),
+       (3, 2, 3, TRUE),
+       (3, 23, 0.5, TRUE),
+       (3, 24, 0.5, FALSE),
+       (4, 25, 8, FALSE),
+       (4, 26, 4, TRUE),
+       (4, 27, 4, FALSE),
+       (4, 28, 1, FALSE),
+       (4, 13, 2, FALSE),
+       (5, 1, 0.75, FALSE),
+       (5, 20, 1, FALSE),
+       (5, 31, 3, TRUE),
+       (5, 32, 3, TRUE),
+       (5, 33, 8, FALSE),
+       (5, 15, 0.5, TRUE),
+       (5, 34, 0.5, TRUE),
+       (5, 35, 4, FALSE),
+       (5, 14, 4, FALSE);
+
+INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
+VALUES ('tom', 'tom@gmail.com', '12'),
+       ('noah', 'noah@gmail.com', '34'),
+       ('henry', 'henry@gmail.com', '56'),
+       ('paul', 'paul@gmail.com', '78');

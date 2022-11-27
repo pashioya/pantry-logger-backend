@@ -9,6 +9,7 @@ public class Ingredient {
     }
 
     public Ingredient(int id, String name) {
+        this.id = id;
         this.name = name;
     }
 
@@ -26,5 +27,13 @@ public class Ingredient {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

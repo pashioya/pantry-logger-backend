@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head th:replace="fragments/head :: head (${title})"></head>
+	<body id="create-account">
+		<div class="createaccount-container">
+			<h1>Create Account</h1>
+			<form method="POST">
+				<label for="email">Email</label>
+				<input required type="text" id="email" name="email"/>
+
+				<label for="username">Username</label>
+				<input required type="text" id="username" name="username"/>
+
+				<label for="password">Password</label>
+				<input required type="password" id="password" name="password"/>
+
+				<label for="confirm-password">Password</label>
+				<input required type="password" id="confirm-password" name="confirm-password"/>
+				<input type="submit" id="register-submit" value="submit" />
+			</form>
+		</div>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="/js/register.js"></script>
+	</body>
+</html>

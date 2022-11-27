@@ -16,16 +16,26 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public List<Ingredient> getAll() {
-        return null;
+        return ingredientRepository.findAll();
     }
 
     @Override
     public Ingredient get(int ingredientID) {
-        return null;
+        return ingredientRepository.get(ingredientID);
     }
 
     @Override
     public List<Ingredient> add(Ingredient ingredient) {
         return null;
+    }
+
+    @Override
+    public List<Ingredient> getByName(String name) {
+        return ingredientRepository.findByName(name);
+    }
+
+    @Override
+    public List<Ingredient> getIngredientsByRecipeId(int id) {
+        return ingredientRepository.findIngredientsByRecipeId(id);
     }
 }

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>recipes</title>
+    <title>Recipe Details</title>
 </head>
 <body>
     <table>
         <tr><td>Id</td><td>Name</td><td>Difficulty</td><td>Description</td><td>Instructions</td><td>Time</td></tr>
-        <tr th:each="recipe: ${recipes}">
+        <tr>
             <td th:text="${recipe.id}"></td>
             <td th:text="${recipe.name}"></td>
             <td th:text="${recipe.difficulty}"></td>
@@ -15,6 +15,12 @@
             <td th:text="${recipe.instructions}"></td>
             <td th:text="${recipe.time}"></td>
         </tr>
+    </table>
+    <table>
+    <tr><td>Ingredients</td></tr>
+    <tr th:each="ingredient: ${recipe.ingredients}">
+        <td th:text="${ingredient.name}"></td>
+     </tr>
     </table>
 </body>
 </html>

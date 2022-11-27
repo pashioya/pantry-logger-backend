@@ -1,4 +1,7 @@
 package int3.team2.website.pantry_loogr.configuration;
 
-public class PantryLoogerConfiguration {
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+public class PantryLoogerConfiguration implements WebMvcConfigurer {
+
 }

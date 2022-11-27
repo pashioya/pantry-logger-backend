@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head th:replace="fragments/head :: head (${title})"></head>
+	<body stage="scan" id="scanner">
+		<section
+				id="container"
+				class="live-feed container scanner"
+				view-stage="scan"
+		>
+			<div class="controls hidden">
+				<fieldset class="input-group">
+					<button class="stop">Stop</button>
+				</fieldset>
+				<fieldset class="reader-config-group">
+					<label>
+						<span>Barcode-Type</span>
+						<select name="decoder_readers">
+							<option value="code_128" selected="selected">
+								Code 128
+							</option>
+							<option value="code_39">Code 39</option>
+							<option value="code_39_vin">Code 39 VIN</option>
+							<option value="ean">EAN</option>
+							<option value="ean_extended">EAN-extended</option>
+							<option value="ean_8">EAN-8</option>
+							<option value="upc">UPC</option>
+							<option value="upc_e">UPC-E</option>
+							<option value="codabar">Codabar</option>
+							<option value="i2of5">I2of5</option>
+							<option value="2of5">Standard 2 of 5</option>
+							<option value="code_93">Code 93</option>
+						</select>
+					</label>
+					<label>
+						<span>Resolution (long side)</span>
+						<select name="input-stream_constraints">
+							<option value="320x240">320px</option>
+							<option selected="selected" value="640x480">
+								640px
+							</option>
+							<option value="800x600">800px</option>
+							<option value="1280x720">1280px</option>
+							<option value="1600x960">1600px</option>
+							<option value="1920x1080">1920px</option>
+						</select>
+					</label>
+					<label>
+						<span>Patch-Size</span>
+						<select name="locator_patch-size">
+							<option value="x-small">x-small</option>
+							<option value="small">small</option>
+							<option selected="selected" value="medium">
+								medium
+							</option>
+							<option value="large">large</option>
+							<option value="x-large">x-large</option>
+						</select>
+					</label>
+					<label>
+						<span>Half-Sample</span>
+						<input
+								type="checkbox"
+								checked="checked"
+								name="locator_half-sample"
+						/>
+					</label>
+					<label>
+						<span>Workers</span>
+						<select name="numOfWorkers">
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option selected="selected" value="4">4</option>
+							<option value="8">8</option>
+						</select>
+					</label>
+					<label>
+						<span>Camera</span>
+						<select
+								name="input-stream_constraints"
+								id="deviceSelection"
+						></select>
+					</label>
+					<label style="display: none">
+						<span>Zoom</span>
+						<select name="settings_zoom"></select>
+					</label>
+					<label style="display: none">
+						<span>Torch</span>
+						<input type="checkbox" name="settings_torch" />
+					</label>
+				</fieldset>
+			</div>
+			<div id="result_strip hidden">
+				<ul class="thumbnails"></ul>
+			</div>
+			<div id="interactive" class="current-view viewport"></div>
+		</section>
+		<section class="selected-picture container" view-stage="one">
+			<div id="picture-display" class="current-view"></div>
+		</section>
+		<section class="text-panel">
+			<div view-stage="scan">
+				<h1>Scan your item</h1>
+				<a href="/">back</a>
+			</div>
+			<form id="scan-item-form" method="post">
+				<h3 view-stage="one">Item Name</h3>
+				<input type="text" id="item-name" name="name" view-stage="one" />
+				<h3 view-stage="one">Package amount [in g or ml]</h3>
+				<input type="text" id="item-amount" name="amount" view-stage="one" />
+				<div class="submit-container" view-stage="one">
+					<input type="button" value="cancel" id="itemscan-back" />
+					<input type="button" value="continue" id="item-continue" />
+				</div>
+				<div view-stage="two">
+					<div class="storage-spaces">
+						<div class="storage-space">
+							<img
+									src="/icons/fridge-icon-1.png"
+									alt="fridge icon"
+									class="icon"
+							/>
+							<h3>Fridge</h3>
+							<input type="radio" name="zone" value="1"/>
+						</div>
+						<div class="storage-space">
+							<img
+									src="/icons/cabinet-icon-1.png"
+									alt="cabinet icon"
+									class="icon"
+							/>
+							<h3>Kitchen Cabinet 1</h3>
+							<input type="radio" name="zone" value="2"/>
+						</div>
+						<div class="storage-space">
+							<img
+									src="/icons/cabinet-icon-1.png"
+									alt="cabinet icon"
+									class="icon"
+							/>
+							<h3>Kitchen Cabinet 2</h3>
+							<input type="radio" name="zone" value="3"/>
+						</div>
+						<div class="storage-space">
+							<img
+									src="/icons/cabinet-icon-1.png"
+									alt="cabinet icon"
+									class="icon"
+							/>
+							<h3>Pantry</h3>
+							<input type="radio" name="zone" value="4"/>
+						</div>
+						<div class="storage-space">
+							<img
+									src="/icons/fridge-icon-1.png"
+									alt="fridge icon"
+									class="icon"
+							/>
+							<h3>Wine Fridge</h3>
+							<input type="radio" name="zone" value="5"/>
+						</div>
+						<div class="storage-space">
+							<img
+									src="/icons/cabinet-icon-1.png"
+									alt="cabinet icon"
+									class="icon"
+							/>
+							<h3>Pantry cabinet</h3>
+							<input type="radio" name="zone" value="6"/>
+						</div>
+						<div class="storage-space">
+							<img
+									src="/icons/cabinet-icon-1.png"
+									alt="cabinet icon"
+									class="icon"
+							/>
+							<h3>Snack hiding spot</h3>
+							<input type="radio" name="zone" value="7"/>
+						</div>
+					</div>
+					<div>
+						<input type="submit" value="submit"/>
+					</div>
+				</div>
+			</form>
+		</section>
+
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="/js/quagga.min.js"></script>
+		<script src="/js/scanner.js"></script>
+		<script src="/js/app.js"></script>
+	</body>
+</html>

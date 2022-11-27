@@ -1,5 +1,7 @@
 package int3.team2.website.pantry_loogr.presentation.helper;
 
+import org.slf4j.LoggerFactory;
+
 import java.util.stream.IntStream;
 
 /*
@@ -23,6 +25,7 @@ public enum HtmlItems {
                 current.setCharAt(x, '-');
             }
         });
+        LoggerFactory.getLogger(this.getClass()).debug(current.toString().toLowerCase());
         return current.toString().toLowerCase();
     }
 }

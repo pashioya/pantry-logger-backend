@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -45,7 +46,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public EndUser getByUsername(String username) {
         List<EndUser> list = userRepository.findByUsername(username);
-        if (list.size() > 1) {
+        if (list.isEmpty()) {
+            return null;
+        } else if (list.size() > 1) {
             logger.error("More then one user was returned when searching by username. Usernames should be unique.");
         }
         return list.get(0);
@@ -64,7 +67,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public EndUser getByEmail(String email) {
         List<EndUser> list = userRepository.findByEmail(email);
-        if (list.size() > 1) {
+        if (list.isEmpty()) {
+            return null;
+        } else if (list.size() > 1) {
             logger.error("More then one user was returned when searching by email. Emails should be unique.");
         }
         return list.get(0);

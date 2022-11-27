@@ -948,3 +948,108 @@ body[stage="two"]#scanner .text-panel > form > * {
 }
 
 
+
+
+
+
+#title{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+/*create recipe stop*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/* browser start*/
+
+.recipes-container{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-shrink: 3;
+    align-items: center;
+    padding: calc(var(--recipe-padding-width) / 2);
+    margin: calc(var(--recipe-margin-width) / 2);
+}
+
+.recipe {
+    --recipe-padding-width: 20px;
+    --recipe-margin-width: 20px;
+    --recipe-combined-spacing: calc(var(--recipe-margin-width) + var(--recipe-padding-width));
+    display: flex;
+    background-color: white;
+    border: 0px solid white;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: calc(var(--recipe-padding-width) / 2);
+    margin: calc(var(--recipe-margin-width) / 2);
+    /* width: calc(50% - var(--item-combined-spacing)); */
+}
+
+.recipe[look="image"] {
+    flex-direction: column;
+    width: calc(50% - var(--recipe-combined-spacing));
+    font-size: small;
+}
+/* set list items in ul of the recipe to appear on one line  */
+.recipe[look="image"] ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    padding: 0%;
+}
+.recipe[look="image"] ul li {
+    display: inline;
+    padding: 3%;
+
+}
+
+.recipe[look="image"] > .recipe-image > img {
+    width: 100%;
+}
+
+.recipe[look="image"] > .recipe-texts > h4 {
+    padding-bottom: 5px;
+}
+
+.recipe[look="list"] {
+    --list-image-height: 60px;
+    flex-direction: row;
+    gap: 20px;
+    width: calc(100% - var(--item-combined-spacing));
+}
+
+.recipe[look="list"] > .recipe-image {
+    height: var(--list-image-height);
+}
+
+.recipe[look="list"] > .recipe-image > img {
+    height: 100%;
+}
+
+.recipe[look="list"] > .recipe-texts {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10%;
+}
+
+
+.recipe[look="list"] > .recipe-texts > h4:first-child {
+    width: 100%;
+}
+
+
+/* browser end */
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/
+/*--------------------------------------------------------------------*/

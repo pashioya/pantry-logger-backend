@@ -45,18 +45,16 @@ public class IndexController {
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
     public String loginUser(@RequestBody MultiValueMap<String, String> loginData) {
-        logger.debug(loginData.toString());
         String username = loginData.get("username").get(0);
         String password = loginData.get("password").get(0);
-        if (username.length() == 0 || password.length() == 0) {
+        if (username.length() == 0 || password.length() == 0 || !userService.usernameExists(username)) {
             return "redirect:/login";
         }
         EndUser user = userService.getByUsername(username);
-        logger.debug(user.toString());
         if (user.getPassword().equals(loginData.get("password").get(0))) {
-            return "redirect:/login";
-        } else {
             return "redirect:/items/areas";
+        } else {
+            return "redirect:/login";
         }
     }
 

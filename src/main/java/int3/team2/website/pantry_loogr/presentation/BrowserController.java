@@ -14,11 +14,28 @@ import java.util.Arrays;
 @RequestMapping("/browser")
 public class BrowserController {
 
+    @GetMapping
+    public String browser(Model model) {
+        model.addAttribute("title", "Browser");
+        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.HEADER_TITLE, "Browser"),
+                new DataItem(HtmlItems.SEARCH_CONTAINER),
+                new DataItem(HtmlItems.DROPDOWN)
+        )));
+        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.CREATE_RECIPE)
+        )));
+        model.addAttribute("rightFooterList", new ArrayList<>());
+        return "browser";
+    }
+
     @GetMapping("/createrecipe")
-    public String getCreateRecipe(Model model) {
+    public String createRecipe(Model model) {
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.RECOMMENDATIONS),
+                new DataItem(HtmlItems.BACK_BUTTON),
                 new DataItem(HtmlItems.HEADER_TITLE, "Create Recipe"),
                 new DataItem(HtmlItems.LOGO)
         )));
@@ -26,7 +43,7 @@ public class BrowserController {
     }
 
     @GetMapping("/recommendations")
-    public String getRaccomandations(Model model) {
+    public String recommendations(Model model) {
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON),

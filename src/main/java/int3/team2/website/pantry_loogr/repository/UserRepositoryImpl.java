@@ -30,6 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {
         return new EndUser(rs.getInt("ID"),
+                rs.getString("PASSWORD"),
                 rs.getString("USERNAME"),
                 rs.getString("FIRST_NAME"),
                 rs.getString("LAST_NAME"),

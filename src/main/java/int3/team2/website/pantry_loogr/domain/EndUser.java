@@ -19,8 +19,9 @@ public class EndUser {
         this.password = password;
     }
 
-    public EndUser(int id, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country) {
+    public EndUser(int id, String password, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country) {
         this.id = id;
+        this.password = password;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

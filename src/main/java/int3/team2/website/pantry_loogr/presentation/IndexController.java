@@ -46,9 +46,13 @@ public class IndexController {
     )
     public String loginUser(@RequestBody MultiValueMap<String, String> loginData) {
         logger.debug(loginData.toString());
-        List<EndUser> users = userService.getAll();
-        EndUser user = userService.getByUsername(loginData.get("username").get(0));
-        logger.debug(Arrays.toString(users.toArray()));
+        String username = loginData.get("username").get(0);
+        String password = loginData.get("password").get(0);
+        if (username.length() == 0 || password.length() == 0) {
+            return "redirect:/login";
+        }
+        EndUser user = userService.getByUsername(username);
+        logger.debug(user.toString());
         if (user.getPassword().equals(loginData.get("password").get(0))) {
             return "redirect:/login";
         } else {

@@ -94,6 +94,12 @@ VALUES (3, 1),
        (28, 2),
        (29, 2);
 
+INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
+VALUES ('tom', 'tom@gmail.com', '12'),
+       ('noah', 'noah@gmail.com', '34'),
+       ('henry', 'henry@gmail.com', '56'),
+       ('paul', 'paul@gmail.com', '78');
+
 INSERT INTO PANTRY_ZONES(USER_ID, NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
 VALUES (1, 'Fridge', 3, 8, 100, 200, 100, 200),
        (1, 'Pantry', 10, 15, 100, 200, 100, 200);
@@ -159,8 +165,3 @@ VALUES (1, 1, 2, FALSE),
        (5, 35, 4, FALSE),
        (5, 14, 4, FALSE);
 
-INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
-VALUES ('tom', 'tom@gmail.com', '12'),
-       ('noah', 'noah@gmail.com', '34'),
-       ('henry', 'henry@gmail.com', '56'),
-       ('paul', 'paul@gmail.com', '78');

@@ -63,10 +63,10 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     public Recipe createRecipe(Recipe recipe) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("NAME", recipe.getName());
-        parameters.put("DIFFICULTY", recipe.getDifficulty());
+        parameters.put("DIFFICULTY", recipe.getDifficulty().toString());
         parameters.put("DESCRIPTION", recipe.getDescription());
         parameters.put("INSTRUCTIONS", recipe.getInstructions());
-        parameters.put("TIME", recipe.getTime());
+        parameters.put("TIME", recipe.getTime().toString());
         recipe.setId(inserter.executeAndReturnKey(parameters).intValue());
         return recipe;
     }

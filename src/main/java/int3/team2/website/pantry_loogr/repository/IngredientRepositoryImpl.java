@@ -25,8 +25,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 .withTableName("INGREDIENTS")
                 .usingGeneratedKeyColumns("ID");
         this.ingredientRecipeInserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("INGREDIENTS")
-                .usingGeneratedKeyColumns("ID");
+                .withTableName("RECIPE_INGREDIENTS")
+                .usingColumns("RECIPE_ID", "INGREDIENT_ID", "QUANTITY", "OPTIONAL");
 
     }
 
@@ -58,16 +58,16 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     @Override
-    public Map<Ingredient, String> addToRelationTable(Map<Ingredient, String> ingredients) {
-        //Map<String, Object> parameters = new HashMap<>();
-        //parameters.put("NAME", recipe.getName());
-        //parameters.put("DIFFICULTY", recipe.getDifficulty());
-        //parameters.put("DESCRIPTION", recipe.getDescription());
-        //parameters.put("INSTRUCTIONS", recipe.getInstructions());
-        //parameters.put("TIME", recipe.getTime());
-        //recipe.setId(inserter.executeAndReturnKey(parameters).intValue());
-        //return recipe;
-        return null;
+    public Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients) {
+        for (Ingredient i: ingredients.keySet()) {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("RECIPE_ID", recipeID);
+            parameters.put("INGREDIENT_ID", i.getId());
+            parameters.put("QUANTITY", ingredients.get(i));
+            parameters.put("OPTIONAL", "TRUE");
+            ingredientRecipeInserter.execute(parameters);
+        }
+        return ingredients;
     }
 
 

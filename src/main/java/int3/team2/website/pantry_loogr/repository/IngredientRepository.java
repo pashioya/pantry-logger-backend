@@ -10,6 +10,6 @@ public interface IngredientRepository {
     Ingredient get(int id);
     List<Ingredient> findByName(String name);
     Map<Ingredient, String> findIngredientsByRecipeId(int id);
-    Map<Ingredient, String> addToRelationTable(Map<Ingredient, String> ingredients);
+    Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
 
 }

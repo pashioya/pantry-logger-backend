@@ -11,6 +11,6 @@ public interface IngredientService {
     List<Ingredient> add(Ingredient ingredient);
     List<Ingredient> getByName(String name);
     Map<Ingredient, String> getIngredientsByRecipeId(int id);
-    Map<Ingredient, String> addToRelationTable(Map<Ingredient, String> ingredients);
+    Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
 
 }

@@ -9,19 +9,27 @@ import java.util.List;
 @Component
 public class PantryZoneServiceImpl implements PantryZoneService {
     private PantryZoneRepository pantryZoneRepository;
+    private ItemService itemService;
 
-    public PantryZoneServiceImpl(PantryZoneRepository pantryZoneRepository) {
+    public PantryZoneServiceImpl(PantryZoneRepository pantryZoneRepository, ItemService itemService) {
         this.pantryZoneRepository = pantryZoneRepository;
+        this.itemService = itemService;
     }
 
     @Override
     public List<PantryZone> getAll() {
-        return pantryZoneRepository.getAll();
+        List<PantryZone> pantryZones = pantryZoneRepository.getAll();
+        for (int i = 0; i < pantryZones.size(); i++) {
+            pantryZones.get(i).setItems(itemService.getByPantryZoneId(pantryZones.get(i).getId()));
+        }
+        return pantryZones;
     }
 
     @Override
     public PantryZone get(int pantryZoneID) {
-        return pantryZoneRepository.get(pantryZoneID);
+        PantryZone pantryZone = pantryZoneRepository.get(pantryZoneID);
+        pantryZone.setItems(itemService.getByPantryZoneId(pantryZone.getId()));
+        return pantryZone;
     }
 
     @Override

@@ -102,6 +102,7 @@
 		<section class="text-panel">
 			<div view-stage="scan">
 				<h1>Scan your item</h1>
+				<a href="#" id="scan_now">scan</a>
 				<a href="/">back</a>
 			</div>
 			<form id="scan-item-form" method="post">
@@ -109,76 +110,23 @@
 				<input type="text" id="item-name" name="name" view-stage="one" />
 				<h3 view-stage="one">Package amount [in g or ml]</h3>
 				<input type="text" id="item-amount" name="amount" view-stage="one" />
+				<input type="hidden" id="item-id" name="item_id" view-stage="one" />
 				<div class="submit-container" view-stage="one">
 					<input type="button" value="cancel" id="itemscan-back" />
 					<input type="button" value="continue" id="item-continue" />
 				</div>
 				<div view-stage="two">
-					<div class="storage-spaces">
+					<div class="storage-spaces" th:each="pantryZone: ${pantryZones}">
 						<div class="storage-space">
-							<img
-									src="/icons/fridge-icon-1.png"
-									alt="fridge icon"
-									class="icon"
+							<img th:src="${ '/icons/fridge-icon-1.png' }"
+								 th:alt="${pantryZone.name + ' icon'}"
+								 th:class="icon"
 							/>
-							<h3>Fridge</h3>
-							<input type="radio" name="zone" value="1"/>
-						</div>
-						<div class="storage-space">
-							<img
-									src="/icons/cabinet-icon-1.png"
-									alt="cabinet icon"
-									class="icon"
-							/>
-							<h3>Kitchen Cabinet 1</h3>
-							<input type="radio" name="zone" value="2"/>
-						</div>
-						<div class="storage-space">
-							<img
-									src="/icons/cabinet-icon-1.png"
-									alt="cabinet icon"
-									class="icon"
-							/>
-							<h3>Kitchen Cabinet 2</h3>
-							<input type="radio" name="zone" value="3"/>
-						</div>
-						<div class="storage-space">
-							<img
-									src="/icons/cabinet-icon-1.png"
-									alt="cabinet icon"
-									class="icon"
-							/>
-							<h3>Pantry</h3>
-							<input type="radio" name="zone" value="4"/>
-						</div>
-						<div class="storage-space">
-							<img
-									src="/icons/fridge-icon-1.png"
-									alt="fridge icon"
-									class="icon"
-							/>
-							<h3>Wine Fridge</h3>
-							<input type="radio" name="zone" value="5"/>
-						</div>
-						<div class="storage-space">
-							<img
-									src="/icons/cabinet-icon-1.png"
-									alt="cabinet icon"
-									class="icon"
-							/>
-							<h3>Pantry cabinet</h3>
-							<input type="radio" name="zone" value="6"/>
-						</div>
-						<div class="storage-space">
-							<img
-									src="/icons/cabinet-icon-1.png"
-									alt="cabinet icon"
-									class="icon"
-							/>
-							<h3>Snack hiding spot</h3>
-							<input type="radio" name="zone" value="7"/>
+							<h3 th:text="${pantryZone.name}"></h3>
+							<input  th:value="${pantryZone.id}" type="radio" name="zone"/>
 						</div>
 					</div>
+
 					<div>
 						<input type="submit" value="submit"/>
 					</div>

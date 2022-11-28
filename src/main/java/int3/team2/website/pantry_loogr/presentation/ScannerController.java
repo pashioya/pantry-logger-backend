@@ -1,6 +1,11 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 
+import int3.team2.website.pantry_loogr.domain.Item;
+import int3.team2.website.pantry_loogr.domain.PantryZone;
+import int3.team2.website.pantry_loogr.service.ItemService;
+import int3.team2.website.pantry_loogr.service.PantryZoneService;
+import int3.team2.website.pantry_loogr.service.SensorDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -16,13 +21,20 @@ import java.util.*;
 public class ScannerController {
 
     private Logger logger;
+    PantryZoneService pantryZoneService;
+    ItemService itemService;
 
-    public ScannerController() {
+    public ScannerController(PantryZoneService pantryZoneService, ItemService itemService) {
         logger = LoggerFactory.getLogger(this.getClass());
+        this.pantryZoneService = pantryZoneService;
+        this.itemService = itemService;
     }
+
 
     @GetMapping
     public String scanner(Model model) {
+        List<PantryZone> pantryZones = pantryZoneService.getAll();
+        model.addAttribute("pantryZones", pantryZones);
         model.addAttribute("title", "Pantry Logr: Scanner");
         return "scanner";
     }
@@ -33,6 +45,9 @@ public class ScannerController {
     )
     public String addItem(@RequestBody MultiValueMap<String, String> registerData) {
         logger.debug(registerData.toString());
+        logger.debug(registerData.getFirst("item_id"));
+        logger.debug(registerData.getFirst("zone"));
+        itemService.addToPantry(Integer.parseInt(registerData.getFirst("item_id")), Integer.parseInt(registerData.getFirst("zone")));
         return "redirect:/scanner";
     }
 
@@ -41,20 +56,22 @@ public class ScannerController {
             method= RequestMethod.GET,
             produces="application/json"
     )
-    public @ResponseBody Map<String, String> checkForItem(@RequestParam("code") long code) {
+
+    public @ResponseBody Map<String, String> checkForItem(@RequestParam("code") String code) {
         logger.debug("code: " + code);
         Map<String, String> map = new HashMap<>();
-        boolean codeFound = false;
-        map.put("found", "true");
-        /*
-        * TODO Enter Repository get here
-        * */
-        if(codeFound) {
+        Item item = itemService.getByCode(code);
+
+
+        map.put("found", "false");
+        if(item.getId() > 0) {
             map.put("found", "true");
+            logger.debug(String.format("found item: %s, (%d)",item.getName(), item.getSize()));
 
             //TODO replace with actual filling code
-            map.put("name", "Rice");
-            map.put("amount", "1000");
+            map.put("itemId", String.valueOf(item.getId()));
+            map.put("name", item.getName());
+            map.put("amount", String.valueOf(item.getSize()));
         }
         return map;
     }

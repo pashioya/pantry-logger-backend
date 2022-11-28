@@ -165,3 +165,15 @@ VALUES (1, 1, 2, FALSE),
        (5, 35, 4, FALSE),
        (5, 14, 4, FALSE);
 
+
+INSERT INTO INGREDIENT_ITEMS(INGREDIENT_ID, NAME, CODE, SIZE)
+VALUES (1, 'test', '123', 500),
+       (1, 'test 2', '124', 500),
+       (1, 'test 3', '125', 500);
+
+
+INSERT INTO PANTRY_ZONE_ITEMS(ITEM_ID, PANTRY_ZONE_ID, QUANTITY, DATE_ENTERED)
+VALUES (1, 1, 5, '2022-11-25'),
+       (2, 1, 2, '2022-11-25'),
+       (3, 1, 1, '2022-11-25');
+

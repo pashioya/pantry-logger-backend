@@ -9,7 +9,7 @@ import java.util.List;
 public interface RecipeService {
     List<Recipe> getAll();
     Recipe get(int recipeID);
-    List<Recipe> add(Recipe recipe);
+    Recipe add(Recipe recipe);
     List<Recipe> getByName(String name);
     List<Recipe> getByDifficulty(Difficulty difficulty);
     List<Recipe> getByTime(Time time);

@@ -72,11 +72,11 @@ public class RecipeController {
     @GetMapping("/search/{name}")
     public String getRecipeByName(Model model, @PathVariable String name) {
         List<Recipe> recipes = recipeService.getByName(name);
+        logger.debug(String.valueOf(ingredientService.getByName("cucumber").size()));
 
         model.addAttribute("recipes", recipes);
 
         return "recipes";
-
     }
 
     @GetMapping("/ingredients")

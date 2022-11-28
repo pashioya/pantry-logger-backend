@@ -1,9 +1,5 @@
 package int3.team2.website.pantry_loogr.domain;
 
-import int3.team2.website.pantry_loogr.service.IngredientService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 import java.util.Map;
 
 public class Recipe {
@@ -39,6 +35,10 @@ public class Recipe {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

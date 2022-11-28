@@ -5,6 +5,7 @@ import int3.team2.website.pantry_loogr.repository.IngredientRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class IngredientServiceImpl implements IngredientService {
@@ -35,7 +36,14 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public List<Ingredient> getIngredientsByRecipeId(int id) {
+    public Map<Ingredient, String> getIngredientsByRecipeId(int id) {
         return ingredientRepository.findIngredientsByRecipeId(id);
     }
+
+    @Override
+    public Map<Ingredient, String> addToRelationTable(Map<Ingredient, String> ingredients) {
+        return ingredientRepository.addToRelationTable(ingredients);
+    }
+
+
 }

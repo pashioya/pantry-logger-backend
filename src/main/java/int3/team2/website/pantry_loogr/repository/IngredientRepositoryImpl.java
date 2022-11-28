@@ -7,18 +7,27 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Repository
 public class IngredientRepositoryImpl implements IngredientRepository {
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert inserter;
+    private SimpleJdbcInsert ingredientInserter;
+    private SimpleJdbcInsert ingredientRecipeInserter;
 
     public IngredientRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.inserter = new SimpleJdbcInsert(jdbcTemplate)
+        this.ingredientInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("INGREDIENTS")
                 .usingGeneratedKeyColumns("ID");
+        this.ingredientRecipeInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("INGREDIENTS")
+                .usingGeneratedKeyColumns("ID");
+
     }
 
     private Ingredient mapRow(ResultSet rs, int rowid) throws SQLException {
@@ -41,7 +50,25 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     @Override
-    public List<Ingredient> findIngredientsByRecipeId(int id) {
-        return jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id, this::mapRow);
+    public Map<Ingredient, String> findIngredientsByRecipeId(int id) {
+        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id, this::mapRow);
+        List<String> amounts = jdbcTemplate.query("SELECT QUANTITY FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id,
+                (rs, rowNum) -> rs.getString("quantity"));
+        return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
     }
+
+    @Override
+    public Map<Ingredient, String> addToRelationTable(Map<Ingredient, String> ingredients) {
+        //Map<String, Object> parameters = new HashMap<>();
+        //parameters.put("NAME", recipe.getName());
+        //parameters.put("DIFFICULTY", recipe.getDifficulty());
+        //parameters.put("DESCRIPTION", recipe.getDescription());
+        //parameters.put("INSTRUCTIONS", recipe.getInstructions());
+        //parameters.put("TIME", recipe.getTime());
+        //recipe.setId(inserter.executeAndReturnKey(parameters).intValue());
+        //return recipe;
+        return null;
+    }
+
+
 }

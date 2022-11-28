@@ -12,4 +12,5 @@ public interface RecipeRepository {
     List<Recipe> findByTime(Time recipe_time);
     List<Recipe> findAll();
     Recipe get(int id);
+    Recipe createRecipe(Recipe recipe);
 }

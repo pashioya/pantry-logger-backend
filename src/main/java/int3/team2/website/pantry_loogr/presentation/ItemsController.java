@@ -2,6 +2,8 @@ package int3.team2.website.pantry_loogr.presentation;
 
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
+import int3.team2.website.pantry_loogr.service.PantryZoneService;
+import int3.team2.website.pantry_loogr.service.SensorDataService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,10 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 @RequestMapping("/items")
 public class ItemsController {
+
+    PantryZoneService pantryZoneService;
+
+    public ItemsController(PantryZoneService pantryZoneService) {
+        this.pantryZoneService = pantryZoneService;
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -28,6 +38,12 @@ public class ItemsController {
                 new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
+
+        List<HashMap<String, String>> items = pantryZoneService.getAllForUser();
+
+        System.out.println(items);
+        model.addAttribute("items", items);
+
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("areasActive", "undefined");
 

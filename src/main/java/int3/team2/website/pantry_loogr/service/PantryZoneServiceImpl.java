@@ -1,10 +1,14 @@
 package int3.team2.website.pantry_loogr.service;
 
+import int3.team2.website.pantry_loogr.domain.Item;
 import int3.team2.website.pantry_loogr.domain.PantryZone;
 import int3.team2.website.pantry_loogr.repository.PantryZoneRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class PantryZoneServiceImpl implements PantryZoneService {
@@ -23,6 +27,23 @@ public class PantryZoneServiceImpl implements PantryZoneService {
             pantryZones.get(i).setItems(itemService.getByPantryZoneId(pantryZones.get(i).getId()));
         }
         return pantryZones;
+    }
+
+    public List<HashMap<String, String>> getAllForUser() {
+        List<PantryZone> pantryZones = pantryZoneRepository.getAll();
+        List<HashMap<String, String>> itemMap = new ArrayList<>();
+        for(PantryZone pantryZone: pantryZones) {
+            List<Item> items = itemService.getByPantryZoneId(pantryZone.getId());
+            for(Item item: items) {
+                HashMap map = new HashMap();
+                map.put("name", item.getName() + " (" + item.getSize() + ')');
+                map.put("quantity", item.getQuantity());
+                map.put("location", pantryZone.getName());
+                itemMap.add(map);
+            }
+        }
+
+        return itemMap;
     }
 
     @Override

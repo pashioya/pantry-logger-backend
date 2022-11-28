@@ -167,13 +167,14 @@ VALUES (1, 1, 2, FALSE),
 
 
 INSERT INTO INGREDIENT_ITEMS(INGREDIENT_ID, NAME, CODE, SIZE)
-VALUES (1, 'test', '123', 500),
-       (1, 'rice ', '3253581087107', 500),
-       (1, 'test 3', '125', 500);
+VALUES (1, 'Spaghetti', '123', 200),
+       (1, 'Rice', '3253581087107', 1000),
+       (1, 'Milk', '125', 250);
 
 
 INSERT INTO PANTRY_ZONE_ITEMS(ITEM_ID, PANTRY_ZONE_ID, QUANTITY, DATE_ENTERED)
-VALUES (1, 1, 5, '2022-11-25'),
-       (2, 1, 2, '2022-11-25'),
-       (3, 1, 1, '2022-11-25');
+VALUES (1, 2, 5, '2022-11-25'),
+       (2, 2, 2, '2022-11-25'),
+       (3, 1, 1, '2022-11-25'),
+       (1, 2, 1, '2022-11-25');
 

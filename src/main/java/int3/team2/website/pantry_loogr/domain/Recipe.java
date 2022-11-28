@@ -4,6 +4,7 @@ import int3.team2.website.pantry_loogr.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 public class Recipe {
     private int id;
@@ -13,7 +14,7 @@ public class Recipe {
     private String description;
     private String instructions;
     private Time time;
-    private List<Ingredient> ingredients;
+    private Map<Ingredient, String> ingredients;
 
 
     public Recipe() {
@@ -80,11 +81,11 @@ public class Recipe {
         this.time = time;
     }
 
-    public List<Ingredient> getIngredients() {
+    public Map<Ingredient, String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(Map<Ingredient, String> ingredients) {
         this.ingredients = ingredients;
     }
 

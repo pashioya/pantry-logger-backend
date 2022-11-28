@@ -1,6 +1,6 @@
 package int3.team2.website.pantry_loogr.presentation;
 
-import int3.team2.website.pantry_loogr.domain.EndUser;
+import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.IngredientService;
@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 @Controller
 @RequestMapping("/browser")
@@ -72,6 +71,25 @@ public class BrowserController {
     )
     public String createRecipe(@RequestBody MultiValueMap<String, String> recipeData) {
         logger.debug(recipeData.toString());
+        Map<Ingredient, String> ingredients = new HashMap<>();
+        List<String> ingTypes = recipeData.get("ingredient-types");
+        List<String> ingAmounts = recipeData.get("ingredient-amounts");
+        if (ingTypes.size() != ingAmounts.size()) {
+            logger.error("Ingredient types and ingredient amounts are not of equal size!");
+        }
+        for(int i = 0; i < ingTypes.size(); i++) {
+            Ingredient current =  ingredientService.get(Integer.parseInt(ingTypes.get(i)));
+            ingredients.put(current, ingAmounts.get(i));
+        }
+        Recipe newRecipe = new Recipe(
+                recipeData.get("recipe-name").get(0),
+                Difficulty.valueOf(recipeData.get("recipe-difficulty").get(0)),
+                recipeData.get("recipe-description").get(0),
+                recipeData.get("cooking-step").stream().reduce((a, b) -> a + ";" + b).orElse(""),
+                Time.valueOf(recipeData.get("recipe-time").get(0))
+        );
+        newRecipe.setIngredients(ingredients);
+        recipeService.add(newRecipe);
         return "redirect:/createrecipe";
     }
 

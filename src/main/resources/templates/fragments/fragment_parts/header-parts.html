@@ -4,11 +4,54 @@
 
 <div th:fragment="header-titles (content)" class="header-titles">
 	<a href="/items/areas">
-		<h1 target="selected">Areas</h1>
+		<h1 th:target="${areasActive}">Areas</h1>
 	</a>
 	<a href="/items/">
-		<h1 target="undefined">Items</h1>
+		<h1 th:target="${itemsActive}">Items</h1>
 	</a>
+</div>
+
+<div th:fragment="search-dropdown (content)" class="search-dropdown">
+
+	<div class="dropdown">
+		<img
+				src="/icons/down-arrow.png"
+				alt="dropdown icon"
+				class="icon"
+		/>
+		<div class="dropdown-content">
+			<img
+					src="/icons/list-icon-1.png"
+					alt=""
+					class="icon"
+					id="list-view-button"
+			/>
+			<img
+					src="/icons/image-icon-1.png"
+					alt=""
+					class="icon"
+					id="image-view-button"
+			/>
+		</div>
+	</div>
+	<div class="search-container">
+		<form action="/search" method="get">
+			<input
+					class="search expand-right"
+					id="searchright"
+					type="search"
+					name="q"
+					placeholder="Search"
+			/>
+			<label class="button searchbutton" for="searchright"
+			><img
+					src="/icons/search-icon-1.png"
+					alt="search icon"
+					class="button"
+			/>
+			</label>
+		</form>
+	</div>
 </div>
 
 <div th:fragment="back-button (content)" class="back-button">
@@ -24,7 +67,7 @@
 <div th:fragment="search-container (content)" class="search-container">
 	<form action="/search" method="get">
 		<input
-				class="search expandright"
+				class="search expand-right"
 				id="searchright"
 				type="search"
 				name="q"
@@ -64,7 +107,7 @@
 
 <div th:fragment="logo (content)" class="logo">
 	<img
-			src="/images/logo.png"
+			src="/images/logo-black.png"
 			alt="logo"
 			class="icon"
 	/>

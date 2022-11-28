@@ -3,7 +3,6 @@
 	<head th:replace="fragments/head :: head (${title})"></head>
 	<body item-selected="false" id="items">
 		<header th:replace="fragments/header :: header (${headerList})"></header>
-
 		<section class="items-section">
 			<div class="view-selectors">
 				<img
@@ -456,9 +455,9 @@
 				</div>
 			</div>
 		</section>
-
+		<script src="/js/app.js"></script>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
 
-		<script src="js/app.js"></script>
+
 	</body>
 </html>

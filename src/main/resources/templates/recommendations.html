@@ -2,45 +2,52 @@
 <html lang="en">
 	<head th:replace="fragments/head :: head (${title})"></head>
 	<body>
-		<section class="recommendations-section">
-			<div class="recipe-container">
-				<div class="recipe" look="image" change="none">
-					<div class="recipe-image">
-						<img
-								src="/images/filler-image.png"
-								alt="recipe image"
-						/>
-					</div>
-					<div class="favorites-button">
-						<img
-								src="/icons/deselected-favorite-icon.png"
-								alt="favorites icon"
-								class="icon"
-								selected="false"
-						/>
-					</div>
-					<div class="recipe-name">
-						<h3>Recipe Name</h3>
-					</div>
-					<div class="description">
-						<h3>Description</h3>
-					</div>
-					<div class="ingredients-you-need">
-						<h3>Ingredients you need</h3>
-						<span class="ingredients-needed-count">xx</span>
-					</div>
-					<div class="ingredients-you-have">
-						<h3 class="ingredients-title">Ingredients you have</h3>
-						<ul class="ingredients-list">
-							<li class="ingredient">Ingredient 1</li>
-							<li class="ingredient">Ingredient 1</li>
-							<li class="ingredient">Ingredient 1</li>
-						</ul>
-					</div>
+	<header th:replace="fragments/header :: header (${headerList})"></header>
+
+	<section class="recommendations-section">
+		<div class="recommendations-recipe-container">
+			<div class="recipe" look="image" change="none">
+				<div class="recipe-image">
+					<img
+							src="/images/filler-image.png"
+							alt="recipe image"
+					/>
+				</div>
+				<div class="favorites-button" look="selected">
+					<img
+							src="/icons/deselected-favorite-icon.png"
+							alt="favorites icon"
+							class="icon"
+					/>
+				</div>
+				<div class="recipe-name">
+					<h3>Spaghetti And Meatballs</h3>
+				</div>
+
+				<div class="recipe-description">
+					<h3>
+						Decadent strips of gluten with balls of meat on top,
+						covered in meat juice
+					</h3>
+				</div>
+				<div class="ingredients-you-need">
+					<h3 class="title">Ingredients You Need</h3>
+					<span class="ingredients-needed-count">1</span>
+				</div>
+				<div class="ingredients-you-have">
+					<h3 class="title">Ingredients you have</h3>
+					<ul class="ingredients-list">
+						<li class="ingredient">Spaghetti</li>
+						<li class="ingredient">Spaghetti</li>
+						<li class="ingredient">Spaghetti</li>
+					</ul>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+	<script src="/js/app.js" ></script>
+
 	</body>
 </html>

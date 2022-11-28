@@ -20,8 +20,7 @@ public class BrowserController {
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON),
                 new DataItem(HtmlItems.HEADER_TITLE, "Browser"),
-                new DataItem(HtmlItems.SEARCH_CONTAINER),
-                new DataItem(HtmlItems.DROPDOWN)
+                new DataItem(HtmlItems.SEARCH_DROPDOWN)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.SHOPPINGLIST),

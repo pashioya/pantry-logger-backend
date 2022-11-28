@@ -28,6 +28,9 @@ public class ItemsController {
                 new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
+        model.addAttribute("itemsActive", "selected");
+        model.addAttribute("areasActive", "undefined");
+
         return "items";
     }
 
@@ -45,6 +48,8 @@ public class ItemsController {
                 new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
+        model.addAttribute("areasActive", "selected");
+        model.addAttribute("itemsActive", "undefined");
         return "areas";
     }
 

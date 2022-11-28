@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/pantry-zones")
@@ -48,6 +49,20 @@ public class PantryZoneController {
         List<PantryZone> pantryZones = pantryZoneService.getAll();
 
         model.addAttribute("pantryZones", pantryZones);
+        List<SensorData> temp = new ArrayList<>();
+        List<SensorData> hum = new ArrayList<>();
+        List<SensorData> lum = new ArrayList<>();
+//
+//        pantryZones.forEach(x -> {
+//            sensorDataService.getLatestByPantryZone(x.getId()).forEach(y -> {
+//                switch (y.getType()) {
+//                    case TEMPERATURE -> temp.add(y);
+//                    case HUMIDITY -> hum.add(y);
+//                    case BRIGHTNESS -> lum.add(y);
+//                }
+//            });
+//        });
+
         return "pantryZones";
     }
 

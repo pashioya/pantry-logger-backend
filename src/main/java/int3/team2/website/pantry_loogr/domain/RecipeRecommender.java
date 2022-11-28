@@ -18,7 +18,7 @@ public class RecipeRecommender {
         Map<Integer, Recipe> points = new HashMap<>();
         int recipePoints;
         for (Recipe recipe : recipes) {
-            recipe.getIngredients().forEach(i -> ingredients.add(i.getName()));
+            recipe.getIngredients().keySet().forEach(x -> ingredients.add(x.getName() + " " + recipe.getIngredients().get(x)));
             recipePoints = 0;
             for (String i : ingredients) {
                 logger.debug(i);

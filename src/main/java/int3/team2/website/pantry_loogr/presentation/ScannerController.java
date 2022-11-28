@@ -56,7 +56,6 @@ public class ScannerController {
             method= RequestMethod.GET,
             produces="application/json"
     )
-
     public @ResponseBody Map<String, String> checkForItem(@RequestParam("code") String code) {
         logger.debug("code: " + code);
         Map<String, String> map = new HashMap<>();

@@ -11,10 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -51,6 +48,19 @@ public class BrowserController {
         return "browser";
     }
 
+    @GetMapping("/{recipeID}")
+    public String getRecipe(Model model, @PathVariable int recipeID) {
+        Recipe recipe = recipeService.get(recipeID);
+        model.addAttribute("title", recipe.getName());
+        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.HEADER_TITLE, recipe.getName()),
+                new DataItem(HtmlItems.LOGO)
+        )));
+        model.addAttribute("recipe", recipe);
+        return "/recipe";
+    }
+
     @GetMapping("/createrecipe")
     public String createRecipe(Model model) {
         model.addAttribute("title", "Create Recipe");
@@ -85,7 +95,7 @@ public class BrowserController {
                 recipeData.get("recipe-name").get(0),
                 Difficulty.valueOf(recipeData.get("recipe-difficulty").get(0)),
                 recipeData.get("recipe-description").get(0),
-                recipeData.get("cooking-step").stream().reduce((a, b) -> a + ";" + b).orElse(""),
+                recipeData.get("cooking-step").stream().reduce((a, b) -> a + "<br><br>" + b).orElse(""),
                 Time.valueOf(recipeData.get("recipe-time").get(0))
         );
         newRecipe.setIngredients(ingredients);

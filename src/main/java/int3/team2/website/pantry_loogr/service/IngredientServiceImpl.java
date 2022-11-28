@@ -41,8 +41,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Map<Ingredient, String> addToRelationTable(Map<Ingredient, String> ingredients) {
-        return ingredientRepository.addToRelationTable(ingredients);
+    public Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients) {
+        return ingredientRepository.addToRelationTable(recipeID, ingredients);
     }
 
 

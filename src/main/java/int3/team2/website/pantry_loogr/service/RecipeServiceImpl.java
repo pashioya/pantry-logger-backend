@@ -39,8 +39,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe add(Recipe recipe) {
-        ingredientService.addToRelationTable(recipe.getIngredients());
-        return recipeRepository.createRecipe(recipe);
+        Recipe newRecipe = recipeRepository.createRecipe(recipe);
+        ingredientService.addToRelationTable(newRecipe.getId(), newRecipe.getIngredients());
+        return newRecipe;
     }
 
     @Override

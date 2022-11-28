@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head th:replace="fragments/head :: head (${title})"></head>
+	<body>
+		<header th:replace="fragments/header :: header (${headerList})"></header>
+		<section class="full-recipe-container">
+			<div class="recipe">
+				<div class="recipe-image">
+					<img
+							src="/images/filler-image.png"
+							alt="recipe image"
+					/>
+				</div>
+				<div class="recipe-info">
+					<div class="recipe-title">
+						<h2 th:utext="${recipe.getName()}"></h2>
+					</div>
+					<div class="recipe-description" th:utext="${recipe.getDescription()}">
+					</div>
+					<div class="recipe-ingredients">
+						<h3>Ingredients</h3>
+						<ul>
+							<li
+									th:each="ingredient : ${recipe.getIngredients().keySet()}"
+									th:utext="${ingredient + ' ' + recipe.getIngredients().get(ingredient)}">
+							</li>
+						</ul>
+					</div>
+					<div class="recipe-instructions" >
+						<h3>Instructions</h3>
+						<div th:utext="${recipe.getInstructions()}">
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

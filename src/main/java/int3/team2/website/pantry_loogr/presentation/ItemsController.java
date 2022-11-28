@@ -2,8 +2,6 @@ package int3.team2.website.pantry_loogr.presentation;
 
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
-import int3.team2.website.pantry_loogr.service.PantryZoneService;
-import int3.team2.website.pantry_loogr.service.SensorDataService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +28,29 @@ public class ItemsController {
                 new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
+        model.addAttribute("itemsActive", "selected");
+        model.addAttribute("areasActive", "undefined");
 
         return "items";
+    }
+
+    @GetMapping("/areas")
+    public String areas(Model model) {
+        model.addAttribute("title", "Areas");
+        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.HEADER_TITLES),
+                new DataItem(HtmlItems.SEARCH_CONTAINER)
+        )));
+        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.RECOMMENDATIONS)
+        )));
+        model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SCANNER)
+        )));
+        model.addAttribute("areasActive", "selected");
+        model.addAttribute("itemsActive", "undefined");
+        return "areas";
     }
 
     @GetMapping("/shoppinglist")

@@ -3,30 +3,31 @@
 	<head th:replace="fragments/head :: head (${title})"></head>
 	<body>
 	<header th:replace="fragments/header :: header (${headerList})"></header>
-		<section class="recipes-section">
-			<div class="recipes-container" th:each="recipe : ${recipes}">
-				<div class="recipe" look="image" change="none">
-					<div class="recipe-image">
-						<img
-								src="/images/filler-image.png"
-								alt="recipe image"
-						/>
-					</div>
-					<div class="recipe-texts">
-						<span class="recipe-name" th:utext="${recipe.name}"></span>
-						<h5>
-							Time Estimate:
-							<span class="recipe-time" th:utext="${recipe.time}"></span>
-						</h5>
-						<ul class="recipe-tags">
-							<li>tag1</li>
-							<li>tag2</li>
-							<li>tag3</li>
-						</ul>
-					</div>
+	<section class="browser-recipes-section">
+		<div class="browser-recipes-container">
+			<div class="recipe" look="image" change="none">
+				<div class="recipe-image">
+					<img
+							src="/images/filler-image.png"
+							alt="recipe image"
+					/>
+				</div>
+				<div class="recipe-texts">
+					<span class="recipe-name">Recipe Name</span>
+					<h3>
+						Time Estimate:
+						<span class="recipe-time">30 min</span>
+					</h3>
+					<ul class="recipe-tags">
+						<li>tag1</li>
+						<li>tag2</li>
+						<li>tag3</li>
+					</ul>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+	<script src="/js/app.js" ></script>
 	</body>
 </html>

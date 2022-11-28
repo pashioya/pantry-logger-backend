@@ -1,5 +1,6 @@
 package int3.team2.website.pantry_loogr.presentation;
 
+import com.google.gson.Gson;
 import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/pantry-zones")
@@ -48,6 +50,20 @@ public class PantryZoneController {
         List<PantryZone> pantryZones = pantryZoneService.getAll();
 
         model.addAttribute("pantryZones", pantryZones);
+        List<SensorData> temp = new ArrayList<>();
+        List<SensorData> hum = new ArrayList<>();
+        List<SensorData> lum = new ArrayList<>();
+//
+//        pantryZones.forEach(x -> {
+//            sensorDataService.getLatestByPantryZone(x.getId()).forEach(y -> {
+//                switch (y.getType()) {
+//                    case TEMPERATURE -> temp.add(y);
+//                    case HUMIDITY -> hum.add(y);
+//                    case BRIGHTNESS -> lum.add(y);
+//                }
+//            });
+//        });
+
         return "pantryZones";
     }
 
@@ -75,4 +91,17 @@ public class PantryZoneController {
 
         return "PantryZoneDetails";
     }
+    @GetMapping("/raw-data/{pantryZoneID}")
+    public String checkData(Model model, @PathVariable int pantryZoneID) {
+        PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
+        if(pantryZone == null) {
+            return "Pantry Zone Not Found";
+        }
+        model.addAttribute("pantryZone", pantryZone);
+        //model.addAttribute("sensorData", sensorDataService.getByPantryZoneBetween(pantryZone.getId(), LocalDateTime.of(2022, 10, 10, 0, 0), LocalDateTime.now()));
+        model.addAttribute("sensorData", sensorDataService.getByPantryZone(pantryZone.getId()));
+
+        return "pantryZoneRawData";
+    }
+
 }

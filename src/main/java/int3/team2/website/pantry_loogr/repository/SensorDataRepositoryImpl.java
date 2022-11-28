@@ -31,10 +31,12 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
                 .usingGeneratedKeyColumns("ID");
     }
     private SensorData mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new SensorData(rs.getInt("ID"),
+        return new SensorData(
+                rs.getInt("ID"),
                 rs.getTimestamp("TIME_STAMP").toLocalDateTime(),
                 SensorType.valueOf(rs.getString("SENSOR_TYPE")),
-                rs.getInt("SENSOR_VALUE")
+                rs.getInt("SENSOR_VALUE"),
+                rs.getInt("PANTRY_ZONE_ID")
         );
     }
     @Override

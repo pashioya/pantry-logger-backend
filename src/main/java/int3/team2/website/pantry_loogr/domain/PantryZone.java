@@ -1,8 +1,11 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import java.util.List;
+
 public class PantryZone {
     private int id;
     private String name;
+    private List<Item> items;
     private int minTemp;
     private int maxTemp;
     private int minHum;
@@ -32,6 +35,13 @@ public class PantryZone {
         this.maxBright = maxBright;
     }
 
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
     public void setId(int id) {
         this.id = id;
     }

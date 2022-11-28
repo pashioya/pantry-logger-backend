@@ -12,11 +12,7 @@
 					class="recipe-image"
 				/>
 			</div> -->
-			<form
-					class="create-recipe-form"
-					action="#"
-					method="post"
-			>
+			<form class="create-recipe-form" method="post">
 				<input
 						type="image"
 						src="/images/filler-image.png"
@@ -30,25 +26,49 @@
 				<input id="file-upload" type="file" class="file" />
 
 				<label for="recipe-name">Recipe Name</label>
-				<input id="recipe-name" type="text"  />
+				<input name="recipe-name" id="recipe-name" type="text"  />
 
 				<label for="recipe-description">Description</label>
-				<input id="recipe-description" type="text" />
+				<input name="recipe-description" id="recipe-description" type="text" />
 
 				<label for="cooking-steps">Cooking Steps</label>
-				<input id="cooking-steps" type="text" />
+				<div id="cooking-steps">
+					<input name="cooking-step" class="cooking-step" type="text" required/>
+				</div>
+				<input id="add-cooking-step" type="button" value="add-step">
 
 				<label for="recipe-ingredients">Ingredients</label>
-				<input id="recipe-ingredients" type="text" />
+				<div id="recipe-ingredients">
+					<div id="added-ingredients">
 
-				<label for="recipe-Allergies">Allergies</label>
-				<input id="recipe-Allergies" type="text"  />
+					</div>
+					<div id="ingredient-adder">
+						<select id="ingredient-name" required>
+							<option
+									th:each="ingredient : ${ingredients}"
+									th:value="${ingredient.id}"
+									th:utext="${ingredient.name}">
+							</option>
+						</select>
+						<input id="ingredient-amount" type="number" value="amount" required>
+						<input type="button" id="add-ingredient" value="add-ingredient">
+					</div>
+				</div>
 
-				<label for="recipe-Cuisine">Cuisine</label>
-				<input id="recipe-Cuisine" type="text"  />
-				<input type="submit" value="Submit" />
+				<label for="recipe-time">Estimated Time</label>
+				<select name="recipe-time" id="recipe-time">
+					<option value="QUICK">quick</option>
+					<option value="MEDIUM">medium</option>
+					<option value="LONG">long</option>
+				</select>
+				<select name="recipe-difficulty" id="recipe-difficulty">
+					<option value="EASY">easy</option>
+					<option value="MEDIUM">medium</option>
+					<option value="HARD">hard</option>
+				</select>
+				<input type="submit" value="submit" />
 			</form>
 		</section>
-<!--		<script src="/js/createrecipe.js" defer></script>-->
+		<script src="/js/createrecipe.js"></script>
 	</body>
 </html>

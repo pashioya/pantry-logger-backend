@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>recipes</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head (${title})"></head>
 <body>
-    <table>
-        <tr><td>Id</td><td>Name</td></tr>
-        <tr th:each="pantryZone: ${pantryZones}">
-            <td th:text="${pantryZone.id}"></td>
-            <td th:text="${pantryZone.name}"></td>
-        </tr>
-    </table>
+<header th:replace="fragments/header :: header (${headerList})"></header>
+
+<section class="areas-section">
+    <div class="storage-spaces" th:each="pantryZone, iStat: ${pantryZones}">
+        <a th:href="${ '/pantry-zones/' + pantryZone.id}" class="storage-space">
+            <div>
+                <img th:src="${ '/icons/fridge-icon-1.png' }"
+                     th:alt="${pantryZone.name + ' icon'}"
+                     th:class="icon"
+                />
+
+                <h3 th:text="${pantryZone.name}"></h3>
+				<span class="pantry-temp" th:utext="${' C '}"></span>
+				<span class="pantry-hum" th:utext="${' RH '}"></span>
+				<span class="pantry-brightness" th:utext="${' '}"></span>
+            </div>
+        </a>
+    </div>
+</section>
+
+<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
 </body>
 </html>

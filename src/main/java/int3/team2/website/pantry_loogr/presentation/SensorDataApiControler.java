@@ -1,5 +1,6 @@
 package int3.team2.website.pantry_loogr.presentation;
 
+import com.google.gson.Gson;
 import int3.team2.website.pantry_loogr.domain.PantryZone;
 import int3.team2.website.pantry_loogr.domain.SensorData;
 import int3.team2.website.pantry_loogr.domain.SensorType;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/data/")
@@ -29,16 +31,37 @@ public class SensorDataApiControler {
     public String insertData(@PathVariable int pantryZoneID, @PathVariable String timestamp, @PathVariable int temp, @PathVariable int hum, @PathVariable int bright) {
         PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
         if(pantryZone == null) {
-             return "Pantry Zone Not Found";
+            return "Pantry Zone Not Found";
         }
+
+        System.out.println(timestamp);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(timestamp, formatter);
 
-        sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("TEMPERATURE"), temp), pantryZone.getId());
-        sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("HUMIDITY"), hum), pantryZone.getId());
-        sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("BRIGHTNESS"), bright), pantryZone.getId());
+        System.out.println(dateTime);
+
+        System.out.println(temp);
+        //System.out.println(sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("TEMPERATURE"), temp), pantryZone.getId()).getType());
+        sensorDataService.add(new SensorData(LocalDateTime.now(), SensorType.valueOf("TEMPERATURE"), temp), pantryZone.getId());
+        sensorDataService.add(new SensorData(LocalDateTime.now(), SensorType.valueOf("HUMIDITY"), hum), pantryZone.getId());
+        sensorDataService.add(new SensorData(LocalDateTime.now(), SensorType.valueOf("BRIGHTNESS"), bright), pantryZone.getId());
 
         return "success";
+    }
+
+    @GetMapping("/{pantryZoneID}")
+    public String checkData(@PathVariable int pantryZoneID) {
+        PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
+        if(pantryZone == null) {
+            return "Pantry Zone Not Found";
+        }
+        List<SensorData> sensorData = sensorDataService.getByPantryZoneBetween(pantryZone.getId(), LocalDateTime.of(2022, 10, 10, 0, 0), LocalDateTime.now());
+
+
+        Gson gson = new Gson();
+        String json = gson.toJson(sensorData);
+
+        return json;
     }
 }

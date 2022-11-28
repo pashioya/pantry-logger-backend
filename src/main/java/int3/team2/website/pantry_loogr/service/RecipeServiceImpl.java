@@ -4,13 +4,19 @@ import int3.team2.website.pantry_loogr.domain.Difficulty;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
+import int3.team2.website.pantry_loogr.presentation.RecipeController;
 import int3.team2.website.pantry_loogr.repository.RecipeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class RecipeServiceImpl implements RecipeService {
+    private Logger logger = LoggerFactory.getLogger(RecipeController.class);
     private RecipeRepository recipeRepository;
     private IngredientService ingredientService;
 
@@ -32,8 +38,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> add(Recipe recipe) {
-        return null;
+    public Recipe add(Recipe recipe) {
+        ingredientService.addToRelationTable(recipe.getIngredients());
+        return recipeRepository.createRecipe(recipe);
     }
 
     @Override

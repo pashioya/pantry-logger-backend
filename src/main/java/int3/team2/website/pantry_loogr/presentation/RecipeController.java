@@ -40,7 +40,7 @@ public class RecipeController {
         recipes = recipeService.getAll();
 
         model.addAttribute("recipes", recipes);
-        return "recipes";
+        return "browser";
     }
 
     @GetMapping("/{recipeID}")
@@ -48,7 +48,7 @@ public class RecipeController {
         Recipe recipe = recipeService.get(recipeID);
         model.addAttribute("recipe", recipe);
 
-        return "recipeDetails";
+        return "recipe";
     }
 
     @GetMapping("/recommend")

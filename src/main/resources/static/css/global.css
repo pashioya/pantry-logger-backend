@@ -851,10 +851,6 @@ body[stage="two"]#scanner .text-panel > form > * {
 }
 
 .recommendations-recipe-container > .recipe[look="image"] > .recipe-image{
-    --recipe-image-width: 300px;
-    --recipe-image-height: 300px;
-    width: var(--recipe-image-width);
-    height: var(--recipe-image-height);
     background-color: #f2f2f2;
     border-radius: 10px;
     margin-right: calc(var(--recipe-combined-spacing) / 2);
@@ -1092,11 +1088,9 @@ body[id="create-recipe"] > .header-titles{
     --recipe-padding-width: 20px;
     --recipe-margin-width: 20px;
     --recipe-combined-spacing: calc(var(--recipe-margin-width) + var(--recipe-padding-width));
-    --recipe-width: 300px;
     display: grid;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     padding: calc(var(--recipe-padding-width) / 2);
-    margin: calc(var(--recipe-margin-width) / 2);
 }
 
 .browser-recipes-container > .recipe[look="image"] {
@@ -1106,13 +1100,11 @@ body[id="create-recipe"] > .header-titles{
     flex-wrap: wrap;
     padding: calc(var(--recipe-padding-width) / 2);
     margin: calc(var(--recipe-margin-width) / 2);
-    width: var(--recipe-width);
+    width: calc(calc(100% - var(--recipe-padding-width)) - var(--recipe-margin-width));
 }
 
 .browser-recipes-container > .recipe[look="image"] > .recipe-image {
-    --recipe-image-height: 300px;
-    width: var(--recipe-width);
-    height: var(--recipe-image-height);
+    width: 100%;
 }
 
 

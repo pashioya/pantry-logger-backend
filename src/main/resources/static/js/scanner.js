@@ -277,7 +277,34 @@ $(function() {
 
     });
 
-    Quagga.updateView(function() {
+    document.getElementById("scan_now").addEventListener("click",function(e){
+        $.ajax({
+            url: "/scanner/checkForItem?code=123",
+            type: "GET",
+            success: function (data) {
+                $("body").attr("stage", "one");
+                if (data.found == "true") {
+                    console.log(data);
+                    const name = document.getElementById("item-name");
+                    name.value = data.name;
+                    name.readOnly = true;
 
+                    const amount = document.getElementById("item-amount");
+                    amount.value = data.amount;
+                    amount.readOnly = true;
+
+                    const itemId = document.getElementById("item-id");
+                    itemId.value = data.itemId;
+                    itemId.readOnly = true;
+                }
+            },
+            error: function (data) {
+                console.log("ERROR: Code search did not work!");
+            }
+        });
     });
+
+    // Quagga.updateView(function() {
+    //
+    // });
 });

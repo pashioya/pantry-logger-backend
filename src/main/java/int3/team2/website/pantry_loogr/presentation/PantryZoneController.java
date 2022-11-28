@@ -1,6 +1,8 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 import int3.team2.website.pantry_loogr.domain.*;
+import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
+import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
 import int3.team2.website.pantry_loogr.service.RecipeService;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -27,22 +31,47 @@ public class PantryZoneController {
     }
 
     @GetMapping
-    public String getAllRecipe(Model model) {
+    public String getAll(Model model) {
+        model.addAttribute("title", "Pantry Zones");
+        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.HEADER_TITLES),
+                new DataItem(HtmlItems.SEARCH_CONTAINER)
+        )));
+        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.RECOMMENDATIONS)
+        )));
+        model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SCANNER)
+        )));
+
         List<PantryZone> pantryZones = pantryZoneService.getAll();
 
         model.addAttribute("pantryZones", pantryZones);
         return "pantryZones";
     }
 
+    @GetMapping("/allItems")
+    public String pantryZoneAllItems(Model model) {
+        List<PantryZone> pantryZones = pantryZoneService.getAll();
+        for (PantryZone pantryZone:pantryZones) {
+            System.out.println(pantryZone.getItems());
+        }
+        //Object test = new Object[] {pantryZones.get(0).getItems().get(0)};
+
+
+        model.addAttribute("pantryZones", pantryZones);
+
+        return "items";
+    }
     @GetMapping("/{pantryZoneID}")
     public String pantryZoneDetails(Model model, @PathVariable int pantryZoneID) {
         PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
-        //List<SensorData> sensorData = sensorDataService.getByPantryZoneBetween(pantryZoneID, LocalDateTime.of(2022, 11,23, 0, 01, 00), LocalDateTime.of(2022, 11,23, 5, 01, 00));
-        List<SensorData> sensorData = sensorDataService.getByPantryZone(pantryZoneID);
 
+        System.out.println(pantryZone.getItems());
 
         model.addAttribute("pantryZone", pantryZone);
-        model.addAttribute("sensorData", sensorData);
+        model.addAttribute("items", pantryZone.getItems());
 
         return "PantryZoneDetails";
     }

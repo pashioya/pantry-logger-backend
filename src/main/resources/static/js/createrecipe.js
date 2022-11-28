@@ -18,8 +18,8 @@ addIngredientButton.onclick = function () {
     const newIngredient = document.createElement("div");
 
     const newIngredientName = addIngredientName.cloneNode(true);
-    newIngredientName.value = addIngredientName.value
-    newIngredientName.disabled = true;
+    newIngredientName.setAttribute("name", "ingredient-types");
+    newIngredientName.value = addIngredientName.value;
 
     const newIngredientAmount = document.createElement("input");
     newIngredientAmount.setAttribute("name", "ingredient-amounts");

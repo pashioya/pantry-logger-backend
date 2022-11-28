@@ -4,7 +4,7 @@
 	<body>
 	<header th:replace="fragments/header :: header (${headerList})"></header>
 		<section class="recipes-section">
-			<div class="recipes-container">
+			<div class="recipes-container" th:each="recipe : ${recipes}">
 				<div class="recipe" look="image" change="none">
 					<div class="recipe-image">
 						<img
@@ -13,10 +13,10 @@
 						/>
 					</div>
 					<div class="recipe-texts">
-						<span class="recipe-name">Recipe Name</span>
+						<span class="recipe-name" th:utext="${recipe.name}"></span>
 						<h5>
 							Time Estimate:
-							<span class="recipe-time">30 min</span>
+							<span class="recipe-time" th:utext="${recipe.time}"></span>
 						</h5>
 						<ul class="recipe-tags">
 							<li>tag1</li>

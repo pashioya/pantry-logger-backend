@@ -1,11 +1,20 @@
 package int3.team2.website.pantry_loogr.presentation;
 
+import int3.team2.website.pantry_loogr.domain.EndUser;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
+import int3.team2.website.pantry_loogr.service.IngredientService;
+import int3.team2.website.pantry_loogr.service.RecipeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +22,16 @@ import java.util.Arrays;
 @Controller
 @RequestMapping("/browser")
 public class BrowserController {
+
+    private Logger logger;
+    private RecipeService recipeService;
+    private IngredientService ingredientService;
+
+    public BrowserController(RecipeService recipeService, IngredientService ingredientService) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
+        this.recipeService = recipeService;
+        this.ingredientService = ingredientService;
+    }
 
     @GetMapping
     public String browser(Model model) {
@@ -28,6 +47,8 @@ public class BrowserController {
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>());
+
+        model.addAttribute("recipes", recipeService.getAll());
         return "browser";
     }
 
@@ -39,7 +60,19 @@ public class BrowserController {
                 new DataItem(HtmlItems.HEADER_TITLE, "Create Recipe"),
                 new DataItem(HtmlItems.LOGO)
         )));
+
+        model.addAttribute("ingredients", ingredientService.getAll());
         return "createrecipe";
+    }
+
+    @RequestMapping(
+            value="/createrecipe",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String createRecipe(@RequestBody MultiValueMap<String, String> recipeData) {
+        logger.debug(recipeData.toString());
+        return "redirect:/createrecipe";
     }
 
     @GetMapping("/recommendations")

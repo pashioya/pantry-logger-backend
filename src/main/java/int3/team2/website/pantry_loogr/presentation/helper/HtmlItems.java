@@ -25,7 +25,6 @@ public enum HtmlItems {
                 current.setCharAt(x, '-');
             }
         });
-        LoggerFactory.getLogger(this.getClass()).debug(current.toString().toLowerCase());
         return current.toString().toLowerCase();
     }
 }

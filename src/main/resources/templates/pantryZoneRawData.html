@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="'Pantry Zone: ' + ${pantryZone.name}"></title>
+</head>
+<body>
+<h1 th:text="'Pantry Zone: ' + ${pantryZone.name}"></h1>
+<table>
+  <tr><td>Id</td><td>Sensor Type</td><td>Sensor Value</td></tr>
+  <tr th:each="sensorDataSingle: ${sensorData}">
+    <td th:text="${sensorDataSingle.id}"></td>
+    <td th:text="${sensorDataSingle.timestamp}"></td>
+    <td th:text="${sensorDataSingle.Type}"></td>
+    <td th:text="${sensorDataSingle.Value}"></td>
+  </tr>
+</table>
+</body>
+</html>

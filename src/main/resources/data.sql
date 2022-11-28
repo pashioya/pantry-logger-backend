@@ -168,7 +168,7 @@ VALUES (1, 1, 2, FALSE),
 
 INSERT INTO INGREDIENT_ITEMS(INGREDIENT_ID, NAME, CODE, SIZE)
 VALUES (1, 'test', '123', 500),
-       (1, 'test 2', '124', 500),
+       (1, 'rice ', '3253581087107', 500),
        (1, 'test 3', '125', 500);
 
 

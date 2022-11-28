@@ -1,5 +1,6 @@
 package int3.team2.website.pantry_loogr.presentation;
 
+import com.google.gson.Gson;
 import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
@@ -75,4 +76,17 @@ public class PantryZoneController {
 
         return "PantryZoneDetails";
     }
+    @GetMapping("/raw-data/{pantryZoneID}")
+    public String checkData(Model model, @PathVariable int pantryZoneID) {
+        PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
+        if(pantryZone == null) {
+            return "Pantry Zone Not Found";
+        }
+        model.addAttribute("pantryZone", pantryZone);
+        //model.addAttribute("sensorData", sensorDataService.getByPantryZoneBetween(pantryZone.getId(), LocalDateTime.of(2022, 10, 10, 0, 0), LocalDateTime.now()));
+        model.addAttribute("sensorData", sensorDataService.getByPantryZone(pantryZone.getId()));
+
+        return "pantryZoneRawData";
+    }
+
 }

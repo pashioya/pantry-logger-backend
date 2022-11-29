@@ -73,19 +73,6 @@ public class PantryZoneController {
         return "pantryZones";
     }
 
-    @GetMapping("/allItems")
-    public String pantryZoneAllItems(Model model) {
-        List<PantryZone> pantryZones = pantryZoneService.getAll();
-        for (PantryZone pantryZone:pantryZones) {
-            System.out.println(pantryZone.getProducts());
-        }
-        //Object test = new Object[] {pantryZones.get(0).getItems().get(0)};
-
-
-        model.addAttribute("pantryZones", pantryZones);
-
-        return "items";
-    }
     @GetMapping("/{pantryZoneID}")
     public String pantryZoneDetails(HttpSession httpSession, Model model, @PathVariable int pantryZoneID) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));

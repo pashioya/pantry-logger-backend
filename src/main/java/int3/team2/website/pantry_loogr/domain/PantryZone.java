@@ -5,7 +5,7 @@ import java.util.List;
 public class PantryZone {
     private int id;
     private String name;
-    private List<Item> items;
+    private List<PantryZoneProduct> products;
     private int minTemp;
     private int maxTemp;
     private int minHum;
@@ -35,12 +35,12 @@ public class PantryZone {
         this.maxBright = maxBright;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setProducts(List<PantryZoneProduct> products) {
+        this.products = products;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<PantryZoneProduct> getProducts() {
+        return products;
     }
     public void setId(int id) {
         this.id = id;

@@ -1,8 +1,8 @@
 package int3.team2.website.pantry_loogr.domain;
 
 public class Ingredient {
-    private int id;
-    private String name;
+    protected int id;
+    protected String name;
 
     public Ingredient(String name) {
         this.name = name;

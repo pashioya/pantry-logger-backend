@@ -1,6 +1,8 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Ingredient;
+import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
+import int3.team2.website.pantry_loogr.domain.Product;
 
 import java.util.List;
 import java.util.Map;
@@ -12,5 +14,9 @@ public interface IngredientService {
     List<Ingredient> getByName(String name);
     Map<Ingredient, String> getIngredientsByRecipeId(int id);
     Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
+    List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
 
+    Product getByCode(String code);
+
+    void addToPantry(int productId, int zone);
 }

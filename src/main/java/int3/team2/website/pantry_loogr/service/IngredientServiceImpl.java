@@ -1,6 +1,8 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Ingredient;
+import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
+import int3.team2.website.pantry_loogr.domain.Product;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
 import org.springframework.stereotype.Component;
 
@@ -43,6 +45,21 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients) {
         return ingredientRepository.addToRelationTable(recipeID, ingredients);
+    }
+
+    @Override
+    public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
+        return ingredientRepository.getByPantryZoneId(pantryZoneId);
+    }
+
+    @Override
+    public Product getByCode(String code) {
+        return ingredientRepository.getByCode(code);
+    }
+
+    @Override
+    public void addToPantry(int productId, int zone) {
+        ingredientRepository.addToPantry(productId, zone);
     }
 
 

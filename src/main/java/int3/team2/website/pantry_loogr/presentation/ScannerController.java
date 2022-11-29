@@ -1,11 +1,10 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 
-import int3.team2.website.pantry_loogr.domain.Item;
+import int3.team2.website.pantry_loogr.domain.Product;
 import int3.team2.website.pantry_loogr.domain.PantryZone;
-import int3.team2.website.pantry_loogr.service.ItemService;
+import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
-import int3.team2.website.pantry_loogr.service.SensorDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -22,12 +21,12 @@ public class ScannerController {
 
     private Logger logger;
     PantryZoneService pantryZoneService;
-    ItemService itemService;
+    IngredientService ingredientService;
 
-    public ScannerController(PantryZoneService pantryZoneService, ItemService itemService) {
+    public ScannerController(PantryZoneService pantryZoneService, IngredientService ingredientService) {
         logger = LoggerFactory.getLogger(this.getClass());
         this.pantryZoneService = pantryZoneService;
-        this.itemService = itemService;
+        this.ingredientService = ingredientService;
     }
 
 
@@ -47,7 +46,7 @@ public class ScannerController {
         logger.debug(registerData.toString());
         logger.debug(registerData.getFirst("item_id"));
         logger.debug(registerData.getFirst("zone"));
-        itemService.addToPantry(Integer.parseInt(registerData.getFirst("item_id")), Integer.parseInt(registerData.getFirst("zone")));
+        ingredientService.addToPantry(Integer.parseInt(registerData.getFirst("item_id")), Integer.parseInt(registerData.getFirst("zone")));
         return "redirect:/scanner";
     }
 
@@ -59,7 +58,7 @@ public class ScannerController {
     public @ResponseBody Map<String, String> checkForItem(@RequestParam("code") String code) {
         logger.debug("code: " + code);
         Map<String, String> map = new HashMap<>();
-        Item item = itemService.getByCode(code);
+        Product item = ingredientService.getByCode(code);
 
 
         map.put("found", "false");

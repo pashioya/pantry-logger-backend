@@ -39,10 +39,9 @@ public class ItemsController {
                 new DataItem(HtmlItems.SCANNER)
         )));
 
-        List<HashMap<String, String>> items = pantryZoneService.getAllForUser();
+        List<HashMap<String, String>> products = pantryZoneService.getAllForUser();
 
-        System.out.println(items);
-        model.addAttribute("items", items);
+        model.addAttribute("products", products);
 
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("areasActive", "undefined");

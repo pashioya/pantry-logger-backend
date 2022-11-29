@@ -1,12 +1,9 @@
 package int3.team2.website.pantry_loogr.presentation;
 
-import com.google.gson.Gson;
 import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
-import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
-import int3.team2.website.pantry_loogr.service.RecipeService;
 import int3.team2.website.pantry_loogr.service.SensorDataService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/pantry-zones")
@@ -71,7 +66,7 @@ public class PantryZoneController {
     public String pantryZoneAllItems(Model model) {
         List<PantryZone> pantryZones = pantryZoneService.getAll();
         for (PantryZone pantryZone:pantryZones) {
-            System.out.println(pantryZone.getItems());
+            System.out.println(pantryZone.getProducts());
         }
         //Object test = new Object[] {pantryZones.get(0).getItems().get(0)};
 
@@ -84,10 +79,10 @@ public class PantryZoneController {
     public String pantryZoneDetails(Model model, @PathVariable int pantryZoneID) {
         PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
 
-        System.out.println(pantryZone.getItems());
+        System.out.println(pantryZone.getProducts());
 
         model.addAttribute("pantryZone", pantryZone);
-        model.addAttribute("items", pantryZone.getItems());
+        model.addAttribute("products", pantryZone.getProducts());
 
         return "PantryZoneDetails";
     }

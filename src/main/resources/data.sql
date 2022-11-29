@@ -30,6 +30,13 @@ VALUES ('Chinese fried rice',
         'EASY',
         'https://www.food.com/recipe/chinese-fried-rice-38748');
 
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+VALUES ('spaghetti with meatballs',
+        'QUICK',
+        'EASY',
+        'Decadent strips of gluten with balls of meat on top, covered in meat juice'
+        '');
+
 
 insert into TAGS (NAME)
 VALUES ('meat'),

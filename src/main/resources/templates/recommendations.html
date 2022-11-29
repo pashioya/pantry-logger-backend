@@ -6,7 +6,7 @@
 
 	<section class="recommendations-section">
 		<div class="recommendations-recipe-container">
-			<div class="recipe" look="image" change="none">
+			<div th:each="recipe : ${recommendations}" class="recipe" look="image" change="none">
 				<div class="recipe-image">
 					<img
 							src="/images/filler-image.png"
@@ -21,13 +21,11 @@
 					/>
 				</div>
 				<div class="recipe-name">
-					<h3>Spaghetti And Meatballs</h3>
+					<h3 th:utext="${recipe.name}"></h3>
 				</div>
 
 				<div class="recipe-description">
-					<h3>
-						Decadent strips of gluten with balls of meat on top,
-						covered in meat juice
+					<h3 th:utext="${recipe.description}">
 					</h3>
 				</div>
 				<div class="ingredients-you-need">

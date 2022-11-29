@@ -52,7 +52,7 @@ public class IndexController {
         }
         EndUser user = userService.getByUsername(username);
         if (user.getPassword().equals(loginData.get("password").get(0))) {
-            return "redirect:/items/areas";
+            return "redirect:/pantry-zones";
         } else {
             return "redirect:/login";
         }
@@ -84,7 +84,7 @@ public class IndexController {
                 logger.info("User already exists with this name please use a different name!");
             } else {
                 logger.debug(user.toString());
-                return "redirect:/items/areas";
+                return "redirect:/pantry-zones";
             }
         }
         return "redirect:/register";

@@ -3,8 +3,8 @@
 </div>
 
 <div th:fragment="header-titles (content)" class="header-titles">
-	<a href="/items/areas">
-		<h1 th:target="${areasActive}">Areas</h1>
+	<a href="/pantry-zones">
+		<h1 th:target="${pantryZoneActive}">Areas</h1>
 	</a>
 	<a href="/items/">
 		<h1 th:target="${itemsActive}">Items</h1>
@@ -55,7 +55,7 @@
 </div>
 
 <div th:fragment="back-button (content)" class="back-button">
-	<a href="/items/areas">
+	<a href="/pantry-zones">
 		<img
 				src="/icons/back-icon-1.png"
 				alt="back icon"

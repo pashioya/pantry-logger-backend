@@ -38,7 +38,7 @@ public class BrowserController {
                 new DataItem(HtmlItems.SEARCH_DROPDOWN)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
+//                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>());
@@ -99,7 +99,7 @@ public class BrowserController {
         );
         newRecipe.setIngredients(ingredients);
         recipeService.add(newRecipe);
-        return "redirect:/createrecipe";
+        return "redirect:/browser";
     }
 
     @GetMapping("/recommendations")

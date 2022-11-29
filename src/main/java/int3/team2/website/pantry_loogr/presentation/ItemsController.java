@@ -35,7 +35,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
+//                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
 
@@ -44,7 +44,7 @@ public class ItemsController {
         model.addAttribute("products", products);
 
         model.addAttribute("itemsActive", "selected");
-        model.addAttribute("areasActive", "undefined");
+        model.addAttribute("pantryZoneActive", "undefined");
 
         return "items";
     }
@@ -60,7 +60,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
+//                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
         model.addAttribute("areasActive", "selected");

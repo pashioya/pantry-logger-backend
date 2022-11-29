@@ -2,6 +2,10 @@ package int3.team2.website.pantry_loogr.domain;
 
 import java.time.LocalDateTime;
 
+
+/**
+ * Represents one measurement of one sensor of one sensor-box.
+ */
 public class SensorData {
     private int id;
     private int pantryZoneId;

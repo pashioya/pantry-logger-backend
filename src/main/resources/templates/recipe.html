@@ -22,7 +22,7 @@
 						<ul>
 							<li
 									th:each="ingredient : ${recipe.getIngredients().keySet()}"
-									th:utext="${ingredient + ' ' + recipe.getIngredients().get(ingredient)}">
+									th:utext="${ingredient.name + ' ' + recipe.getIngredients().get(ingredient)}">
 							</li>
 						</ul>
 					</div>

@@ -5,12 +5,14 @@ import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
 import int3.team2.website.pantry_loogr.service.SensorDataService;
+import int3.team2.website.pantry_loogr.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,16 +21,22 @@ import java.util.List;
 @RequestMapping("/pantry-zones")
 public class PantryZoneController {
 
+    UserService userService;
     PantryZoneService pantryZoneService;
     SensorDataService sensorDataService;
 
-    public PantryZoneController(PantryZoneService pantryZoneService, SensorDataService sensorDataService) {
+    public PantryZoneController(UserService userService, PantryZoneService pantryZoneService, SensorDataService sensorDataService) {
+        this.userService = userService;
         this.pantryZoneService = pantryZoneService;
         this.sensorDataService = sensorDataService;
     }
 
     @GetMapping
-    public String getAll(Model model) {
+    public String getAll(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("title", "Pantry Zones");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.HEADER_TITLES),
@@ -65,21 +73,12 @@ public class PantryZoneController {
         return "pantryZones";
     }
 
-    @GetMapping("/allItems")
-    public String pantryZoneAllItems(Model model) {
-        List<PantryZone> pantryZones = pantryZoneService.getAll();
-        for (PantryZone pantryZone:pantryZones) {
-            System.out.println(pantryZone.getProducts());
-        }
-        //Object test = new Object[] {pantryZones.get(0).getItems().get(0)};
-
-
-        model.addAttribute("pantryZones", pantryZones);
-
-        return "items";
-    }
     @GetMapping("/{pantryZoneID}")
-    public String pantryZoneDetails(Model model, @PathVariable int pantryZoneID) {
+    public String pantryZoneDetails(HttpSession httpSession, Model model, @PathVariable int pantryZoneID) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
         PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
 
         System.out.println(pantryZone.getProducts());

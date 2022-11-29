@@ -2,7 +2,6 @@ package int3.team2.website.pantry_loogr.presentation;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
 import int3.team2.website.pantry_loogr.service.UserService;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -11,8 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -22,19 +20,29 @@ public class IndexController {
     private UserService userService;
 
     public IndexController(UserService userService) {
-        logger = LoggerFactory.getLogger(this.getClass());
+        this.logger = LoggerFactory.getLogger(this.getClass());
+
 
         this.userService = userService;
     }
 
     @GetMapping
-    public String index(Model model) {
+    public String index(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         model.addAttribute("title", "Welcome");
+
         return "index";
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         model.addAttribute("title", "Log-In");
         return "login";
     }
@@ -44,14 +52,16 @@ public class IndexController {
             method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    public String loginUser(@RequestBody MultiValueMap<String, String> loginData) {
+    public String loginUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> loginData) {
         String username = loginData.get("username").get(0);
         String password = loginData.get("password").get(0);
         if (username.length() == 0 || password.length() == 0 || !userService.usernameExists(username)) {
             return "redirect:/login";
         }
-        EndUser user = userService.getByUsername(username);
-        if (user.getPassword().equals(loginData.get("password").get(0))) {
+        EndUser user = userService.authenticate(username, password);
+        if (user != null) {
+            httpSession.setAttribute("username", username);
+            httpSession.setAttribute("password", password);
             return "redirect:/pantry-zones";
         } else {
             return "redirect:/login";

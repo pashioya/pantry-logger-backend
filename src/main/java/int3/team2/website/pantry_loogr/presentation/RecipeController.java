@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -41,7 +42,11 @@ public class RecipeController {
     }
 
     @GetMapping
-    public String browser(Model model) {
+    public String browser(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         model.addAttribute("title", "Browser");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON),
@@ -59,7 +64,11 @@ public class RecipeController {
     }
 
     @GetMapping("/{recipeID}")
-    public String getRecipe(Model model, @PathVariable int recipeID) {
+    public String getRecipe(HttpSession httpSession, Model model, @PathVariable int recipeID) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         Recipe recipe = recipeService.get(recipeID);
         model.addAttribute("title", recipe.getName());
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -72,7 +81,11 @@ public class RecipeController {
     }
 
     @GetMapping("/createrecipe")
-    public String createRecipe(Model model) {
+    public String createRecipe(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON),
@@ -89,7 +102,11 @@ public class RecipeController {
             method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    public String createRecipe(@RequestBody MultiValueMap<String, String> recipeData) {
+    public String createRecipe(HttpSession httpSession, @RequestBody MultiValueMap<String, String> recipeData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         logger.debug(recipeData.toString());
         Map<Ingredient, String> ingredients = new HashMap<>();
         List<String> ingTypes = recipeData.get("ingredient-types");
@@ -114,7 +131,11 @@ public class RecipeController {
     }
 
     @GetMapping("/recommend")
-    public String recommendations(Model model) {
+    public String recommendations(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON),
@@ -148,7 +169,11 @@ public class RecipeController {
 
 
     @GetMapping("/search/{name}")
-    public String getRecipeByName(Model model, @PathVariable String name) {
+    public String getRecipeByName(HttpSession httpSession, Model model, @PathVariable String name) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user != null) {
+            return "redirect:/pantry-zones";
+        }
         List<Recipe> recipes = recipeService.getByName(name);
         logger.debug(String.valueOf(ingredientService.getByName("cucumber").size()));
 

@@ -35,7 +35,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
+//                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
 
@@ -61,7 +61,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
+//                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
         model.addAttribute("areasActive", "selected");

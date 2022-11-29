@@ -1,5 +1,10 @@
 package int3.team2.website.pantry_loogr.domain;
 
+
+/**
+ * A Tag is a very brood item that represents a property of either an
+ * ingredient a recipe of even a user. It can show a allergy or a property.
+ */
 public class Tag {
     private int id;
     private String name;

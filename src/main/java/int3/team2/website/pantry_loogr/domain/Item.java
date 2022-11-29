@@ -9,6 +9,14 @@ public class Item {
     private Ingredient ingredient;
     private int ingredientId;
 
+    /**
+     *
+     * @param name name of the item
+     * @param code
+     * @param size
+     * @param quantity
+     * @param ingredientId
+     */
     public Item(String name, String code, int size, int quantity, int ingredientId) {
         this.name = name;
         this.code = code;

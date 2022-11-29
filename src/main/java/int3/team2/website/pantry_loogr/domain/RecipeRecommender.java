@@ -21,7 +21,6 @@ public class RecipeRecommender {
             for (Ingredient i : recipe.getIngredients().keySet()) {
                 if (ingredientsInPantryNames.contains(i.getName())) {
                     recipePoints += 10;
-                    logger.debug(String.valueOf(recipePoints));
                 }
             }
             points.put(recipePoints, recipe);

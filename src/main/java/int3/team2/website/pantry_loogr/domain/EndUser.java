@@ -1,5 +1,10 @@
 package int3.team2.website.pantry_loogr.domain;
 
+/**
+ * EndUser contains all data relating to a specific user.
+ * When created the first constructor is used with only the
+ * necessary parameters.
+ */
 public class EndUser {
     private int id;
 
@@ -13,12 +18,35 @@ public class EndUser {
     private String zip;
     private String country;
 
+    /**
+     * Constructor that initially creates users on user registration
+     *
+     * @param username username of the user
+     * @param email email of the user
+     * @param password password of the user
+     */
     public EndUser(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
+    /**
+     *
+     * Constructor that is used when getting users from the database.
+     * All values except username, email and password may be null.
+     *
+     * @param id id from the database
+     * @param password password of the user
+     * @param username username of the user
+     * @param firstName firstname of the user
+     * @param lastName lastname of the user
+     * @param email email of the user
+     * @param city city of residence
+     * @param stateRegion stateRegion of residence
+     * @param zip zip code of residence
+     * @param country country of residence
+     */
     public EndUser(int id, String password, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country) {
         this.id = id;
         this.password = password;

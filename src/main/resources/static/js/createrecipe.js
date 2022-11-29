@@ -11,6 +11,7 @@ addCookingStepsButton.onclick =  function () {
     newCookingStep.setAttribute("class", "cooking-step");
     newCookingStep.setAttribute("name", "cooking-step");
     document.getElementById("cooking-steps").appendChild(newCookingStep);
+    document.getElementById("cooking-steps").appendChild(document.createElement("br"));
 }
 
 

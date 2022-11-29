@@ -43,7 +43,7 @@ public class PantryZoneController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
+//                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
 

@@ -2,6 +2,9 @@ package int3.team2.website.pantry_loogr.domain;
 
 import java.util.Map;
 
+/**
+ * Recipe contains the information relative to a specific recipe.
+ */
 public class Recipe {
     private int id;
     private String name;
@@ -13,9 +16,21 @@ public class Recipe {
     private Map<Ingredient, String> ingredients;
 
 
+    /**
+     * Instantiates an object without any data so that the user can add it in pieces.
+     */
     public Recipe() {
     }
 
+    /**
+     * Constructor to create a new Recipe before it is inserted into the database.
+     *
+     * @param name name of the recipe
+     * @param difficulty cooking difficulty of the recipe
+     * @param description quick description of the recipe
+     * @param instructions list of instructions to make the recipe
+     * @param time enum time needed to cook the recipe
+     */
     public Recipe(String name, Difficulty difficulty, String description, String instructions, Time time) {
         this.name = name;
         this.difficulty = difficulty;
@@ -24,6 +39,17 @@ public class Recipe {
         this.time = time;
     }
 
+    /**
+     *
+     * Constructor used when getting a recipe from the database with id included.
+     *
+     * @param ID ties the recipe to the db
+     * @param name name of the recipe
+     * @param difficulty cooking difficulty of the recipe
+     * @param description quick description of the recipe
+     * @param instructions list of instructions to make the recipe
+     * @param time enum time needed to cook the recipe
+     */
     public Recipe(int ID, String name, Difficulty difficulty, String description, String instructions, Time time) {
         this.id = ID;
         this.name = name;

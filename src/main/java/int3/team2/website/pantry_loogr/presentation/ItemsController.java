@@ -29,6 +29,7 @@ public class ItemsController {
         model.addAttribute("title", "Items");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.HEADER_TITLES),
+                new DataItem(HtmlItems.DROPDOWN),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(

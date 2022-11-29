@@ -47,6 +47,9 @@ public class PantryZoneController {
                 new DataItem(HtmlItems.SCANNER)
         )));
 
+        model.addAttribute("itemsActive", "undefined");
+        model.addAttribute("pantryZoneActive", "selected");
+
         List<PantryZone> pantryZones = pantryZoneService.getAll();
 
         model.addAttribute("pantryZones", pantryZones);

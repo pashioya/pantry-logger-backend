@@ -45,7 +45,7 @@ public class ItemsController {
         model.addAttribute("items", items);
 
         model.addAttribute("itemsActive", "selected");
-        model.addAttribute("areasActive", "undefined");
+        model.addAttribute("pantryZoneActive", "undefined");
 
         return "items";
     }

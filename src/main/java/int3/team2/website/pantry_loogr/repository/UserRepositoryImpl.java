@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
@@ -15,6 +16,8 @@ import java.sql.Types;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
+import static java.sql.Types.VARCHAR;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -56,7 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
         PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
                 "INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD) " +
                         "VALUES (?, ?, ?)" ,
-                Types.VARCHAR, Types.VARCHAR, Types.VARCHAR
+                VARCHAR, VARCHAR, VARCHAR
         );
         pscf.setReturnGeneratedKeys(true);
         PreparedStatementCreator psc = pscf.newPreparedStatementCreator(
@@ -72,42 +75,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<EndUser> findByUsername(String username) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + username + "') in LOWER(USERNAME)) > 0", this::mapRow);
+    public EndUser findByUsername(String username) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE USERNAME = ?", new Object[] {username}, new int[] {VARCHAR},  this::mapRow);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
-    @Override
-    public List<EndUser> findByFirstName(String firstName) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + firstName + "') in LOWER(FIRST_NAME)) > 0", this::mapRow);
-    }
-
-    @Override
-    public List<EndUser> findByLastName(String lastName) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + lastName + "') in LOWER(LAST_NAME)) > 0", this::mapRow);
-    }
-
-    @Override
-    public List<EndUser> findByEmail(String email) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + email + "') in LOWER(EMAIL)) > 0", this::mapRow);
-    }
-
-    @Override
-    public List<EndUser> findByCity(String city) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + city + "') in LOWER(CITY)) > 0", this::mapRow);
-    }
-
-    @Override
-    public List<EndUser> findByStateRegion(String stateRegion) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + stateRegion + "') in LOWER(STATE_REGION)) > 0", this::mapRow);
-    }
-
-    @Override
-    public List<EndUser> findByZip(String zip) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + zip + "') in LOWER(ZIP)) > 0", this::mapRow);
-    }
-
-    @Override
-    public List<EndUser> findByCountry(String country) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE position(LOWER('" + country + "') in LOWER(COUNTRY)) > 0", this::mapRow);
+    public EndUser findByEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE EMAIL = ?", new Object[] {email}, new int[] {VARCHAR},  this::mapRow);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }

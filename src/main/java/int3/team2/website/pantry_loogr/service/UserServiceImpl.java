@@ -43,56 +43,25 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+    public EndUser authenticate(String username, String password) {
+        if(this.usernameExists(username)) {
+            EndUser user = this.getByUsername(username);
+            if (user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
     @Override
     public EndUser getByUsername(String username) {
-        List<EndUser> list = userRepository.findByUsername(username);
-        if (list.isEmpty()) {
-            return null;
-        } else if (list.size() > 1) {
-            logger.error("More then one user was returned when searching by username. Usernames should be unique.");
-        }
-        return list.get(0);
+        return userRepository.findByUsername(username);
     }
 
-    @Override
-    public List<EndUser> getByFirstName(String firstName) {
-        return userRepository.findByFirstName(firstName);
-    }
-
-    @Override
-    public List<EndUser> getByLastName(String lastName) {
-        return userRepository.findByLastName(lastName);
-    }
 
     @Override
     public EndUser getByEmail(String email) {
-        List<EndUser> list = userRepository.findByEmail(email);
-        if (list.isEmpty()) {
-            return null;
-        } else if (list.size() > 1) {
-            logger.error("More then one user was returned when searching by email. Emails should be unique.");
-        }
-        return list.get(0);
-    }
-
-    @Override
-    public List<EndUser> getByCity(String city) {
-        return userRepository.findByCity(city);
-    }
-
-    @Override
-    public List<EndUser> getByStateRegion(String stateRegion) {
-        return userRepository.findByStateRegion(stateRegion);
-    }
-
-    @Override
-    public List<EndUser> getByZip(String zip) {
-        return userRepository.findByZip(zip);
-    }
-
-    @Override
-    public List<EndUser> getByCountry(String country) {
-        return userRepository.findByCountry(country);
+        return userRepository.findByEmail(email);
     }
 
     @Override

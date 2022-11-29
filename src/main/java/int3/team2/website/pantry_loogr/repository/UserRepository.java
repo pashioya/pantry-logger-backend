@@ -11,12 +11,7 @@ public interface UserRepository {
 
     EndUser add(EndUser user);
 
-    List<EndUser> findByUsername(String username);
-    List<EndUser> findByFirstName(String firstName);
-    List<EndUser> findByLastName(String lastName);
-    List<EndUser> findByEmail(String email);
-    List<EndUser> findByCity(String city);
-    List<EndUser> findByStateRegion(String stateRegion);
-    List<EndUser> findByZip(String zip);
-    List<EndUser> findByCountry(String country);
+    EndUser findByUsername(String username);
+
+    EndUser findByEmail(String email);
 }

@@ -690,6 +690,7 @@ body[item-selected="true"] .item[change="selected"] {
 /*--------------------------------------------------------------------*/
 /* FROM storage-spaces.css */
 .storage-spaces {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
@@ -697,6 +698,8 @@ body[item-selected="true"] .item[change="selected"] {
 .storage-spaces > .storage-space {
     padding: 20px;
     margin: 10px;
+    width: calc(50% - 60px);
+    height: 130px;
     background-color: var(--white);
     border: 0 solid black;
     border-radius: 25px;
@@ -712,41 +715,6 @@ body[item-selected="true"] .item[change="selected"] {
 .storage-spaces > .storage-space:hover,
 .storage-spaces > .storage-space:focus {
     background-color: var(--dark-color);
-}
-
-.storage-spaces > .storage-space:nth-child(1){
-    width: calc(100% - 60px);
-    height: 130px;
-}
-
-.storage-spaces > .storage-space:nth-child(2){
-    width: calc(60% - 60px);
-    height: 80px;
-}
-
-.storage-spaces > .storage-space:nth-child(3){
-    width: calc(40% - 60px);
-    height: 80px;
-}
-
-.storage-spaces > .storage-space:nth-child(4){
-    width: calc(100% - 60px);
-    height: 100px;
-}
-
-.storage-spaces > .storage-space:nth-child(5){
-    width: calc(50% - 60px);
-    height: 200px;
-}
-
-.storage-spaces > .storage-space:nth-child(6){
-    width: calc(50% - 60px);
-    height: 200px;
-}
-
-.storage-spaces > .storage-space:nth-child(7){
-    width: calc(70% - 60px);
-    height: 50px;
 }
 /* Storage-spaces.css stop*/
 /*--------------------------------------------------------------------*/
@@ -854,8 +822,19 @@ body[stage="two"]#scanner .text-panel > form {
     width: unset;
 }
 
-body[stage="two"]#scanner .text-panel > form > * {
-    width: unset;
+body[stage="two"]#scanner .text-panel > form {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+body[stage="two"]#scanner .text-panel > form > div[view-stage="two"] {
+    width: 100%;
+}
+
+body[stage="two"]#scanner .text-panel > form .storage-spaces {
+    padding-bottom: 25px;
 }
 
 #scanner .storage-space {
@@ -877,6 +856,11 @@ body[stage="two"]#scanner .text-panel > form > * {
 
 #scanner .storage-space[selected="true"] {
     background-color: var(--dark-color);
+}
+
+#scanner .submit-button-wrapper {
+    display: flex;
+    justify-content: center;
 }
 
 /* STOP scanner.css*/

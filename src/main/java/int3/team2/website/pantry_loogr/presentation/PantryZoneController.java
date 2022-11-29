@@ -31,47 +31,6 @@ public class PantryZoneController {
         this.sensorDataService = sensorDataService;
     }
 
-    @GetMapping
-    public String getAll(HttpSession httpSession, Model model) {
-        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user == null) {
-            return "redirect:/login";
-        }
-        model.addAttribute("title", "Pantry Zones");
-        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.HEADER_TITLES),
-                new DataItem(HtmlItems.SEARCH_CONTAINER)
-        )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.RECOMMENDATIONS)
-        )));
-        model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
-                new DataItem(HtmlItems.SCANNER)
-        )));
-
-        model.addAttribute("itemsActive", "undefined");
-        model.addAttribute("pantryZoneActive", "selected");
-
-        List<PantryZone> pantryZones = pantryZoneService.getAll();
-
-        model.addAttribute("pantryZones", pantryZones);
-        List<SensorData> temp = new ArrayList<>();
-        List<SensorData> hum = new ArrayList<>();
-        List<SensorData> lum = new ArrayList<>();
-//
-//        pantryZones.forEach(x -> {
-//            sensorDataService.getLatestByPantryZone(x.getId()).forEach(y -> {
-//                switch (y.getType()) {
-//                    case TEMPERATURE -> temp.add(y);
-//                    case HUMIDITY -> hum.add(y);
-//                    case BRIGHTNESS -> lum.add(y);
-//                }
-//            });
-//        });
-
-        return "pantryZones";
-    }
 
     @GetMapping("/{pantryZoneID}")
     public String pantryZoneDetails(HttpSession httpSession, Model model, @PathVariable int pantryZoneID) {
@@ -88,6 +47,7 @@ public class PantryZoneController {
 
         return "PantryZoneDetails";
     }
+
     @GetMapping("/raw-data/{pantryZoneID}")
     public String checkData(Model model, @PathVariable int pantryZoneID) {
         PantryZone pantryZone = pantryZoneService.get(pantryZoneID);

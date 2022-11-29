@@ -38,12 +38,12 @@ public class ScannerController {
     @GetMapping
     public String scanner(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         List<PantryZone> pantryZones = pantryZoneService.getAll();
         model.addAttribute("pantryZones", pantryZones);
-        model.addAttribute("title", "Pantry Logr: Scanner");
+        model.addAttribute("title", "Scanner");
         return "scanner";
     }
 
@@ -53,8 +53,8 @@ public class ScannerController {
     )
     public String addItem(HttpSession httpSession, @RequestBody MultiValueMap<String, String> registerData) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         logger.debug(registerData.toString());
         logger.debug(registerData.getFirst("item_id"));
@@ -73,7 +73,7 @@ public class ScannerController {
         Map<String, String> map = new HashMap<>();
         map.put("found", "false");
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
+        if(user == null) {
             return map;
         }
         Product product = ingredientService.getByCode(code);

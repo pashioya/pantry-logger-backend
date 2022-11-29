@@ -30,7 +30,7 @@ public class IndexController {
     public String index(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user != null) {
-            return "redirect:/pantry-zones";
+            return "redirect:/items/pantry-zones";
         }
         model.addAttribute("title", "Welcome");
 
@@ -41,7 +41,7 @@ public class IndexController {
     public String login(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user != null) {
-            return "redirect:/pantry-zones";
+            return "redirect:/items/pantry-zones";
         }
         model.addAttribute("title", "Log-In");
         return "login";
@@ -62,7 +62,7 @@ public class IndexController {
         if (user != null) {
             httpSession.setAttribute("username", username);
             httpSession.setAttribute("password", password);
-            return "redirect:/pantry-zones";
+            return "redirect:/items/pantry-zones";
         } else {
             return "redirect:/login";
         }
@@ -94,7 +94,7 @@ public class IndexController {
                 logger.info("User already exists with this name please use a different name!");
             } else {
                 logger.debug(user.toString());
-                return "redirect:/pantry-zones";
+                return "redirect:/items/pantry-zones";
             }
         }
         return "redirect:/register";

@@ -54,7 +54,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>());
@@ -77,7 +77,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.LOGO)
         )));
         model.addAttribute("recipe", recipe);
-        return "/recipe";
+        return "recipe";
     }
 
     @GetMapping("/createrecipe")
@@ -180,32 +180,5 @@ public class RecipeController {
         model.addAttribute("recipes", recipes);
 
         return "recipes";
-    }
-
-    @GetMapping("/ingredients")
-    public String getAllIngredient(Model model) {
-        List<Ingredient> ingredients;
-        ingredients = ingredientService.getAll();
-
-        model.addAttribute("ingredients", ingredients);
-        return "ingredients";
-    }
-
-    @GetMapping("/tags")
-    public String getAllTags(Model model) {
-        List<Tag> tags;
-        tags = tagService.getAll();
-
-        model.addAttribute("tags", tags);
-        return "tags";
-    }
-
-    @GetMapping("/users")
-    public String getAllUsers(Model model) {
-        List<EndUser> users;
-        users = userService.getAll();
-
-        model.addAttribute("users", users);
-        return "users";
     }
 }

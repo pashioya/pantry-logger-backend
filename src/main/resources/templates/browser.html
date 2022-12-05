@@ -20,7 +20,7 @@
 			/>
 		</div>
 		<div class="browser-recipes-container">
-			<a class="recipe" look="image" change="none" th:each="recipe : ${recipes}" th:href="${'/browser/' + recipe.id}">
+			<a class="recipe" look="image" change="none" th:each="recipe : ${recipes}" th:href="${'/recipes/' + recipe.id}">
 				<div class="recipe-image">
 					<img
 							src="/images/filler-image.png"

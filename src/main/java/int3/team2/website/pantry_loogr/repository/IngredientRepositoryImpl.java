@@ -88,7 +88,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     @Override
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
         String sql = "SELECT " +
-                "          *, PANTRY_ZONES.NAME as PANTRY_ZONE_NAME " +
+                "          INGREDIENTS.*, PANTRY_ZONE_PRODUCTS.*, PRODUCTS.*, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME " +
                 "       FROM " +
                 "           PANTRY_ZONES "+
                 "       JOIN " +
@@ -99,6 +99,10 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "           PRODUCTS " +
                 "               ON " +
                 "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                "       JOIN " +
+                "           INGREDIENTS " +
+                "               ON " +
+                "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
                 "       WHERE " +
                 "           PANTRY_ZONES.ID = ? ";
         return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, pantryZoneId), this::mapPantryZoneProductRow);

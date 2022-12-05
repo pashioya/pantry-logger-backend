@@ -14,14 +14,13 @@ public interface IngredientRepository {
     List<Ingredient> findByName(String name);
     Map<Ingredient, String> findIngredientsByRecipeId(int id);
     Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
-
-    List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
-
     Product getByCode(String code);
 
     void addToPantry(int productId, int zone);
 
     List<ShoppingListIngredient> getForShoppingList(int shoppingListId);
+
+    List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
 
     List<Ingredient> findIngredientsByUser(int userID);
 

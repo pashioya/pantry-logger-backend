@@ -33,4 +33,9 @@ public class TagServiceImpl implements TagService {
     public List<Tag> getByName(String name) {
         return tagRepository.findByName(name);
     }
+
+    @Override
+    public List<Tag> getByRecipeId(int recipeId) {
+        return tagRepository.getByRecipeId(recipeId);
+    }
 }

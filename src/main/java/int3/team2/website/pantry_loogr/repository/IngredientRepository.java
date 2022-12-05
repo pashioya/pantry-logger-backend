@@ -22,4 +22,11 @@ public interface IngredientRepository {
     void addToPantry(int productId, int zone);
 
     List<ShoppingListIngredient> getForShoppingList(int shoppingListId);
+
+    List<PantryZoneProduct> findByPantryZone(int pantryZoneId);
+
+    List<Ingredient> findIngredientsByUser(int userID);
+
+    List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
+
 }

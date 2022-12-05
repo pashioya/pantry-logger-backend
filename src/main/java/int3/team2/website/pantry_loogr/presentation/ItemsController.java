@@ -7,6 +7,7 @@ import int3.team2.website.pantry_loogr.domain.SensorData;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
+import int3.team2.website.pantry_loogr.service.SensorDataService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

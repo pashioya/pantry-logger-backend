@@ -22,4 +22,7 @@ public interface IngredientService {
     void addToPantry(int productId, int zone);
 
     List<ShoppingListIngredient> getForShoppingList(int id);
+
+    List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
+
 }

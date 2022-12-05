@@ -25,32 +25,10 @@ public class PantryZoneServiceImpl implements PantryZoneService {
     @Override
     public List<PantryZone> getAll() {
         List<PantryZone> pantryZones = pantryZoneRepository.getAll();
-        for (int i = 0; i < pantryZones.size(); i++) {
-            pantryZones.get(i).setProducts(ingredientService.getByPantryZoneId(pantryZones.get(i).getId()));
+        for (PantryZone pantryZone : pantryZones) {
+            pantryZone.setProducts(ingredientService.getByPantryZoneId(pantryZone.getId()));
         }
         return pantryZones;
-    }
-
-    public List<HashMap<String, String>> getAllForUser() {
-        List<PantryZone> pantryZones = pantryZoneRepository.getAll();
-        List<HashMap<String, String>> itemMap = new ArrayList<>();
-        for(PantryZone pantryZone: pantryZones) {
-            List<PantryZoneProduct> products = ingredientService.getByPantryZoneId(pantryZone.getId());
-            for(PantryZoneProduct product: products) {
-                HashMap map = new HashMap();
-                map.put("productName", product.getProductName() + " (" + product.getSize() + ')');
-                map.put("name", product.getName());
-                map.put("quantity", product.getQuantity());
-                map.put("location", pantryZone.getName());
-                itemMap.add(map);
-            }
-        }
-        return itemMap;
-    }
-
-    @Override
-    public Map<PantryZoneProduct, PantryZone> getAllForUserByPantry() {
-        return null;
     }
 
     @Override

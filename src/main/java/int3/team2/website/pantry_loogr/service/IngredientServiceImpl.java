@@ -67,4 +67,11 @@ public class IngredientServiceImpl implements IngredientService {
     public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
         return ingredientRepository.getForShoppingList(shoppingListId);
     }
+
+    @Override
+    public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
+        return ingredientRepository.getProductsAndPantryZonesByUser(userId);
+    }
+
+
 }

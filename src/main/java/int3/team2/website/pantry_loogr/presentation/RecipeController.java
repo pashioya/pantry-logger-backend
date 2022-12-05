@@ -49,7 +49,7 @@ public class RecipeController {
         }
         model.addAttribute("title", "Browser");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON,"/recipes/recommend"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Browser"),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
@@ -72,7 +72,7 @@ public class RecipeController {
         Recipe recipe = recipeService.get(recipeID);
         model.addAttribute("title", recipe.getName());
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON, "/recipes"),
                 new DataItem(HtmlItems.HEADER_TITLE, recipe.getName()),
                 new DataItem(HtmlItems.LOGO)
         )));
@@ -88,7 +88,7 @@ public class RecipeController {
         }
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON, "/recipes"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Create Recipe"),
                 new DataItem(HtmlItems.LOGO)
         )));
@@ -138,7 +138,7 @@ public class RecipeController {
         }
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON,"/items"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Recommendations")
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(

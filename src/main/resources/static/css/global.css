@@ -10,6 +10,7 @@ create-recipe
 welcome-page
 browser
 recipe
+shoppinglist
 */
 
 body {
@@ -1242,3 +1243,16 @@ body[id="create-recipe"] > .header-titles{
     align-items: center;
 
 }
+/*Recipe Ends */
+/*-------------------------------------*/
+/*-------------------------------------*/
+/*-------------------------------------*/
+/*Shopping list Starts */
+
+
+
+
+/*Shopping List Ends */
+/*-------------------------------------*/
+/*-------------------------------------*/
+/*-------------------------------------*/

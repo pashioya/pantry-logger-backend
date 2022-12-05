@@ -40,7 +40,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
 
     @Override
     public PantryZone get(int id) {
-        PantryZone pantryZone = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where ID = " + id, this::mapRow).get(0);
+        PantryZone pantryZone = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where ID = ?", this::mapRow, id).get(0);
         return pantryZone;
     }
 
@@ -52,6 +52,6 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
 
     @Override
     public List<PantryZone> getAllForUser(int userId) {
-        return null;
+        return jdbcTemplate.query("SELECT * FROM PANTRY_ZONES WHERE USER_ID = ?", this::mapRow, userId);
     }
 }

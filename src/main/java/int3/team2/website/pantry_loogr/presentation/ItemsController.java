@@ -57,7 +57,7 @@ public class ItemsController {
 
         List<HashMap<String, String>> products = pantryZoneService.getAllForUser();
 
-        //model.addAttribute("products", products);
+        model.addAttribute("products", products);
 
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
@@ -142,12 +142,12 @@ public class ItemsController {
     @GetMapping("/shoppinglist")
     public String shoppinglist(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title", "Shopping List");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON, "/items"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Shopping List"),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));

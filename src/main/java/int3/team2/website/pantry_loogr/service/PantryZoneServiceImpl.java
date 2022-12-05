@@ -3,19 +3,21 @@ package int3.team2.website.pantry_loogr.service;
 import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.PantryZone;
 import int3.team2.website.pantry_loogr.repository.PantryZoneRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.expression.Lists;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class PantryZoneServiceImpl implements PantryZoneService {
+    private final Logger logger;
     private PantryZoneRepository pantryZoneRepository;
     private IngredientService ingredientService;
 
     public PantryZoneServiceImpl(PantryZoneRepository pantryZoneRepository, IngredientService ingredientService) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.pantryZoneRepository = pantryZoneRepository;
         this.ingredientService = ingredientService;
     }
@@ -43,7 +45,6 @@ public class PantryZoneServiceImpl implements PantryZoneService {
                 itemMap.add(map);
             }
         }
-
         return itemMap;
     }
 

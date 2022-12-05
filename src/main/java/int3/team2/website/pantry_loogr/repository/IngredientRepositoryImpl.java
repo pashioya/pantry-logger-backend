@@ -55,6 +55,14 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                                     rs.getInt("AMOUNT_USED"));
     }
 
+    private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
+        return new Product(rs.getInt("ID"),
+                rs.getString("NAME"),
+                rs.getString("PRODUCT_NAME"),
+                rs.getString("CODE"),
+                rs.getInt("SIZE"));
+    }
+
     @Override
     public List<Ingredient> findAll() {
         return jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapRow);
@@ -111,9 +119,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     @Override
     public Product getByCode(String code) {
-        return jdbcTemplate.query("SELECT INGREDIENTS_PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM INGREDIENTS_PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = INGREDIENTS_PRODUCTS.INGREDIENT_ID WHERE INGREDIENTS_PRODUCTS.CODE = ?",
+        return jdbcTemplate.query("SELECT INGREDIENT_PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM INGREDIENT_PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = INGREDIENT_PRODUCTS.INGREDIENT_ID WHERE INGREDIENT_PRODUCTS.CODE = ?",
                 preparedStatement -> preparedStatement.setString(1, code),
-                this::mapPantryZoneProductRow).get(0);
+                this::mapProductRow).get(0);
     }
 
     @Override

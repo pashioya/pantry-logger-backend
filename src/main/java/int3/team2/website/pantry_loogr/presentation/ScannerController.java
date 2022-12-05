@@ -43,7 +43,7 @@ public class ScannerController {
         }
         List<PantryZone> pantryZones = pantryZoneService.getAll();
         model.addAttribute("pantryZones", pantryZones);
-        model.addAttribute("title", "Pantry Logr: Scanner");
+        model.addAttribute("title", "Scanner");
         return "scanner";
     }
 

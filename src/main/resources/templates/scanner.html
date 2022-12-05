@@ -100,10 +100,10 @@
 			<div id="picture-display" class="current-view"></div>
 		</section>
 		<section class="text-panel">
-			<div view-stage="scan">
-				<h1>Scan your item</h1>
+			<div view-stage="scan" class="scan-product-welcome">
+				<h1>Scan your product</h1>
 <!--				<a href="#" id="scan_now">scan</a>-->
-				<a href="/pantry-zones">back</a>
+				<a href="/items/pantry-zones" class="styled-button-dark">back</a>
 			</div>
 			<form id="scan-item-form" method="post">
 				<h3 view-stage="one">Item Name</h3>
@@ -112,12 +112,12 @@
 				<input type="text" id="item-amount" name="amount" view-stage="one" />
 				<input type="hidden" id="item-id" name="item_id" view-stage="one" />
 				<div class="submit-container" view-stage="one">
-					<input type="button" value="cancel" id="itemscan-back" />
-					<input type="button" value="continue" id="item-continue" />
+					<input class="styled-button-dark" type="button" value="cancel" id="itemscan-back" />
+					<input class="styled-button-dark" type="button" value="continue" id="item-continue" />
 				</div>
 				<div view-stage="two">
-					<div class="storage-spaces" th:each="pantryZone: ${pantryZones}">
-						<div class="storage-space">
+					<div class="storage-spaces" >
+						<div th:each="pantryZone: ${pantryZones}" class="storage-space">
 							<img th:src="${ '/icons/fridge-icon-1.png' }"
 								 th:alt="${pantryZone.name + ' icon'}"
 								 th:class="icon"
@@ -127,8 +127,8 @@
 						</div>
 					</div>
 
-					<div>
-						<input type="submit" value="submit"/>
+					<div class="submit-button-wrapper">
+						<input class="styled-button-dark submit-button" type="submit" value="submit"/>
 					</div>
 				</div>
 			</form>

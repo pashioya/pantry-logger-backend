@@ -225,4 +225,33 @@ INSERT INTO SHOPPING_LIST_INGREDIENTS(SHOPPING_LIST_ID, INGREDIENT_ID, AMOUNT)
 VALUES (1, 19, 500),
        (1, 35, 250);
 
+INSERT INTO TAGS(NAME, FLAG)
+VALUES ('Italian', 'CUISINE'),
+       ('Chinese', 'CUISINE'),
+       ('Comfort Food', 'GENERAL'),
+       ('Spicy', 'GENERAL'),
+       ('Meat', 'GENERAL'),
+       ('Dairy', 'ALLERGEN'),
+       ('Nuts & Seeds', 'ALLERGEN'),
+       ('Alcohol', 'GENERAL'),
+       ('Gluten', 'ALLERGEN'),
+       ('Soy', 'ALLERGEN'),
+       ('Eggs','ALLERGEN');
+
+INSERT INTO RECIPE_TAGS(RECIPE_ID, TAG_ID)
+VALUES (3, 1),
+       (1, 5),
+       (4, 3),
+       (5, 2),
+       (5, 4);
+
+
+
+INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
+VALUES (3, 1),
+       (4, 1),
+       (6, 4),
+       (1, 2);
+
+
 

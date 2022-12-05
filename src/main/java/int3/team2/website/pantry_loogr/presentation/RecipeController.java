@@ -77,7 +77,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.LOGO)
         )));
         model.addAttribute("recipe", recipe);
-        return "/recipe";
+        return "recipe";
     }
 
     @GetMapping("/createrecipe")

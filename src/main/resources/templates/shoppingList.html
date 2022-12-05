@@ -3,11 +3,27 @@
 	<head th:replace="fragments/head :: head (${title})"></head>
 	<body>
 		<header th:replace="fragments/header :: header (${headerList})"></header>
-		<div th:each="ingredient:${shoppingListIngredients}">
-			<div th:text="${ingredient.name}"></div>
-			<div th:text="${ingredient.amount}"></div>
-		</div>
+		<div class = "items-container">
 
+			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
+				<div class="item-image">
+					<img
+							src="/images/filler-image.png"
+							alt=""
+					/>
+				</div>
+				<div class="item-texts">
+					<h4>
+						<span class="item-name" th:text="${ingredient.name}"></span>
+					</h4>
+					<h4>
+						"Quantity:"
+						<span class ="item-quantity" th:text="${ingredient.amount}"></span>
+					</h4>
+				</div>
+
+			</div>
+		</div>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
 	</body>
 </html>

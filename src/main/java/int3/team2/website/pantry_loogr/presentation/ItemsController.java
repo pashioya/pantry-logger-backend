@@ -48,7 +48,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
 
@@ -134,27 +134,4 @@ public class ItemsController {
 
         return "PantryZoneDetails";
     }
-
-
-    @GetMapping("/shoppinglist")
-    public String shoppinglist(HttpSession httpSession, Model model) {
-        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user == null) {
-            return "redirect:/login";
-        }
-        model.addAttribute("title", "Shopping List");
-        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON, "/items"),
-                new DataItem(HtmlItems.HEADER_TITLE, "Shopping List"),
-                new DataItem(HtmlItems.SEARCH_CONTAINER)
-        )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SCANNER)
-        )));
-        model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.RECOMMENDATIONS)
-        )));
-        return "shoppingList";
-    }
-
 }

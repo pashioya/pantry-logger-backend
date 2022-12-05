@@ -150,18 +150,12 @@ public class RecipeController {
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
 
-
         List<Recipe> recipes = recipeService.getAll();
         recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
-        List<Ingredient> ingredientsInPantry = new ArrayList<>();
-        Collections.addAll(ingredientsInPantry,
-                new Ingredient("onion"), new Ingredient("garlic"), new Ingredient("ground beef"),
-                new Ingredient("tomato"), new Ingredient("paprika"), new Ingredient("sour cream"),
-                new Ingredient("carrot"), new Ingredient("spaghetti"), new Ingredient("egg"),
-                new Ingredient("bacon"), new Ingredient("butter"), new Ingredient("milk"));
+        List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
+        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry);
 
-        List<Recipe> recommendations = RecipeRecommender.filter(recipes, ingredientsInPantry);
-        recommendations.forEach(r -> logger.debug(r.toString()));
+        Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 
         model.addAttribute("recommendations", recommendations);
         return "recommendations";

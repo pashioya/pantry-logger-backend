@@ -20,7 +20,7 @@
 			/>
 		</div>
 		<div class="recommendations-recipe-container">
-			<div th:each="recipe : ${recommendations}" class="recipe" look="image" change="none">
+			<div th:each="recipe : ${recommendations.keySet()}" class="recipe" look="image" change="none">
 				<div class="recipe-image">
 					<img
 							src="/images/filler-image.png"
@@ -44,14 +44,15 @@
 				</div>
 				<div class="ingredients-you-need">
 					<h3 class="title">Ingredients You Need</h3>
-					<span class="ingredients-needed-count">1</span>
+					<ul class="ingredients-list">
+						<li th:each="ingredient : ${recommendations.get(recipe)[0]}" class="ingredient" th:text="${ingredient.name}"></li>
+					</ul>
 				</div>
+
 				<div class="ingredients-you-have">
 					<h3 class="title">Ingredients you have</h3>
 					<ul class="ingredients-list">
-						<li class="ingredient">Spaghetti</li>
-						<li class="ingredient">Spaghetti</li>
-						<li class="ingredient">Spaghetti</li>
+						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
 					</ul>
 				</div>
 			</div>

@@ -414,6 +414,10 @@ body[id="items"] > header {
     font-style: italic;
 }
 
+.item > .item-texts > h4:nth-child(2) > .item-quantity{
+    padding-right: 5px;
+}
+
 .item > .modify-container {
     display: none;
     width: 100%;
@@ -648,12 +652,12 @@ body[item-selected="true"] .item[change="selected"] {
 
 .item[change="selected"] > .item-image {
     height: var(--edit-header-height);
-    width: 30%;
+    width: calc(30% - calc(var(--item-padding-width) / 2));
 }
 
 .item[change="selected"] > .item-texts {
     height: var(--edit-header-height);
-    width: 70%;
+    width: calc(70% - calc(var(--item-padding-width) / 2));
 }
 
 .item[change="selected"] > .item-texts > h4:last-child {

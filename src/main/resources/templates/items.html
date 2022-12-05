@@ -31,7 +31,16 @@
 						<h4>
 							<span class="item-name" th:text="${product.productName}"></span><span class="ingredient-name-small" th:text="${product.name}"></span>
 						</h4>
-						<h4>Quantity:<span class="item-quantity" th:text="${' ' + product.quantity}"> </span></h4>
+						<h4>
+							Quantity:
+							<span class="item-quantity" th:text="${' ' + product.quantity}"> </span>
+							<span th:switch="${product.size}">
+								<span th:case="1"></span>
+								<span th:case=""></span>
+								Size:
+								<span class="item-size" th:text="${product.size}"></span>
+							</span>
+						</h4>
 						<h4>Location: <span class="item-location" th:text="${product.pantryZoneName}"></span></h4>
 					</div>
 					<div class="modify-container" modify-mode="remove">

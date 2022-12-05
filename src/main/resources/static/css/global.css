@@ -629,6 +629,7 @@ body[item-selected="true"] .item[change="none"] {
 
 body[item-selected="true"] .item[change="selected"] {
     height: calc(100% - var(--item-combined-spacing));
+    flex-wrap: wrap;
     position: relative;
     --edit-header-height: 60px
 }
@@ -681,10 +682,6 @@ body[item-selected="true"] .item[change="selected"] {
 .modify-container[modify-mode="add"] > .add-section {
     display: flex;
 }
-
-
-
-
 
 
 

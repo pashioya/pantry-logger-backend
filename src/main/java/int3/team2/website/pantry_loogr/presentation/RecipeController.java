@@ -63,7 +63,7 @@ public class RecipeController {
         return "browser";
     }
 
-    @GetMapping("/{recipeID}")
+    @GetMapping("/browser/{recipeID}")
     public String getRecipe(HttpSession httpSession, Model model, @PathVariable int recipeID) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {

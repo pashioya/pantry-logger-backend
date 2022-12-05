@@ -4,6 +4,20 @@
 	<body>
 	<header th:replace="fragments/header :: header (${headerList})"></header>
 	<section class="browser-recipes-section">
+		<div class="view-selectors">
+			<img
+					src="/icons/list-icon-1.png"
+					alt=""
+					class="icon"
+					id="list-view-button"
+			/>
+			<img
+					src="/icons/image-icon-1.png"
+					alt=""
+					class="icon"
+					id="image-view-button"
+			/>
+		</div>
 		<div class="browser-recipes-container">
 			<a class="recipe" look="image" change="none" th:each="recipe : ${recipes}" th:href="${'/browser/' + recipe.id}">
 				<div class="recipe-image">

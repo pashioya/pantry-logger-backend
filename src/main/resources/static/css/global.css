@@ -24,7 +24,7 @@ body {
     font-family: 'Raleway', sans-serif;
     --box-shadow-up: 0px -5px 15px rgba(0, 0, 0, 0.2);
     --box-shadow-down: 2px 5px 15px rgba(0, 0, 0, 0.2);
-    --button-shadow-up: 2px 5px 15px rgba(0, 0, 0, 0.3);
+    --button-shadow-down: 2px 5px 15px rgba(0, 0, 0, 0.3);
 
     --button-padding-tb: 10px;
     --button-padding-lr: 20px;
@@ -74,7 +74,6 @@ header {
     justify-content: space-between;
     width: 100vw;
     --view-selectors-height: 50px;
-    padding-bottom: 20px;
 }
 
 .header-titles {
@@ -246,7 +245,7 @@ footer > .footer-section > .button-container {
     border-radius: 25px;
     padding: var(--button-padding-tb) var(--button-padding-lr);
     background-color: var(--dark-color);
-    box-shadow: var(--button-shadow-up);
+    box-shadow: var(--button-shadow-down);
 }
 
 .styled-button-dark:hover {
@@ -264,7 +263,7 @@ footer > .footer-section > .button-container {
     border: 0px solid var(--dark-color);
     border-radius: 100%;
     background-color: var(--dark-color);
-    box-shadow: var(--button-shadow-up);
+    box-shadow: var(--button-shadow-down);
 }
 /*global end*/
 /*--------------------------------------------------------------------*/

@@ -73,5 +73,8 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.getProductsAndPantryZonesByUser(userId);
     }
 
-
+    @Override
+    public List<Ingredient> getIngredientsByUser(int userID) {
+        return ingredientRepository.findIngredientsByUser(userID);
+    }
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 
 public interface PantryZoneService {
     List<PantryZone> getAll();
+    List<PantryZone> getAllForUser(int userID);
     PantryZone get(int pantryZoneID);
     List<PantryZone> add(PantryZone pantryZone);
 }

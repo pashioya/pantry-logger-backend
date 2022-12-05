@@ -42,7 +42,7 @@ public class RecipeController {
     }
 
     @GetMapping
-    public String browser(HttpSession httpSession, Model model) {
+    public String recipes(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";
@@ -60,10 +60,10 @@ public class RecipeController {
         model.addAttribute("rightFooterList", new ArrayList<>());
 
         model.addAttribute("recipes", recipeService.getAll());
-        return "browser";
+        return "recipes";
     }
 
-    @GetMapping("/browser/{recipeID}")
+    @GetMapping("/{recipeID}")
     public String getRecipe(HttpSession httpSession, Model model, @PathVariable int recipeID) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
@@ -127,7 +127,7 @@ public class RecipeController {
         );
         newRecipe.setIngredients(ingredients);
         recipeService.add(newRecipe);
-        return "redirect:/browser";
+        return "redirect:/recipes";
     }
 
     @GetMapping("/recommend")
@@ -152,7 +152,6 @@ public class RecipeController {
 
 
         List<Recipe> recipes = recipeService.getAll();
-        recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
         List<Ingredient> ingredientsInPantry = new ArrayList<>();
         Collections.addAll(ingredientsInPantry,
                 new Ingredient("onion"), new Ingredient("garlic"), new Ingredient("ground beef"),

@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head th:replace="fragments/head :: head (${title})"></head>
-	<body>
-		<section class="recommendations-section">
-			<div class="recipe-container">
-				<div class="recipe" look="image" change="none">
-					<div class="recipe-image">
-						<img
-								src="/images/filler-image.png"
-								alt="recipe image"
-						/>
-					</div>
-					<div class="favorites-button">
-						<img
-								src="/icons/deselected-favorite-icon.png"
-								alt="favorites icon"
-								class="icon"
-								selected="false"
-						/>
-					</div>
-					<div class="recipe-name">
-						<h3>Recipe Name</h3>
-					</div>
-					<div class="description">
-						<h3>Description</h3>
-					</div>
-					<div class="ingredients-you-need">
-						<h3>Ingredients you need</h3>
-						<span class="ingredients-needed-count">xx</span>
-					</div>
-					<div class="ingredients-you-have">
-						<h3 class="ingredients-title">Ingredients you have</h3>
-						<ul class="ingredients-list">
-							<li class="ingredient">Ingredient 1</li>
-							<li class="ingredient">Ingredient 1</li>
-							<li class="ingredient">Ingredient 1</li>
-						</ul>
-					</div>
-				</div>
+<head th:replace="fragments/head :: head (${title})"></head>
+<body>
+<header th:replace="fragments/header :: header (${headerList})"></header>
+<script src="/js/app.js" defer></script>
+<section class="browser-recipes-section">
+	<div class="view-selectors">
+		<img
+				src="/icons/list-icon-1.png"
+				alt=""
+				class="icon"
+				id="list-view-button"
+		/>
+		<img
+				src="/icons/image-icon-1.png"
+				alt=""
+				class="icon"
+				id="image-view-button"
+		/>
+	</div>
+	<div class="browser-recipes-container">
+		<a class="recipe" look="image" change="none" th:each="recipe : ${recipes}" th:href="${'/recipes/' + recipe.id}">
+			<div class="recipe-image">
+				<img
+						src="/images/filler-image.png"
+						alt="recipe image"
+				/>
 			</div>
-		</section>
-
-		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
-	</body>
+			<div class="recipe-texts">
+				<span class="recipe-name" th:utext="${recipe.name}"></span>
+				<h3>
+					Time Estimate:
+					<span class="recipe-time" th:utext="${recipe.time.toString()}"></span>
+				</h3>
+			</div>
+		</a>
+	</div>
+</section>
+<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+</body>
 </html>

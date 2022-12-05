@@ -20,7 +20,7 @@
 			/>
 		</div>
 		<div class="recommendations-recipe-container">
-			<div th:each="recipe : ${recommendations}" class="recipe" look="image" change="none">
+			<a th:each="recipe : ${recommendations}" th:href="'/recipes/' + ${recipe.id}" class="recipe" look="image" change="none">
 				<div class="recipe-image">
 					<img
 							src="/images/filler-image.png"
@@ -54,7 +54,7 @@
 						<li class="ingredient">Spaghetti</li>
 					</ul>
 				</div>
-			</div>
+			</a>
 		</div>
 	</section>
 

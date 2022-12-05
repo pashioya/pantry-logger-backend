@@ -24,7 +24,11 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getAll() {
-        return recipeRepository.findAll();
+        List<Recipe> recipes = recipeRepository.findAll();
+        recipes.forEach(recipe -> {
+            recipe.setIngredients(ingredientService.getIngredientsByRecipeId(recipe.getId()));
+        });
+        return recipes;
     }
 
     @Override

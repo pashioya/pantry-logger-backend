@@ -44,8 +44,8 @@ public class RecipeController {
     @GetMapping
     public String browser(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title", "Browser");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -66,8 +66,8 @@ public class RecipeController {
     @GetMapping("/{recipeID}")
     public String getRecipe(HttpSession httpSession, Model model, @PathVariable int recipeID) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         Recipe recipe = recipeService.get(recipeID);
         model.addAttribute("title", recipe.getName());
@@ -83,8 +83,8 @@ public class RecipeController {
     @GetMapping("/createrecipe")
     public String createRecipe(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -104,8 +104,8 @@ public class RecipeController {
     )
     public String createRecipe(HttpSession httpSession, @RequestBody MultiValueMap<String, String> recipeData) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         logger.debug(recipeData.toString());
         Map<Ingredient, String> ingredients = new HashMap<>();
@@ -133,8 +133,8 @@ public class RecipeController {
     @GetMapping("/recommend")
     public String recommendations(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -171,8 +171,8 @@ public class RecipeController {
     @GetMapping("/search/{name}")
     public String getRecipeByName(HttpSession httpSession, Model model, @PathVariable String name) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         List<Recipe> recipes = recipeService.getByName(name);
         logger.debug(String.valueOf(ingredientService.getByName("cucumber").size()));

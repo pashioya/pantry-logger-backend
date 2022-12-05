@@ -4,7 +4,6 @@ import int3.team2.website.pantry_loogr.domain.EndUser;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
-import int3.team2.website.pantry_loogr.service.SensorDataService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +31,8 @@ public class ItemsController {
     @GetMapping
     public String items(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title", "Items");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -61,8 +60,8 @@ public class ItemsController {
     @GetMapping("/areas")
     public String areas(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title", "Areas");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -84,8 +83,8 @@ public class ItemsController {
     @GetMapping("/shoppinglist")
     public String shoppinglist(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user != null) {
-            return "redirect:/pantry-zones";
+        if(user == null) {
+            return "redirect:/login";
         }
         model.addAttribute("title", "Shopping List");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
@@ -99,7 +98,7 @@ public class ItemsController {
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
-        return "shoppinglist";
+        return "shoppingList";
     }
 
 }

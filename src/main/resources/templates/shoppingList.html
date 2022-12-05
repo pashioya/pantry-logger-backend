@@ -3,6 +3,11 @@
 	<head th:replace="fragments/head :: head (${title})"></head>
 	<body>
 		<header th:replace="fragments/header :: header (${headerList})"></header>
+		<div th:each="ingredient:${shoppingListIngredients}">
+			<div th:text="${ingredient.name}"></div>
+			<div th:text="${ingredient.amount}"></div>
+		</div>
+
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
 	</body>
 </html>

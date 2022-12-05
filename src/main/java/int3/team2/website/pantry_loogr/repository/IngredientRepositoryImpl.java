@@ -3,6 +3,7 @@ package int3.team2.website.pantry_loogr.repository;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
+import int3.team2.website.pantry_loogr.domain.ShoppingListIngredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static java.sql.Types.INTEGER;
 
 @Repository
 public class IngredientRepositoryImpl implements IngredientRepository {
@@ -36,6 +39,10 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     private Ingredient mapRow(ResultSet rs, int rowid) throws SQLException {
         return new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
+    }
+
+    private ShoppingListIngredient mapShoppingListIngredientRow(ResultSet rs, int rowid) throws SQLException {
+        return new ShoppingListIngredient(rs.getInt("ID"), rs.getString("NAME"), rs.getInt("AMOUNT"));
     }
 
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
@@ -85,13 +92,13 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "       FROM " +
                 "           PANTRY_ZONE_PRODUCTS" +
                 "       JOIN " +
-                "           INGREDIENT_PRODUCTS " +
+                "           PRODUCTS " +
                 "               ON " +
-                "           INGREDIENT_PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
+                "           PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
                 "       JOIN " +
                 "           INGREDIENTS " +
                 "               ON " +
-                "           INGREDIENTS.ID = INGREDIENT_PRODUCTS.INGREDIENT_ID " +
+                "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
                 "       WHERE " +
                 "           PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = ?";
         return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, pantryZoneId), this::mapPantryZoneProductRow);
@@ -120,5 +127,20 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     @Override
     public void addToPantry(int productId, int zone) {
 
+    }
+
+    @Override
+    public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
+        String sql = "SELECT " +
+                "          * " +
+                "       FROM " +
+                "           SHOPPING_LIST_INGREDIENTS" +
+                "       JOIN " +
+                "           INGREDIENTS " +
+                "               ON " +
+                "           INGREDIENTS.ID = SHOPPING_LIST_INGREDIENTS.INGREDIENT_ID " +
+                "       WHERE " +
+                "           SHOPPING_LIST_INGREDIENTS.SHOPPING_LIST_ID = ?";
+        return jdbcTemplate.query(sql, new Object[] {shoppingListId}, new int[] {INTEGER}, this::mapShoppingListIngredientRow);
     }
 }

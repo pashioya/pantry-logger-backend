@@ -21,8 +21,6 @@ public class IndexController {
 
     public IndexController(UserService userService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
-
-
         this.userService = userService;
     }
 

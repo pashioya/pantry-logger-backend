@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head th:replace="fragments/head :: head (${title})"></head>
+	<script src="/js/app.js" defer></script>
 	<body>
 		<header th:replace="fragments/header :: header (${headerList})"></header>
-		<div class = "items-container">
 
+		<div class = "items-container">
+			<div class="view-selectors">
+				<img
+						src="/icons/list-icon-1.png"
+						alt=""
+						class="icon"
+						id="list-view-button"
+				/>
+				<img
+						src="/icons/image-icon-1.png"
+						alt=""
+						class="icon"
+						id="image-view-button"
+				/>
+			</div>
 			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
 				<div class="item-image">
 					<img
@@ -21,7 +36,6 @@
 						<span class ="item-quantity" th:text="${ingredient.amount}"></span>
 					</h4>
 				</div>
-
 			</div>
 		</div>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>

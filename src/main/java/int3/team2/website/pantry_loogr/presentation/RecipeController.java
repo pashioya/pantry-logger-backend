@@ -139,7 +139,8 @@ public class RecipeController {
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON,"/items"),
-                new DataItem(HtmlItems.HEADER_TITLE, "Recommendations")
+                new DataItem(HtmlItems.HEADER_TITLE, "Recommendations"),
+                new DataItem(HtmlItems.LOGO)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.RECIPE_BROWSER)

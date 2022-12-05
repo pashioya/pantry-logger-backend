@@ -43,17 +43,6 @@ VALUES ('Pork chops',
         'Fry some pork chops');
 
 
-
-INSERT INTO TAGS (NAME)
-VALUES ('meat'),
-       ('dairy'),
-       ('nuts & seeds'),
-       ('alcohol'),
-       ('gluten'),
-       ('soy'),
-       ('eggs');
-
-
 INSERT INTO INGREDIENTS (NAME)
 VALUES ('onion'),
        ('garlic'),
@@ -91,20 +80,6 @@ VALUES ('onion'),
        ('peas'),
        ('rice'); --35
 
-INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
-VALUES (3, 1),
-       (4, 1),
-       (6, 4),
-       (18, 2),
-       (19, 2),
-       (22, 1),
-       (23, 1),
-       (25, 2),
-       (25, 6),
-       (26, 2),
-       (28, 2),
-       (29, 2);
-
 INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
 VALUES ('tom', 'tom@gmail.com', '12'),
        ('noah', 'noah@gmail.com', '34'),
@@ -117,18 +92,18 @@ VALUES (1, 'Fridge', 3, 8, 100, 200, 100, 200),
        (2, 'Fridge', 10, 15, 100, 200, 100, 200);
 
 INSERT INTO PRODUCTS(INGREDIENT_ID, PRODUCT_NAME, CODE, SIZE)
-VALUES (1, '', '1', 1),
-       (2, '', '2', 1),
-       (3, '', '3', 200),
-       (5, '', '4', 5),
-       (9, '', '5', 3),
-       (12, '', '6', 200),
-       (15, '', '7', 3),
-       (19, '', '8', 500),
-       (20, '', '9', 6),
-       (23, '', '10', 100),
-       (26, '', '11', 100),
-       (28, '', '12', 1000);
+VALUES (1, 'Product 1', '1', 1),
+       (2, 'Product 2', '2', 1),
+       (3, 'Product 3', '3', 200),
+       (5, 'Product 4', '4', 5),
+       (9, 'Product 5', '5', 3),
+       (12, 'Product 6', '6', 200),
+       (15, 'Product 7', '7', 3),
+       (19, 'Product 8', '8', 500),
+       (20, 'Product 9', '9', 6),
+       (23, 'Product 10', '10', 100),
+       (26, 'Product 11', '11', 100),
+       (28, 'Product 12', '12', 1000);
 
 INSERT INTO PANTRY_ZONE_PRODUCTS(PRODUCT_ID, PANTRY_ZONE_ID, QUANTITY, AMOUNT_USED, DATE_ENTERED)
 VALUES (1, 3, 1, 0, '2022-12-05'),
@@ -144,7 +119,7 @@ VALUES (1, 3, 1, 0, '2022-12-05'),
        (11, 3, 1, 0, '2022-12-05'),
        (12, 3, 1, 0, '2022-12-05');
 
-    INSERT INTO SENSOR_DATA(PANTRY_ZONE_ID, TIME_STAMP, SENSOR_VALUE, SENSOR_TYPE)
+INSERT INTO SENSOR_DATA(PANTRY_ZONE_ID, TIME_STAMP, SENSOR_VALUE, SENSOR_TYPE)
 VALUES (1, '2022-11-23 00:00:00.000', 5, 'TEMPERATURE'),
        (1, '2022-11-23 01:00:00.000', 6, 'TEMPERATURE'),
        (1, '2022-11-23 02:00:00.000', 4, 'TEMPERATURE'),
@@ -224,5 +199,34 @@ VALUES (1);
 INSERT INTO SHOPPING_LIST_INGREDIENTS(SHOPPING_LIST_ID, INGREDIENT_ID, AMOUNT)
 VALUES (1, 19, 500),
        (1, 35, 250);
+
+INSERT INTO TAGS(NAME, FLAG)
+VALUES ('Italian', 'CUISINE'),
+       ('Chinese', 'CUISINE'),
+       ('Comfort Food', 'GENERAL'),
+       ('Spicy', 'GENERAL'),
+       ('Meat', 'GENERAL'),
+       ('Dairy', 'ALLERGEN'),
+       ('Nuts & Seeds', 'ALLERGEN'),
+       ('Alcohol', 'GENERAL'),
+       ('Gluten', 'ALLERGEN'),
+       ('Soy', 'ALLERGEN'),
+       ('Eggs','ALLERGEN');
+
+INSERT INTO RECIPE_TAGS(RECIPE_ID, TAG_ID)
+VALUES (3, 1),
+       (1, 5),
+       (4, 3),
+       (5, 2),
+       (5, 4);
+
+
+
+INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
+VALUES (3, 1),
+       (4, 1),
+       (6, 4),
+       (1, 2);
+
 
 

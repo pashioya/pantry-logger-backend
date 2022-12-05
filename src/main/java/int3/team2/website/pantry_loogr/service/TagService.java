@@ -9,5 +9,6 @@ public interface TagService {
     Tag get(int tagID);
     List<Tag> add(Tag tag);
     List<Tag> getByName(String name);
+    List<Tag> getByRecipeId(int recipeId);
 
 }

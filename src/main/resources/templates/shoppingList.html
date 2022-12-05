@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head th:replace="fragments/head :: head (${title})"></head>
-	<script src="/js/app.js" defer></script>
+<<<<<<< HEAD
+=======
+	<script src="/js/app.js" ></script>
+>>>>>>> fbb56dcc9440b7d192161d662b0931dc23e0a380
 	<body>
 		<header th:replace="fragments/header :: header (${headerList})"></header>
-
-		<div class = "items-container">
+		<section>
 			<div class="view-selectors">
 				<img
 						src="/icons/list-icon-1.png"
@@ -20,6 +22,26 @@
 						id="image-view-button"
 				/>
 			</div>
+<<<<<<< HEAD
+			<div class = "items-container">
+
+				<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
+					<div class="item-image">
+						<img
+								src="/images/filler-image.png"
+								alt=""
+						/>
+					</div>
+					<div class="item-texts">
+						<h4>
+							<span class="item-name" th:text="${ingredient.name}"></span>
+						</h4>
+						<h4>
+							"Quantity:"
+							<span class ="item-quantity" th:text="${ingredient.amount}"></span>
+						</h4>
+					</div>
+=======
 			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
 				<div class="item-image">
 					<img
@@ -32,12 +54,14 @@
 						<span class="item-name" th:text="${ingredient.name}"></span>
 					</h4>
 					<h4>
-						"Quantity:"
+						Amount:
 						<span class ="item-quantity" th:text="${ingredient.amount}"></span>
 					</h4>
+>>>>>>> fbb56dcc9440b7d192161d662b0931dc23e0a380
 				</div>
 			</div>
-		</div>
+		</section>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+		<script src="/js/app.js"></script>
 	</body>
 </html>

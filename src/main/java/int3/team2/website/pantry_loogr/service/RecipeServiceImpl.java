@@ -16,21 +16,28 @@ public class RecipeServiceImpl implements RecipeService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private RecipeRepository recipeRepository;
     private IngredientService ingredientService;
+    private TagService tagService;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientService ingredientService) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientService ingredientService, TagService tagService) {
         this.recipeRepository = recipeRepository;
         this.ingredientService = ingredientService;
+        this.tagService = tagService;
     }
 
     @Override
     public List<Recipe> getAll() {
-        return recipeRepository.findAll();
+        List<Recipe> recipes = recipeRepository.findAll();
+        recipes.forEach(recipe -> {
+            recipe.setIngredients(ingredientService.getIngredientsByRecipeId(recipe.getId()));
+        });
+        return recipes;
     }
 
     @Override
     public Recipe get(int recipeID) {
         Recipe recipe = recipeRepository.get(recipeID);
         recipe.setIngredients(ingredientService.getIngredientsByRecipeId(recipe.getId()));
+        recipe.setTags(tagService.getByRecipeId(recipe.getId()));
         return recipe;
     }
 

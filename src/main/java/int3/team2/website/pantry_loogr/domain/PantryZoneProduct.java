@@ -36,4 +36,6 @@ public class PantryZoneProduct extends Product{
     public int getAmountUsed() {
         return amountUsed;
     }
+
+    public String getPantryZoneName() { return pantryZoneName;}
 }

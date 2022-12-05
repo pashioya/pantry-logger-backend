@@ -86,9 +86,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
     }
     @Override
-    public List<PantryZoneProduct> findByPantryZone(int pantryZoneId) {
+    public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
         String sql = "SELECT " +
-                "          * " +
+                "          INGREDIENTS.*, PANTRY_ZONE_PRODUCTS.*, PRODUCTS.*, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME " +
                 "       FROM " +
                 "           PANTRY_ZONES "+
                 "       JOIN " +
@@ -98,7 +98,11 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "       JOIN " +
                 "           PRODUCTS " +
                 "               ON " +
-                "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = INGREDIENT_PRODUCTS.ID " +
+                "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                "       JOIN " +
+                "           INGREDIENTS " +
+                "               ON " +
+                "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
                 "       WHERE " +
                 "           PANTRY_ZONES.ID = ? ";
         return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, pantryZoneId), this::mapPantryZoneProductRow);
@@ -115,9 +119,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "               ON " +
                 "           PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
                 "       JOIN " +
-                "           INGREDIENT_PRODUCTS " +
+                "           PRODUCTS " +
                 "               ON " +
-                "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = INGREDIENT_PRODUCTS.ID " +
+                "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
                 "           PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
                 "       JOIN " +
                 "           INGREDIENTS " +
@@ -131,7 +135,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
         String sql = "SELECT " +
-                "          INGREDIENTS.*, PRODUCTS.PRODUCT_NAME, PRODUCTS.SIZE, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME, PANTRY_ZONE_PRODUCTS.* " +
+                "          INGREDIENTS.*, PRODUCTS.PRODUCT_NAME, PRODUCTS.SIZE, PRODUCTS.CODE, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME, PANTRY_ZONE_PRODUCTS.* " +
                 "       FROM " +
                 "            PANTRY_ZONES " +
                 "        JOIN " +
@@ -166,13 +170,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     @Override
-    public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
-        return null;
-    }
-
-    @Override
     public Product getByCode(String code) {
-        return jdbcTemplate.query("SELECT INGREDIENT_PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM INGREDIENT_PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = INGREDIENT_PRODUCTS.INGREDIENT_ID WHERE INGREDIENT_PRODUCTS.CODE = ?",
+        return jdbcTemplate.query("SELECT PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID WHERE PRODUCTS.CODE = ?",
                 preparedStatement -> preparedStatement.setString(1, code),
                 this::mapProductRow).get(0);
     }

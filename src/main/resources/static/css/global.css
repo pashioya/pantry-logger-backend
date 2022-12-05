@@ -10,6 +10,7 @@ create-recipe
 welcome-page
 browser
 recipe
+shoppinglist
 */
 
 body {
@@ -21,6 +22,7 @@ body {
     height: 100vh;
     background-color: var(--light-color);
     --header-size: 60px;
+    --view-selectors-height: 50px;
     font-family: 'Raleway', sans-serif;
     --box-shadow-up: 0px -5px 15px rgba(0, 0, 0, 0.2);
     --box-shadow-down: 2px 5px 15px rgba(0, 0, 0, 0.2);
@@ -73,7 +75,6 @@ header {
     display: flex;
     justify-content: space-between;
     width: 100vw;
-    --view-selectors-height: 50px;
 }
 
 .header-titles {
@@ -401,7 +402,7 @@ body[id="items"] > header {
 }
 
 .item > .item-texts > h4 > .item-name {
-
+    padding-right: 5px;
 }
 
 .item > .item-texts > :not(h4:first-child) {
@@ -628,7 +629,9 @@ body[item-selected="true"] .item[change="none"] {
 
 body[item-selected="true"] .item[change="selected"] {
     height: calc(100% - var(--item-combined-spacing));
+    flex-wrap: wrap;
     position: relative;
+    --edit-header-height: 60px
 }
 
 .item[change="selected"] > .exit-button {
@@ -642,13 +645,15 @@ body[item-selected="true"] .item[change="selected"] {
     width: 30px;
     padding: 5px;
 }
-/*
-.item[change="none"] > .modify-container {
-    display: none;
-}*/
+
+.item[change="selected"] > .item-image {
+    height: var(--edit-header-height);
+    width: 30%;
+}
 
 .item[change="selected"] > .item-texts {
-    height: var(--list-image-height);
+    height: var(--edit-header-height);
+    width: 70%;
 }
 
 .item[change="selected"] > .item-texts > h4:last-child {
@@ -656,9 +661,10 @@ body[item-selected="true"] .item[change="selected"] {
 }
 
 .item[change="selected"] > .modify-container {
+    height: calc(calc(100% - var(--list-image-height)) - calc(var(--item-combined-spacing) / 2));
+    width: 100%;
     display: flex;
     align-items: center;
-    height: calc(calc(100% - var(--list-image-height)) - calc(var(--item-combined-spacing) / 2));
 }
 
 .modify-container[modify-mode="remove"] > .remove-section {
@@ -676,10 +682,6 @@ body[item-selected="true"] .item[change="selected"] {
 .modify-container[modify-mode="add"] > .add-section {
     display: flex;
 }
-
-
-
-
 
 
 
@@ -1238,3 +1240,16 @@ body[id="create-recipe"] > .header-titles{
     align-items: center;
 
 }
+/*Recipe Ends */
+/*-------------------------------------*/
+/*-------------------------------------*/
+/*-------------------------------------*/
+/*Shopping list Starts */
+
+
+
+
+/*Shopping List Ends */
+/*-------------------------------------*/
+/*-------------------------------------*/
+/*-------------------------------------*/

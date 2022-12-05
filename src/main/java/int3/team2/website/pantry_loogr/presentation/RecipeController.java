@@ -49,12 +49,12 @@ public class RecipeController {
         }
         model.addAttribute("title", "Browser");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON,"/recipes/recommend"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Browser"),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>());
@@ -63,7 +63,7 @@ public class RecipeController {
         return "browser";
     }
 
-    @GetMapping("/{recipeID}")
+    @GetMapping("/browser/{recipeID}")
     public String getRecipe(HttpSession httpSession, Model model, @PathVariable int recipeID) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
@@ -72,7 +72,7 @@ public class RecipeController {
         Recipe recipe = recipeService.get(recipeID);
         model.addAttribute("title", recipe.getName());
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON, "/recipes"),
                 new DataItem(HtmlItems.HEADER_TITLE, recipe.getName()),
                 new DataItem(HtmlItems.LOGO)
         )));
@@ -88,7 +88,7 @@ public class RecipeController {
         }
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON, "/recipes"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Create Recipe"),
                 new DataItem(HtmlItems.LOGO)
         )));
@@ -138,8 +138,9 @@ public class RecipeController {
         }
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
-                new DataItem(HtmlItems.HEADER_TITLE, "Recommendations")
+                new DataItem(HtmlItems.BACK_BUTTON,"/items"),
+                new DataItem(HtmlItems.HEADER_TITLE, "Recommendations"),
+                new DataItem(HtmlItems.LOGO)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.RECIPE_BROWSER)
@@ -179,32 +180,5 @@ public class RecipeController {
         model.addAttribute("recipes", recipes);
 
         return "recipes";
-    }
-
-        @GetMapping("/ingredients")
-    public String getAllIngredient(Model model) {
-        List<Ingredient> ingredients;
-        ingredients = ingredientService.getAll();
-
-        model.addAttribute("ingredients", ingredients);
-        return "ingredients";
-    }
-
-    @GetMapping("/tags")
-    public String getAllTags(Model model) {
-        List<Tag> tags;
-        tags = tagService.getAll();
-
-        model.addAttribute("tags", tags);
-        return "tags";
-    }
-
-    @GetMapping("/users")
-    public String getAllUsers(Model model) {
-        List<EndUser> users;
-        users = userService.getAll();
-
-        model.addAttribute("users", users);
-        return "users";
     }
 }

@@ -32,6 +32,11 @@ public class PantryZoneServiceImpl implements PantryZoneService {
     }
 
     @Override
+    public List<PantryZone> getAllForUser(int userID) {
+        return pantryZoneRepository.getAllForUser(userID);
+    }
+
+    @Override
     public PantryZone get(int pantryZoneID) {
         PantryZone pantryZone = pantryZoneRepository.get(pantryZoneID);
         pantryZone.setProducts(ingredientService.getByPantryZoneId(pantryZone.getId()));
@@ -42,4 +47,6 @@ public class PantryZoneServiceImpl implements PantryZoneService {
     public List<PantryZone> add(PantryZone pantryZone) {
         return null;
     }
+
+
 }

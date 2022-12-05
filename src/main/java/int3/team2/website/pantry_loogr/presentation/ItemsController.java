@@ -49,13 +49,11 @@ public class ItemsController {
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
 
-        List<HashMap<String, String>> products = pantryZoneService.getAllForUser();
-
-        model.addAttribute("products", products);
+        //model.addAttribute("products", products);
 
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");

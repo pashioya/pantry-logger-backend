@@ -77,7 +77,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.LOGO)
         )));
         model.addAttribute("recipe", recipe);
-        return "/recipe";
+        return "recipe";
     }
 
     @GetMapping("/createrecipe")
@@ -181,7 +181,7 @@ public class RecipeController {
         return "recipes";
     }
 
-    @GetMapping("/ingredients")
+        @GetMapping("/ingredients")
     public String getAllIngredient(Model model) {
         List<Ingredient> ingredients;
         ingredients = ingredientService.getAll();

@@ -38,15 +38,6 @@ VALUES ('spaghetti with meatballs',
         '');
 
 
-insert into TAGS (NAME)
-VALUES ('meat'),
-       ('dairy'),
-       ('nuts & seeds'),
-       ('alcohol'),
-       ('gluten'),
-       ('soy'),
-       ('eggs');
-
 
 INSERT INTO INGREDIENTS(NAME)
 VALUES ('onion'),
@@ -85,21 +76,6 @@ VALUES ('onion'),
        ('peas'),
        ('rice');
 
-
-
-INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
-VALUES (3, 1),
-       (4, 1),
-       (6, 4),
-       (18, 2),
-       (19, 2),
-       (22, 1),
-       (23, 1),
-       (25, 2),
-       (25, 6),
-       (26, 2),
-       (28, 2),
-       (29, 2);
 
 INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
 VALUES ('tom', 'tom@gmail.com', '12'),
@@ -192,5 +168,34 @@ VALUES (1);
 INSERT INTO SHOPPING_LIST_INGREDIENTS(SHOPPING_LIST_ID, INGREDIENT_ID, AMOUNT)
 VALUES (1, 19, 500),
         (1, 35, 250);
+
+INSERT INTO TAGS(NAME, FLAG)
+VALUES ('Italian', 'CUISINE'),
+       ('Chinese', 'CUISINE'),
+       ('Comfort Food', 'GENERAL'),
+       ('Spicy', 'GENERAL'),
+       ('Meat', 'GENERAL'),
+       ('Dairy', 'ALLERGEN'),
+       ('Nuts & Seeds', 'ALLERGEN'),
+       ('Alcohol', 'GENERAL'),
+       ('Gluten', 'ALLERGEN'),
+       ('Soy', 'ALLERGEN'),
+       ('Eggs','ALLERGEN');
+
+INSERT INTO RECIPE_TAGS(RECIPE_ID, TAG_ID)
+VALUES (3, 1),
+       (1, 5),
+       (4, 3),
+       (5, 2),
+       (5, 4);
+
+
+
+INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
+VALUES (3, 1),
+       (4, 1),
+       (6, 4),
+       (1, 2);
+
 
 

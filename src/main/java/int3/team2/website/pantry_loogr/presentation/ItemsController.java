@@ -26,12 +26,10 @@ public class ItemsController {
 
     private UserService userService;
     private PantryZoneService pantryZoneService;
-    private SensorDataService sensorDataService;
 
-    public ItemsController(UserService userService, PantryZoneService pantryZoneService, SensorDataService sensorDataService) {
+    public ItemsController(UserService userService, PantryZoneService pantryZoneService) {
         this.userService = userService;
         this.pantryZoneService = pantryZoneService;
-        this.sensorDataService = sensorDataService;
     }
 
     @GetMapping

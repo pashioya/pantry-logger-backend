@@ -14,7 +14,6 @@ public class PantryZone {
     private int maxBright;
 
     public PantryZone(String name, int minTemp, int maxTemp, int minHum, int maxHum, int minBright, int maxBright) {
-        this.id = id;
         this.name = name;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;

@@ -27,12 +27,10 @@ public class ItemsController {
 
     private UserService userService;
     private PantryZoneService pantryZoneService;
-    private SensorDataService sensorDataService;
 
-    public ItemsController(UserService userService, PantryZoneService pantryZoneService, SensorDataService sensorDataService) {
+    public ItemsController(UserService userService, PantryZoneService pantryZoneService) {
         this.userService = userService;
         this.pantryZoneService = pantryZoneService;
-        this.sensorDataService = sensorDataService;
     }
 
     @GetMapping
@@ -57,7 +55,7 @@ public class ItemsController {
 
         List<HashMap<String, String>> products = pantryZoneService.getAllForUser();
 
-        //model.addAttribute("products", products);
+        model.addAttribute("products", products);
 
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
@@ -147,7 +145,7 @@ public class ItemsController {
         }
         model.addAttribute("title", "Shopping List");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON),
+                new DataItem(HtmlItems.BACK_BUTTON, "/items"),
                 new DataItem(HtmlItems.HEADER_TITLE, "Shopping List"),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));

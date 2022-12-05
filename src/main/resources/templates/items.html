@@ -28,10 +28,10 @@
 					</div>
 					<div class="item-texts">
 						<h4>
-							<span class="item-name" th:text="${' ' + product.get('productName')}"></span><span class="ingredient-name-small" th:text="${' ' + product.get('name')}"></span>
+							<span class="item-name" th:text="${product.productName}"></span><span class="ingredient-name-small" th:text="${product.name}"></span>
 						</h4>
-						<h4>Quantity:<span class="item-quantity" th:text="${' ' + product.get('quantity')}"> </span></h4>
-						<h4>Location: <span class="item-location" th:text="${' ' + product.get('location')}"></span></h4>
+						<h4>Quantity:<span class="item-quantity" th:text="${' ' + product.quantity}"> </span></h4>
+						<h4>Location: <span class="item-location" th:text="${product.pantryZoneName}"></span></h4>
 					</div>
 					<div class="modify-container" modify-mode="remove">
 						<div class="remove-section">

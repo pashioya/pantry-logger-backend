@@ -6,7 +6,7 @@
 
 <section class="areas-section">
     <div class="storage-spaces" >
-        <a th:each="pantryZone, iStat: ${pantryZones}" th:href="${ '/pantry-zones/' + pantryZone.id}" class="storage-space">
+        <a th:each="pantryZone, iStat: ${pantryZones}" th:href="${ '/items/pantry-zones/' + pantryZone.id}" class="storage-space">
             <div>
                 <img th:src="${ '/icons/fridge-icon-1.png' }"
                      th:alt="${pantryZone.name + ' icon'}"

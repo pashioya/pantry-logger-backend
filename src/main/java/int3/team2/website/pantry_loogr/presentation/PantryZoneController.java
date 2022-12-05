@@ -59,16 +59,6 @@ public class PantryZoneController {
         List<SensorData> temp = new ArrayList<>();
         List<SensorData> hum = new ArrayList<>();
         List<SensorData> lum = new ArrayList<>();
-//
-//        pantryZones.forEach(x -> {
-//            sensorDataService.getLatestByPantryZone(x.getId()).forEach(y -> {
-//                switch (y.getType()) {
-//                    case TEMPERATURE -> temp.add(y);
-//                    case HUMIDITY -> hum.add(y);
-//                    case BRIGHTNESS -> lum.add(y);
-//                }
-//            });
-//        });
 
         return "pantryZones";
     }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head th:replace="fragments/head :: head (${title})"></head>
+    <body id="profile">
+        <header th:replace="fragments/header :: header (${headerList})"></header>
+            <section>
+                <div class="profile-image">
+                    <img src="/images/filler-image.png" alt="">
+                </div>
+                <div class="profile-texts">
+                    <h4>
+                        <span class="profile-name" th:text="${user.username}"> </span>
+                    </h4>
+                    <h4>
+                        <span class="profile-email" th:text="${user.email}"> </span>
+                    </h4>
+                </div>
+                <div class="profile-buttons">
+                    <button class="button">Edit Profile</button>
+                    <button class="button">Change Password</button>
+                    <button class="button">Logout</button>
+                </div>
+            </section>
+        <footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+    </body>
+</html>

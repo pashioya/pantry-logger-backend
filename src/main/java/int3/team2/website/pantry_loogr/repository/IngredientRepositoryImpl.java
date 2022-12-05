@@ -135,7 +135,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
         String sql = "SELECT " +
-                "          INGREDIENTS.*, PRODUCTS.PRODUCT_NAME, PRODUCTS.SIZE, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME, PANTRY_ZONE_PRODUCTS.* " +
+                "          INGREDIENTS.*, PRODUCTS.PRODUCT_NAME, PRODUCTS.SIZE, PRODUCTS.CODE, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME, PANTRY_ZONE_PRODUCTS.* " +
                 "       FROM " +
                 "            PANTRY_ZONES " +
                 "        JOIN " +
@@ -171,7 +171,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     @Override
     public Product getByCode(String code) {
-        return jdbcTemplate.query("SELECT INGREDIENT_PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM INGREDIENT_PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = INGREDIENT_PRODUCTS.INGREDIENT_ID WHERE INGREDIENT_PRODUCTS.CODE = ?",
+        return jdbcTemplate.query("SELECT PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID WHERE PRODUCTS.CODE = ?",
                 preparedStatement -> preparedStatement.setString(1, code),
                 this::mapProductRow).get(0);
     }

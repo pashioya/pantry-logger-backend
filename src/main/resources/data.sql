@@ -35,7 +35,13 @@ VALUES ('spaghetti with meatballs',
         'QUICK',
         'EASY',
         'Decadent strips of gluten with balls of meat on top, covered in meat juice'
-            '');
+        '');
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+VALUES ('Pork chops',
+        'MEDIUM',
+        'MEDIUM',
+        'Fry some pork chops');
+
 
 
 INSERT INTO TAGS (NAME)

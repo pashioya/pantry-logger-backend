@@ -7,6 +7,8 @@ import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
 import int3.team2.website.pantry_loogr.service.SensorDataService;
 import int3.team2.website.pantry_loogr.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +24,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/items")
 public class ItemsController {
+    private Logger logger;
 
     private UserService userService;
     private PantryZoneService pantryZoneService;
     private IngredientService ingredientService;
 
-    public ItemsController(UserService userService, PantryZoneService pantryZoneService, IngredientService ingredientService) {
+    public ItemsController(UserService userService, IngredientService ingredientService, PantryZoneService pantryZoneService) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.userService = userService;
         this.pantryZoneService = pantryZoneService;
         this.ingredientService = ingredientService;
@@ -42,16 +46,19 @@ public class ItemsController {
         model.addAttribute("title", "Items");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.HEADER_TITLES),
-//                new DataItem(HtmlItems.DROPDOWN),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
+
+        List<PantryZoneProduct> products = ingredientService.getProductsAndPantryZonesByUser(user.getId());
+
+        model.addAttribute("products", products);
 
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
@@ -86,16 +93,6 @@ public class ItemsController {
         List<SensorData> temp = new ArrayList<>();
         List<SensorData> hum = new ArrayList<>();
         List<SensorData> lum = new ArrayList<>();
-//
-//        pantryZones.forEach(x -> {
-//            sensorDataService.getLatestByPantryZone(x.getId()).forEach(y -> {
-//                switch (y.getType()) {
-//                    case TEMPERATURE -> temp.add(y);
-//                    case HUMIDITY -> hum.add(y);
-//                    case BRIGHTNESS -> lum.add(y);
-//                }
-//            });
-//        });
 
         return "pantryZones";
     }
@@ -109,49 +106,30 @@ public class ItemsController {
         model.addAttribute("title", "Items");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.HEADER_TITLES),
-                new DataItem(HtmlItems.DROPDOWN),
+//                new DataItem(HtmlItems.DROPDOWN),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-//                new DataItem(HtmlItems.SHOPPINGLIST),
+                new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.SCANNER)
         )));
 
-        PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
         List<PantryZoneProduct> products = ingredientService.getByPantryZoneId(pantryZoneID);
+        if (products != null) {
+            logger.debug(Arrays.toString(products.toArray()));
+        } else {
+            logger.debug("products == null");
+        }
 
         model.addAttribute("products", products);
-        model.addAttribute("pantryZone", pantryZone);
 
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
 
-        return "PantryZoneDetails";
-    }
-
-
-    @GetMapping("/shoppinglist")
-    public String shoppinglist(HttpSession httpSession, Model model) {
-        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        if(user == null) {
-            return "redirect:/login";
-        }
-        model.addAttribute("title", "Shopping List");
-        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.BACK_BUTTON, "/items"),
-                new DataItem(HtmlItems.HEADER_TITLE, "Shopping List"),
-                new DataItem(HtmlItems.SEARCH_CONTAINER)
-        )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SCANNER)
-        )));
-        model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.RECOMMENDATIONS)
-        )));
-        return "shoppingList";
+        return "items";
     }
 
 }

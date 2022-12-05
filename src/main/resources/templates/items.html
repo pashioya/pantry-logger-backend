@@ -4,20 +4,20 @@
 	<body item-selected="false" id="items">
 		<header th:replace="fragments/header :: header (${headerList})"></header>
 		<section class="items-section">
-<!--			<div class="view-selectors">-->
-<!--				<img-->
-<!--						src="/icons/list-icon-1.png"-->
-<!--						alt=""-->
-<!--						class="icon"-->
-<!--						id="list-view-button"-->
-<!--				/>-->
-<!--				<img-->
-<!--						src="/icons/image-icon-1.png"-->
-<!--						alt=""-->
-<!--						class="icon"-->
-<!--						id="image-view-button"-->
-<!--				/>-->
-<!--			</div>-->
+			<div class="view-selectors">
+				<img
+						src="/icons/list-icon-1.png"
+						alt=""
+						class="icon"
+						id="list-view-button"
+				/>
+				<img
+						src="/icons/image-icon-1.png"
+						alt=""
+						class="icon"
+						id="image-view-button"
+				/>
+			</div>
 			<div class="items-container">
 				<div class="item" look="image" change="none" th:each="product: ${products}">
 					<div class="item-image">

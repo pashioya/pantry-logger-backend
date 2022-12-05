@@ -3,6 +3,7 @@ package int3.team2.website.pantry_loogr.service;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
+import int3.team2.website.pantry_loogr.domain.ShoppingListIngredient;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
 import org.springframework.stereotype.Component;
 
@@ -62,5 +63,8 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientRepository.addToPantry(productId, zone);
     }
 
-
+    @Override
+    public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
+        return ingredientRepository.getForShoppingList(shoppingListId);
+    }
 }

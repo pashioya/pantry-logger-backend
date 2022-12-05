@@ -9,10 +9,10 @@
                 </div>
                 <div class="profile-texts">
                     <h4>
-                        <span class="profile-name" th:text="${user.username}"> </span>
+                        <span class="profile-name" th:text="${username}"> </span>
                     </h4>
                     <h4>
-                        <span class="profile-email" th:text="${user.email}"> </span>
+                        <span class="profile-email" th:text="${email}"> </span>
                     </h4>
                 </div>
                 <div class="profile-buttons">
@@ -21,6 +21,5 @@
                     <button class="button">Logout</button>
                 </div>
             </section>
-        <footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
     </body>
 </html>

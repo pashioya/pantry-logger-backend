@@ -4,10 +4,12 @@ import int3.team2.website.pantry_loogr.domain.EndUser;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -39,11 +41,19 @@ public class UserController {
                 new DataItem(HtmlItems.HEADER_TITLE, "Profile"),
                 new DataItem(HtmlItems.LOGO)
         )));
-        model.addAttribute("user", user);
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("email", user.getEmail());
         return "profile";
     }
-    
 
-
+    @RequestMapping(
+            value = "/logout",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String logout(HttpSession httpSession) {
+        httpSession.invalidate();
+        return "redirect:/login";
+    }
 
 }

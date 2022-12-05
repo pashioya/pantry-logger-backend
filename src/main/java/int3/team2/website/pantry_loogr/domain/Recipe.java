@@ -1,5 +1,6 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,6 +15,8 @@ public class Recipe {
     private String instructions;
     private Time time;
     private Map<Ingredient, String> ingredients;
+
+    private List<Tag> tags;
 
 
     /**
@@ -113,6 +116,14 @@ public class Recipe {
 
     public void setIngredients(Map<Ingredient, String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
 

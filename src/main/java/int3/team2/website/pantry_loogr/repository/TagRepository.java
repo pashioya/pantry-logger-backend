@@ -9,4 +9,5 @@ public interface TagRepository {
     Tag get(int id);
     List<Tag> findByName(String name);
 
+    List<Tag> getByRecipeId(int recipeId);
 }

@@ -1,9 +1,6 @@
 package int3.team2.website.pantry_loogr.presentation;
 
-import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.PantryZone;
-import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
-import int3.team2.website.pantry_loogr.domain.SensorData;
+import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.IngredientService;
@@ -90,7 +87,7 @@ public class ItemsController {
         model.addAttribute("itemsActive", "undefined");
         model.addAttribute("pantryZoneActive", "selected");
 
-        List<PantryZone> pantryZones = pantryZoneService.getAll();
+        List<PantryZone> pantryZones = pantryZoneService.getAllForUser(user.getId());
 
         model.addAttribute("pantryZones", pantryZones);
         List<SensorData> temp = new ArrayList<>();

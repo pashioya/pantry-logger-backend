@@ -44,7 +44,7 @@ VALUES ('Pork chops',
 
 
 
-insert into TAGS (NAME)
+INSERT INTO TAGS (NAME)
 VALUES ('meat'),
        ('dairy'),
        ('nuts & seeds'),
@@ -54,44 +54,42 @@ VALUES ('meat'),
        ('eggs');
 
 
-INSERT INTO INGREDIENTS(NAME)
+INSERT INTO INGREDIENTS (NAME)
 VALUES ('onion'),
        ('garlic'),
        ('ground beef'),
        ('beef sirloin'),
-       ('tomato'),
+       ('tomato'), -- 5
        ('dark beer'),
        ('green pepper'),
        ('tomato sauce'),
        ('paprika'),
-       ('kidney beans'),
+       ('kidney beans'), --10
        ('black beans'),
        ('sour cream'),
        ('cheddar'),
        ('green onion'),
-       ('carrot'),
+       ('carrot'), --15
        ('italian sausage'),
        ('chicken broth'),
        ('lentils'),
        ('spaghetti'),
-       ('egg'),
+       ('egg'), --20
        ('heavy cream'),
        ('shallots'),
        ('bacon'),
        ('parmesan'),
-       ('macaroni'),
+       ('macaroni'), --25
        ('butter'),
        ('flour'),
        ('milk'),
        ('cream'),
-       ('jalapenos'),
+       ('jalapenos'), --30
        ('soy sauce'),
        ('sesame oil'),
        ('chicken breast'),
        ('peas'),
-       ('rice');
-
-
+       ('rice'); --35
 
 INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
 VALUES (3, 1),
@@ -115,9 +113,38 @@ VALUES ('tom', 'tom@gmail.com', '12'),
 
 INSERT INTO PANTRY_ZONES(USER_ID, NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
 VALUES (1, 'Fridge', 3, 8, 100, 200, 100, 200),
-       (1, 'Pantry', 10, 15, 100, 200, 100, 200);
+       (1, 'Pantry', 10, 15, 100, 200, 100, 200),
+       (2, 'Fridge', 10, 15, 100, 200, 100, 200);
 
-INSERT INTO SENSOR_DATA(PANTRY_ZONE_ID, TIME_STAMP, SENSOR_VALUE, SENSOR_TYPE)
+INSERT INTO PRODUCTS(INGREDIENT_ID, PRODUCT_NAME, CODE, SIZE)
+VALUES (1, '', '1', 1),
+       (2, '', '2', 1),
+       (3, '', '3', 200),
+       (5, '', '4', 5),
+       (9, '', '5', 3),
+       (12, '', '6', 200),
+       (15, '', '7', 3),
+       (19, '', '8', 500),
+       (20, '', '9', 6),
+       (23, '', '10', 100),
+       (26, '', '11', 100),
+       (28, '', '12', 1000);
+
+INSERT INTO PANTRY_ZONE_PRODUCTS(PRODUCT_ID, PANTRY_ZONE_ID, QUANTITY, AMOUNT_USED, DATE_ENTERED)
+VALUES (1, 3, 1, 0, '2022-12-05'),
+       (2, 3, 1, 0, '2022-12-05'),
+       (3, 3, 1, 0, '2022-12-05'),
+       (4, 3, 1, 0, '2022-12-05'),
+       (5, 3, 1, 0, '2022-12-05'),
+       (6, 3, 1, 0, '2022-12-05'),
+       (7, 3, 1, 0, '2022-12-05'),
+       (8, 3, 1, 0, '2022-12-05'),
+       (9, 3, 1, 0, '2022-12-05'),
+       (10, 3, 1, 0, '2022-12-05'),
+       (11, 3, 1, 0, '2022-12-05'),
+       (12, 3, 1, 0, '2022-12-05');
+
+    INSERT INTO SENSOR_DATA(PANTRY_ZONE_ID, TIME_STAMP, SENSOR_VALUE, SENSOR_TYPE)
 VALUES (1, '2022-11-23 00:00:00.000', 5, 'TEMPERATURE'),
        (1, '2022-11-23 01:00:00.000', 6, 'TEMPERATURE'),
        (1, '2022-11-23 02:00:00.000', 4, 'TEMPERATURE'),
@@ -184,7 +211,6 @@ VALUES (19, 'Spaghetti Brand', '123', 200),
        (35, 'Rice Brand', '3253581087107', 1000),
        (28, 'Milk Brand', '125', 250);
 
-
 INSERT INTO PANTRY_ZONE_PRODUCTS(PRODUCT_ID, PANTRY_ZONE_ID, QUANTITY, AMOUNT_USED, DATE_ENTERED)
 VALUES (1, 2, 5, 0, '2022-11-25'),
        (2, 2, 2, 0, '2022-11-25'),
@@ -197,6 +223,35 @@ VALUES (1);
 
 INSERT INTO SHOPPING_LIST_INGREDIENTS(SHOPPING_LIST_ID, INGREDIENT_ID, AMOUNT)
 VALUES (1, 19, 500),
-        (1, 35, 250);
+       (1, 35, 250);
+
+INSERT INTO TAGS(NAME, FLAG)
+VALUES ('Italian', 'CUISINE'),
+       ('Chinese', 'CUISINE'),
+       ('Comfort Food', 'GENERAL'),
+       ('Spicy', 'GENERAL'),
+       ('Meat', 'GENERAL'),
+       ('Dairy', 'ALLERGEN'),
+       ('Nuts & Seeds', 'ALLERGEN'),
+       ('Alcohol', 'GENERAL'),
+       ('Gluten', 'ALLERGEN'),
+       ('Soy', 'ALLERGEN'),
+       ('Eggs','ALLERGEN');
+
+INSERT INTO RECIPE_TAGS(RECIPE_ID, TAG_ID)
+VALUES (3, 1),
+       (1, 5),
+       (4, 3),
+       (5, 2),
+       (5, 4);
+
+
+
+INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
+VALUES (3, 1),
+       (4, 1),
+       (6, 4),
+       (1, 2);
+
 
 

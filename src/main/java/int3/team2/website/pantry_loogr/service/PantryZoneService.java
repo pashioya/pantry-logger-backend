@@ -11,7 +11,4 @@ public interface PantryZoneService {
     List<PantryZone> getAll();
     PantryZone get(int pantryZoneID);
     List<PantryZone> add(PantryZone pantryZone);
-    List<HashMap<String, String>> getAllForUser();
-
-    Map<PantryZoneProduct, PantryZone> getAllForUserByPantry();
 }

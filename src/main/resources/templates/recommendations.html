@@ -5,6 +5,20 @@
 	<header th:replace="fragments/header :: header (${headerList})"></header>
 
 	<section class="recommendations-section">
+		<div class="view-selectors">
+			<img
+					src="/icons/list-icon-1.png"
+					alt=""
+					class="icon"
+					id="list-view-button"
+			/>
+			<img
+					src="/icons/image-icon-1.png"
+					alt=""
+					class="icon"
+					id="image-view-button"
+			/>
+		</div>
 		<div class="recommendations-recipe-container">
 			<div th:each="recipe : ${recommendations}" class="recipe" look="image" change="none">
 				<div class="recipe-image">

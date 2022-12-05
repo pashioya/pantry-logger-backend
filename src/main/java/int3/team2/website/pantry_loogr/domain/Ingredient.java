@@ -1,5 +1,7 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import java.util.Objects;
+
 public class Ingredient {
     protected int id;
     protected String name;
@@ -35,5 +37,18 @@ public class Ingredient {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return name.equals(that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

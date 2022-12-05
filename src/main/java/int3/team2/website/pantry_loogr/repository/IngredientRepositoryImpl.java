@@ -122,14 +122,13 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "           PRODUCTS " +
                 "               ON " +
                 "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
-                "           PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
                 "       JOIN " +
                 "           INGREDIENTS " +
                 "               ON " +
                 "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
                 "       WHERE " +
                 "           PANTRY_ZONES.USER_ID = ?";
-        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userID), this::mapPantryZoneProductRow);
+        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userID), this::mapRow);
     }
 
     @Override

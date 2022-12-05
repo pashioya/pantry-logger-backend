@@ -34,9 +34,7 @@
 						<h4>
 							Quantity:
 							<span class="item-quantity" th:text="${' ' + product.quantity}"> </span>
-							<span th:switch="${product.size}">
-								<span th:case="1"></span>
-								<span th:case=""></span>
+							<span th:unless="${product.size == 1}">
 								Size:
 								<span class="item-size" th:text="${product.size}"></span>
 							</span>

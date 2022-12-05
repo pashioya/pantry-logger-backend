@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head th:replace="fragments/head :: head (${title})"></head>
-	<script src="/js/app.js" defer></script>
+	<script src="/js/app.js" ></script>
 	<body>
 		<header th:replace="fragments/header :: header (${headerList})"></header>
 
@@ -32,7 +32,7 @@
 						<span class="item-name" th:text="${ingredient.name}"></span>
 					</h4>
 					<h4>
-						"Quantity:"
+						Amount:
 						<span class ="item-quantity" th:text="${ingredient.amount}"></span>
 					</h4>
 				</div>

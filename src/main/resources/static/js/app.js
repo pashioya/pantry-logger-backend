@@ -58,6 +58,38 @@ function select_item() {
         document.querySelector("body").setAttribute("item-selected", "true");
         change_look_property("list");
         this.onclick = null;
+        const boxes = this.getElementsByClassName("remove-percentage")
+        for(let i = (boxes.length-1); i >= 0; i--) {
+            boxes[i].onclick = function () {
+                //TODO add ajax request
+                $.ajax({
+                    url:"/scanner/checkForItem?code=" +code,
+                    type: "GET",
+                    success: function (data) {
+                        const name = document.getElementById("item-name");
+                        name.value = data.name;
+                        name.readOnly = true;
+
+                        const amount = document.getElementById("item-amount");
+                        amount.value = data.amount;
+                        amount.readOnly = true;
+
+                        const itemId = document.getElementById("item-id");
+                        itemId.value = data.itemId;
+                        itemId.readOnly = true;
+                    },
+                    error: function (data) {
+                        console.log("ERROR: Code search did not work!");
+                    }
+                })
+            }
+            boxes[i].addEventListener("mouseover", function () {
+                Array.from(boxes).forEach(x => x.classList.remove("remove_hover"))
+                for (let j = i; j < boxes.length; j++){
+                    boxes[j].classList.add("remove_hover")
+                }
+            })
+        }
     }
 }
 
@@ -124,24 +156,34 @@ if (itemscanback) {
 
 
 // Scanner Page JS
-document.getElementById("itemscan-back").onclick = function() {
-    document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
-    console.log("back")
+const itemscan_back = document.getElementById("itemscan-back");
+if (itemscan_back) {
+    itemscan_back.onclick = function() {
+        document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
+        console.log("back")
+    }
 }
-document.getElementById("item-continue").onclick = function() {
-    document.getElementsByTagName("body")[0].setAttribute("stage", "two");
-    console.log(document.getElementById("item-name").value)
-    console.log("continue")
+const item_continue = document.getElementById("item-continue");
+if (item_continue) {
+    item_continue.onclick = function() {
+        document.getElementsByTagName("body")[0].setAttribute("stage", "two");
+        console.log(document.getElementById("item-name").value)
+        console.log("continue")
+    }
 }
 
-const spaces = document.getElementById("scanner").getElementsByClassName("storage-space");
-Array.from(spaces).forEach(x => {
-    x.querySelector("input").addEventListener("change", function () {
-        Array.from(spaces).forEach(y => {
-            y.setAttribute("selected", "false");
-            if (y.querySelector("input").checked) {
-                y.setAttribute("selected", "true")
-            }
+
+let spaces = document.getElementById("scanner");
+if (spaces) {
+    spaces = spaces.getElementsByClassName("storage-space")
+    Array.from(spaces).forEach(x => {
+        x.querySelector("input").addEventListener("change", function () {
+            Array.from(spaces).forEach(y => {
+                y.setAttribute("selected", "false");
+                if (y.querySelector("input").checked) {
+                    y.setAttribute("selected", "true")
+                }
+            })
         })
     })
-})
+}

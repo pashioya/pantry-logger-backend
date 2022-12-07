@@ -1,6 +1,8 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
+import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
+import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -18,10 +21,12 @@ public class IndexController {
 
     private Logger logger;
     private UserService userService;
+    private TagService tagService;
 
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, TagService tagService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.userService = userService;
+        this.tagService = tagService;
     }
 
     @GetMapping
@@ -35,6 +40,22 @@ public class IndexController {
         return "index";
     }
 
+    @GetMapping("/test")
+    public String test(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+
+        List<Tag> recipeTags = tagService.getByRecipeId(3);
+
+        model.addAttribute("recipeTags", recipeTags);
+
+        model.addAttribute("title", "Welcome");
+
+        return "test";
+    }
+
     @GetMapping("/login")
     public String login(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -42,6 +63,11 @@ public class IndexController {
             return "redirect:/items/pantry-zones";
         }
         model.addAttribute("title", "Log-In");
+        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.BACK_BUTTON,"/"),
+                new DataItem(HtmlItems.HEADER_TITLE, "Log-In"),
+                new DataItem(HtmlItems.LOGO)
+        )));
         return "login";
     }
 
@@ -69,6 +95,11 @@ public class IndexController {
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("title", "Create Account");
+        model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
+                new DataItem(HtmlItems.BACK_BUTTON,"/"),
+                new DataItem(HtmlItems.HEADER_TITLE, "Create Account"),
+                new DataItem(HtmlItems.LOGO)
+        )));
         return "register";
     }
 

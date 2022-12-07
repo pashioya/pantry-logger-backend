@@ -223,10 +223,16 @@ VALUES (3, 1),
 
 
 INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
-VALUES (3, 1),
-       (4, 1),
-       (6, 4),
-       (1, 2);
+VALUES (3, 5),
+       (4, 5),
+       (16, 5),
+       (20, 11);
+
+INSERT INTO USER_PREFERENCES(USER_ID, TAG_ID, "LIKE")
+VALUES (1, 1, TRUE),
+       (1, 2, TRUE),
+       (1, 3, FALSE),
+       (1, 5, FALSE);
 
 
 

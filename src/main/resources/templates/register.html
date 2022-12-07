@@ -3,6 +3,7 @@
 	<head th:replace="fragments/head :: head (${title})"></head>
 
 	<body id="create-account">
+	<header th:replace="fragments/header :: header (${headerList})"></header>
 		<div class="createaccount-container">
 			<h1>Create Account</h1>
 			<form method="POST">
@@ -15,7 +16,7 @@
 				<label for="password">Password</label>
 				<input required type="password" id="password" name="password"/>
 
-				<label for="confirm-password">Password</label>
+				<label for="confirm-password">Confirm Password</label>
 				<input required type="password" id="confirm-password" name="confirm-password"/>
 				<input type="submit" id="register-submit" value="submit" />
 			</form>

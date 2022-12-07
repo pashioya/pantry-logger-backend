@@ -14,4 +14,6 @@ public interface UserRepository {
     EndUser findByUsername(String username);
 
     EndUser findByEmail(String email);
+
+    void updateUser(EndUser endUser);
 }

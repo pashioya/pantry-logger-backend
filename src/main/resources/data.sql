@@ -80,11 +80,11 @@ VALUES ('onion'),
        ('peas'),
        ('rice'); --35
 
-INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
-VALUES ('tom', 'tom@gmail.com', '12'),
-       ('noah', 'noah@gmail.com', '34'),
-       ('henry', 'henry@gmail.com', '56'),
-       ('paul', 'paul@gmail.com', '78');
+INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD, CURRENT_RECIPE)
+VALUES ('tom', 'tom@gmail.com', '12', 3),
+       ('noah', 'noah@gmail.com', '34', 1),
+       ('henry', 'henry@gmail.com', '56', 2),
+       ('paul', 'paul@gmail.com', '78', 0);
 
 INSERT INTO PANTRY_ZONES(USER_ID, NAME, MIN_TEMP, MAX_TEMP, MIN_HUM, MAX_HUM, MIN_BRIGHT, MAX_BRIGHT)
 VALUES (1, 'Fridge', 3, 8, 100, 200, 100, 200),

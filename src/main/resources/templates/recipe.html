@@ -40,6 +40,8 @@
 						<div th:utext="${recipe.getInstructions()}">
 						</div>
 					</div>
+
+					<a th:href="'/recipes/select-current/' + ${recipe.id} + '/recipe'">Cook This!</a>
 				</div>
 			</div>
 		</section>

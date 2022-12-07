@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-
     @Override
     public List<EndUser> getAll() {
         return userRepository.findAll();
@@ -72,5 +71,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean emailExists(String email) {
         return this.getByEmail(email) != null;
+    }
+
+    @Override
+    public void updateUser(EndUser endUser) {
+        userRepository.updateUser(endUser);
     }
 }

@@ -41,7 +41,8 @@ public class UserRepositoryImpl implements UserRepository {
                 rs.getString("CITY"),
                 rs.getString("STATE_REGION"),
                 rs.getString("ZIP"),
-                rs.getString("COUNTRY"));
+                rs.getString("COUNTRY"),
+                rs.getInt("CURRENT_RECIPE"));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public EndUser get(int id) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE ID = " + id, this::mapRow).get(0);
+        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE ID = ?", this::mapRow, id).get(0);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public EndUser findByUsername(String username) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE USERNAME = ?", new Object[] {username}, new int[] {VARCHAR},  this::mapRow);
+            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE USERNAME = ?",  this::mapRow, username);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -85,9 +86,27 @@ public class UserRepositoryImpl implements UserRepository {
 
     public EndUser findByEmail(String email) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE EMAIL = ?", new Object[] {email}, new int[] {VARCHAR},  this::mapRow);
+            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE EMAIL = ?",  this::mapRow, email);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+
+    @Override
+    public void updateUser(EndUser endUser) {
+        jdbcTemplate.update(
+                "UPDATE END_USERS SET PASSWORD=?, USERNAME=?,FIRST_NAME=?, LAST_NAME=?, EMAIL=?, CITY=?, STATE_REGION=?, ZIP=?, COUNTRY=?, CURRENT_RECIPE=? WHERE ID=?",
+                endUser.getPassword(),
+                endUser.getUsername(),
+                endUser.getFirstName(),
+                endUser.getLastName(),
+                endUser.getEmail(),
+                endUser.getCity(),
+                endUser.getStateRegion(),
+                endUser.getZip(),
+                endUser.getCountry(),
+                endUser.getCurrentRecipe(),
+                endUser.getId()
+        );
     }
 }

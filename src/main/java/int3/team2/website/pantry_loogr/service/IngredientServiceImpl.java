@@ -5,6 +5,7 @@ import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
 import int3.team2.website.pantry_loogr.domain.ShoppingListIngredient;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -70,7 +71,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
-        return ingredientRepository.getProductsAndPantryZonesByUser(userId);
+        List<PantryZoneProduct> list = ingredientRepository.getProductsAndPantryZonesByUser(userId);
+        list.forEach(x -> LoggerFactory.getLogger("lol").debug(x.getProductName()));
+        return list;
     }
 
     @Override

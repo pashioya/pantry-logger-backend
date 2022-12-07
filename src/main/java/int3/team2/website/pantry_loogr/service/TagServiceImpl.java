@@ -38,4 +38,14 @@ public class TagServiceImpl implements TagService {
     public List<Tag> getByRecipeId(int recipeId) {
         return tagRepository.getByRecipeId(recipeId);
     }
+
+    @Override
+    public List<Tag> getLikesByUserId(int userId) {
+        return tagRepository.getLikesByUserId(userId);
+    }
+
+    @Override
+    public List<Tag> getDislikesByUserId(int userId) {
+        return tagRepository.getDislikesByUserId(userId);
+    }
 }

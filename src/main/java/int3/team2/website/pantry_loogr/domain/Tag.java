@@ -38,6 +38,10 @@ public class Tag {
         this.name = name;
     }
 
+    public TagFlag getFlag() {
+        return flag;
+    }
+
     @Override
     public String toString() {
         return "Tag{" +

@@ -13,8 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -22,10 +21,12 @@ public class IndexController {
 
     private Logger logger;
     private UserService userService;
+    private TagService tagService;
 
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, TagService tagService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.userService = userService;
+        this.tagService = tagService;
     }
 
     @GetMapping
@@ -37,6 +38,22 @@ public class IndexController {
         model.addAttribute("title", "Welcome");
 
         return "index";
+    }
+
+    @GetMapping("/test")
+    public String test(HttpSession httpSession, Model model) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+
+        List<Tag> recipeTags = tagService.getByRecipeId(3);
+
+        model.addAttribute("recipeTags", recipeTags);
+
+        model.addAttribute("title", "Welcome");
+
+        return "test";
     }
 
     @GetMapping("/login")

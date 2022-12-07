@@ -44,6 +44,38 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> getByRecipeId(int recipeId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM RECIPE_TAGS JOIN TAGS USING(TAG_ID) WHERE RECIPE_ID = ?", this::mapRow, recipeId);
+        //return jdbcTemplate.query("SELECT TAGS.* FROM RECIPE_TAGS JOIN TAGS USING(TAG_ID) WHERE RECIPE_ID = ?", this::mapRow, recipeId);
+        String sql = "SELECT " +
+                "       TAGS.*" +
+                "     FROM " +
+                "       INGREDIENT_TAGS  " +
+                "     LEFT JOIN TAGS ON INGREDIENT_TAGS.TAG_ID=TAGS.TAG_ID " +
+                "     WHERE INGREDIENT_TAGS.INGREDIENT_ID IN" +
+                " (SELECT INGREDIENTS.ID" +
+                "   FROM RECIPES" +
+                "   JOIN RECIPE_INGREDIENTS ON RECIPES.ID = RECIPE_INGREDIENTS.RECIPE_ID" +
+                "   JOIN INGREDIENTS ON INGREDIENTS .ID = RECIPE_INGREDIENTS.INGREDIENT_ID " +
+                "   WHERE RECIPE_ID = ? " +
+                "   ) " +
+                "UNION " +
+                "SELECT " +
+                "   TAGS.*" +
+                "FROM TAGS " +
+                "LEFT JOIN RECIPE_TAGS ON RECIPE_TAGS.TAG_ID=TAGS.TAG_ID " +
+                "WHERE " +
+                "   RECIPE_TAGS.RECIPE_ID = ?;";
+        return jdbcTemplate.query(sql, this::mapRow, recipeId, recipeId);
+    }
+    @Override
+    public List<Tag> getByIngredientId(int ingredientId) {
+        return jdbcTemplate.query("SELECT TAGS.* FROM INGREDIENT_TAGS JOIN TAGS USING(TAG_ID) WHERE INGREDIENTS.ID = ?", this::mapRow, ingredientId);
+    }
+    @Override
+    public List<Tag> getLikesByUserId(int userId) {
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.\"LIKE\" = TRUE", this::mapRow, userId);
+    }
+    @Override
+    public List<Tag> getDislikesByUserId(int userId) {
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.\"LIKE\" = FALSE", this::mapRow, userId);
     }
 }

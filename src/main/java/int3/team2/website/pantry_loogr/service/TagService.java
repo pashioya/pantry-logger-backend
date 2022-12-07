@@ -11,4 +11,7 @@ public interface TagService {
     List<Tag> getByName(String name);
     List<Tag> getByRecipeId(int recipeId);
 
+    List<Tag> getLikesByUserId(int userId);
+    List<Tag> getDislikesByUserId(int userId);
+
 }

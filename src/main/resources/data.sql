@@ -43,17 +43,6 @@ VALUES ('Pork chops',
         'Fry some pork chops');
 
 
-
-INSERT INTO TAGS (NAME)
-VALUES ('meat'),
-       ('dairy'),
-       ('nuts & seeds'),
-       ('alcohol'),
-       ('gluten'),
-       ('soy'),
-       ('eggs');
-
-
 INSERT INTO INGREDIENTS (NAME)
 VALUES ('onion'),
        ('garlic'),
@@ -90,20 +79,6 @@ VALUES ('onion'),
        ('chicken breast'),
        ('peas'),
        ('rice'); --35
-
-INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
-VALUES (3, 1),
-       (4, 1),
-       (6, 4),
-       (18, 2),
-       (19, 2),
-       (22, 1),
-       (23, 1),
-       (25, 2),
-       (25, 6),
-       (26, 2),
-       (28, 2),
-       (29, 2);
 
 INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD)
 VALUES ('tom', 'tom@gmail.com', '12'),
@@ -248,10 +223,16 @@ VALUES (3, 1),
 
 
 INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
-VALUES (3, 1),
-       (4, 1),
-       (6, 4),
-       (1, 2);
+VALUES (3, 5),
+       (4, 5),
+       (16, 5),
+       (20, 11);
+
+INSERT INTO USER_PREFERENCES(USER_ID, TAG_ID, "LIKE")
+VALUES (1, 1, TRUE),
+       (1, 2, TRUE),
+       (1, 3, FALSE),
+       (1, 5, FALSE);
 
 
 

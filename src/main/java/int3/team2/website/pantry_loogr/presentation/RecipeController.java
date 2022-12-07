@@ -57,6 +57,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.SHOPPINGLIST),
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
+        model.addAttribute("user", user);
         model.addAttribute("rightFooterList", new ArrayList<>());
 
         model.addAttribute("recipes", recipeService.getAll());
@@ -70,6 +71,7 @@ public class RecipeController {
             return "redirect:/login";
         }
         Recipe recipe = recipeService.get(recipeID);
+        model.addAttribute("user", user);
         model.addAttribute("title", recipe.getName());
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON, "/recipes"),
@@ -86,6 +88,7 @@ public class RecipeController {
         if(user == null) {
             return "redirect:/login";
         }
+        model.addAttribute("user", user);
         model.addAttribute("title", "Create Recipe");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON, "/recipes"),
@@ -136,6 +139,7 @@ public class RecipeController {
         if(user == null) {
             return "redirect:/login";
         }
+        model.addAttribute("user", user);
         model.addAttribute("title",   "Recommendations");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.BACK_BUTTON,"/items"),
@@ -174,5 +178,21 @@ public class RecipeController {
         model.addAttribute("recipes", recipes);
 
         return "recipes";
+    }
+    @GetMapping("/select-current/{recipeId}/{redirect}")
+    public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId, @PathVariable String redirect) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+
+        user.setCurrentRecipe(recipeId);
+        userService.updateUser(user);
+
+        if(redirect.equals("recipe")) {
+            return "redirect:/recipes/" + redirect + "/" + recipeId;
+        }
+        return "redirect:/recipes/" + redirect;
+
     }
 }

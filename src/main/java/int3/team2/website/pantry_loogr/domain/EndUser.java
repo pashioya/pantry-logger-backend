@@ -17,6 +17,7 @@ public class EndUser {
     private String stateRegion;
     private String zip;
     private String country;
+    private int currentRecipe;
 
     /**
      * Constructor that initially creates users on user registration
@@ -47,7 +48,7 @@ public class EndUser {
      * @param zip zip code of residence
      * @param country country of residence
      */
-    public EndUser(int id, String password, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country) {
+    public EndUser(int id, String password, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country, int currentRecipe) {
         this.id = id;
         this.password = password;
         this.username = username;
@@ -58,6 +59,7 @@ public class EndUser {
         this.stateRegion = stateRegion;
         this.zip = zip;
         this.country = country;
+        this.currentRecipe = currentRecipe;
     }
 
     public int getId() {
@@ -100,6 +102,14 @@ public class EndUser {
 
     public String getCountry() {
         return country;
+    }
+
+    public int getCurrentRecipe() {
+        return currentRecipe;
+    }
+
+    public void setCurrentRecipe(int currentRecipe) {
+        this.currentRecipe = currentRecipe;
     }
 
     @Override

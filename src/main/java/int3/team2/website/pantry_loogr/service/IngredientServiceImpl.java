@@ -65,6 +65,13 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    public void editPantryZoneProduct(int productId, double percentage) {
+        PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId);
+        product.setAmountUsed((int) (product.getQuantity() * percentage));
+        ingredientRepository.updatePantryZoneProduct(product);
+    }
+
+    @Override
     public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
         return ingredientRepository.getForShoppingList(shoppingListId);
     }

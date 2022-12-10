@@ -39,7 +39,7 @@
 								<span class="item-size" th:text="${product.size}"></span>
 							</span>
 						</h4>
-						<h4>Location: <span class="item-location" th:text="${product.pantryZoneName}"></span></h4>
+						<h4>Location: <span class="item-location" th:text="${product.pantryZone.name}"></span></h4>
 					</div>
 					<div class="modify-container" modify-mode="remove">
 						<div class="remove-section">
@@ -51,19 +51,19 @@
 								</thead>
 								<tbody>
 								<tr>
-									<td value="1" class="remove-percentage">100%</td>
+									<td value="1" class="remove-percentage"><a th:href="'/items/editItem/' + ${product.id} + '/1'">100%</a></td>
 								</tr>
 								<tr>
-									<td value="0.75" class="remove-percentage">75%</td>
+									<td value="0.75" class="remove-percentage"><a th:href="'/items/editItem/' + ${product.id} + '/0.75'">75%</a></td>
 								</tr>
 								<tr>
-									<td value="0.5" class="remove-percentage">50%</td>
+									<td value="0.5" class="remove-percentage"><a th:href="'/items/editItem/' + ${product.id} + '/0.5'">50%</a></td>
 								</tr>
 								<tr>
-									<td value="0.25" class="remove-percentage">25%</td>
+									<td value="0.25" class="remove-percentage"><a th:href="'/items/editItem/' + ${product.id} + '/0.25'">25%</a></td>
 								</tr>
 								<tr>
-									<td value="0" class="remove-percentage">0%</td>
+									<td value="0" class="remove-percentage"><a th:href="'/items/editItem/' + ${product.id} + '/0'">0%</a></td>
 								</tr>
 								</tbody>
 							</table>
@@ -99,5 +99,6 @@
 
 
 	</body>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js" ></script>
 	<script src="/js/app.js" ></script>
 </html>

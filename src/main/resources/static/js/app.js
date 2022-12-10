@@ -62,26 +62,6 @@ function select_item() {
         for(let i = (boxes.length-1); i >= 0; i--) {
             boxes[i].onclick = function () {
                 //TODO add ajax request
-                $.ajax({
-                    url:"/scanner/checkForItem?code=" +code,
-                    type: "GET",
-                    success: function (data) {
-                        const name = document.getElementById("item-name");
-                        name.value = data.name;
-                        name.readOnly = true;
-
-                        const amount = document.getElementById("item-amount");
-                        amount.value = data.amount;
-                        amount.readOnly = true;
-
-                        const itemId = document.getElementById("item-id");
-                        itemId.value = data.itemId;
-                        itemId.readOnly = true;
-                    },
-                    error: function (data) {
-                        console.log("ERROR: Code search did not work!");
-                    }
-                })
             }
             boxes[i].addEventListener("mouseover", function () {
                 Array.from(boxes).forEach(x => x.classList.remove("remove_hover"))

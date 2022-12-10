@@ -11,15 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/items")
@@ -65,6 +60,16 @@ public class ItemsController {
         return "items";
     }
 
+    @GetMapping("/editItem/{itemId}/{percentage}")
+    public String editItem(HttpSession httpSession, @PathVariable int itemId, @PathVariable double percentage) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        logger.debug(String.valueOf(itemId));
+        logger.debug(String.valueOf(percentage));
+        return "redirect:/items";
+    }
     @GetMapping("/pantry-zones")
     public String pantryZones(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));

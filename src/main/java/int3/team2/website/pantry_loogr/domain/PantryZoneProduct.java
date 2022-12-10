@@ -4,7 +4,7 @@ public class PantryZoneProduct extends Product{
 
     private int quantity;
     private int amountUsed;
-    private String pantryZoneName;
+    private PantryZone pantryZone;
 
 
     public PantryZoneProduct(String name, String productName, String code, int size, int quantity, int amountUsed) {
@@ -19,15 +19,12 @@ public class PantryZoneProduct extends Product{
         this.amountUsed = amountUsed;
     }
 
-    public PantryZoneProduct(int id, String name, String productName, String code, int size, int quantity, int amountUsed, String pantryZoneName) {
+    public PantryZoneProduct(int id, String name, String productName, String code, int size, int quantity, int amountUsed, PantryZone pantryZone) {
         super(id, name, productName, code, size);
         this.quantity = quantity;
         this.amountUsed = amountUsed;
-        this.pantryZoneName = pantryZoneName;
+        this.pantryZone = pantryZone;
     }
-
-
-
 
     public int getQuantity() {
         return quantity;
@@ -37,5 +34,9 @@ public class PantryZoneProduct extends Product{
         return amountUsed;
     }
 
-    public String getPantryZoneName() { return pantryZoneName;}
+    public PantryZone getPantryZone() { return pantryZone;}
+
+    public void setAmountUsed(int amountUsed) {
+        this.amountUsed = amountUsed;
+    }
 }

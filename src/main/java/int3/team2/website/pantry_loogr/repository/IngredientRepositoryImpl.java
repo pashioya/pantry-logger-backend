@@ -1,6 +1,8 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -17,10 +19,12 @@ import static java.sql.Types.INTEGER;
 
 @Repository
 public class IngredientRepositoryImpl implements IngredientRepository {
+    private Logger logger;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert ingredientInserter;
     private SimpleJdbcInsert ingredientRecipeInserter;
     public IngredientRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.jdbcTemplate = jdbcTemplate;
         this.ingredientInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("INGREDIENTS")
@@ -34,7 +38,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         return new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
     }
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
-        return new PantryZoneProduct(rs.getInt("ID"),
+        return new PantryZoneProduct(
+                rs.getInt("ID"),
                 rs.getString("NAME"),
                 rs.getString("PRODUCT_NAME"),
                 rs.getString("CODE"),
@@ -44,7 +49,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 new PantryZone(
                         rs.getInt("PANTRY_ID"),
                         rs.getString("PANTRY_NAME")
-                )
+                ),
+                rs.getDate("DATE_ENTERED").toLocalDate()
         );
     }
     private ShoppingListIngredient mapShoppingListIngredientRow(ResultSet rs, int rowid) throws SQLException {
@@ -120,65 +126,72 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public void addToPantry(int productId, int zone) {
     }
     @Override
-    public PantryZoneProduct getPantryZoneProduct(int productId) {
+    public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {
         return jdbcTemplate.query(
-                "SELECT PANTRY_ZONE_PRODUCTS.*, PANTRY_ZONES.ID as PANTRY_ID, PANTRY_ZONES.NAME as PANTRY_NAME " +
+                "SELECT " +
+                            "INGREDIENTS.ID, INGREDIENTS.NAME, " +
+                            "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
+                            "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
+                            "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
                         "FROM PANTRY_ZONE_PRODUCTS " +
+                        "JOIN PRODUCTS " +
+                            "ON PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
+                        "JOIN INGREDIENTS " +
+                            "ON PRODUCTS.INGREDIENT_ID = INGREDIENTS.ID " +
                         "JOIN PANTRY_ZONES " +
                             "ON PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = PANTRY_ZONES.ID " +
-                        "WHERE PRODUCT_ID = ?",
-                preparedStatement -> preparedStatement.setInt(1, productId),
+                        "WHERE PRODUCT_ID = ? AND PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = ?",
+                preparedStatement -> {
+                    preparedStatement.setInt(1, productId);
+                    preparedStatement.setInt(2, pantryId);
+                },
                 this::mapPantryZoneProductRow).get(0);
     }
     @Override
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
-        String sql = "SELECT " +
-                "          INGREDIENTS.*, PANTRY_ZONE_PRODUCTS.*, PRODUCTS.*, PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_ZONE_NAME " +
-                "       FROM " +
-                "           PANTRY_ZONES "+
-                "       JOIN " +
-                "           PANTRY_ZONE_PRODUCTS " +
-                "               ON " +
-                "           PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
-                "       JOIN " +
-                "           PRODUCTS " +
-                "               ON " +
-                "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
-                "       JOIN " +
-                "           INGREDIENTS " +
-                "               ON " +
-                "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
-                "       WHERE " +
-                "           PANTRY_ZONES.ID = ? ";
-        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, pantryZoneId), this::mapPantryZoneProductRow);
+        return jdbcTemplate.query(
+                "SELECT " +
+                            "INGREDIENTS.ID, INGREDIENTS.NAME, " +
+                            "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
+                            "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
+                            "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
+                        "FROM PANTRY_ZONES " +
+                            "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
+                            "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                            "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                        "WHERE PANTRY_ZONES.ID = ? ",
+                preparedStatement -> preparedStatement.setInt(1, pantryZoneId),
+                this::mapPantryZoneProductRow
+        );
     }
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
-        String sql = "SELECT " +
-                "          INGREDIENTS.*, PRODUCTS.PRODUCT_NAME, PRODUCTS.SIZE, PRODUCTS.CODE,PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME, PANTRY_ZONE_PRODUCTS.* " +
-                "       FROM " +
-                "            PANTRY_ZONES " +
-                "        JOIN " +
-                "            PANTRY_ZONE_PRODUCTS " +
-                "                ON " +
-                "            PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
-                "        JOIN " +
-                "            PRODUCTS " +
-                "                ON " +
-                "            PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
-                "       JOIN " +
-                "           INGREDIENTS " +
-                "               ON " +
-                "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
-                "       WHERE " +
-                "            USER_ID = ? ";
-        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userId), this::mapPantryZoneProductRow);
+        return jdbcTemplate.query(
+                "SELECT " +
+                            "INGREDIENTS.ID, INGREDIENTS.NAME, " +
+                            "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
+                            "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
+                            "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
+                        "FROM PANTRY_ZONES " +
+                            "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
+                            "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                            "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                        "WHERE USER_ID = ? ",
+                preparedStatement -> preparedStatement.setInt(1, userId),
+                this::mapPantryZoneProductRow
+        );
     }
     @Override
     public void updatePantryZoneProduct(PantryZoneProduct product) {
-//        jdbcTemplate.update("UPDATE PANTRY_ZONE_PRODUCTS SET PANTRY_ZONE_ID = ?, QUANTITY = ?, AMOUNT_USED = ? ,DATE_ENTERED = ? WHERE PANTRY_ZONE_ID = ?",
-//                product.get
-//        );
+        logger.debug("" +product.getPantryZone().getId());
+        jdbcTemplate.update(
+                "UPDATE PANTRY_ZONE_PRODUCTS SET " +
+                            "QUANTITY = ?, " +
+                            "AMOUNT_USED = ? ," +
+                            "DATE_ENTERED = ? " +
+                        "WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
+                product.getQuantity(), product.getAmountUsed(), product.getDateEntered(), product.getId(), product.getPantryZone().getId()
+        );
     }
     @Override
     public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {

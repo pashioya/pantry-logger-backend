@@ -60,14 +60,15 @@ public class ItemsController {
         return "items";
     }
 
-    @GetMapping("/editItem/{itemId}/{percentage}")
-    public String editItem(HttpSession httpSession, @PathVariable int itemId, @PathVariable double percentage) {
+
+    //TODO rework the way this is accessed
+    @GetMapping("/editItem/{pantryId}/{productId}/{percentage}")
+    public String editItem(HttpSession httpSession,@PathVariable int pantryId, @PathVariable int productId, @PathVariable double percentage) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";
         }
-        logger.debug(String.valueOf(itemId));
-        logger.debug(String.valueOf(percentage));
+        ingredientService.editPantryZoneProduct(pantryId, productId, percentage);
         return "redirect:/items";
     }
     @GetMapping("/pantry-zones")
@@ -124,11 +125,6 @@ public class ItemsController {
         )));
 
         List<PantryZoneProduct> products = ingredientService.getByPantryZoneId(pantryZoneID);
-        if (products != null) {
-            logger.debug(Arrays.toString(products.toArray()));
-        } else {
-            logger.debug("products == null");
-        }
 
         model.addAttribute("products", products);
 

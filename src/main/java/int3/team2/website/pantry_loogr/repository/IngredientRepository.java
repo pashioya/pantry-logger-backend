@@ -20,6 +20,7 @@ public interface IngredientRepository {
     void addToPantry(int productId, int zone);
     PantryZoneProduct getPantryZoneProduct(int productId, int pantryId);
     void updatePantryZoneProduct(PantryZoneProduct product);
+    void removePantryZoneProduct(PantryZoneProduct product);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
     List<ShoppingListIngredient> getForShoppingList(int shoppingListId);

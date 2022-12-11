@@ -15,7 +15,8 @@ public interface IngredientService {
     Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
     Product getByCode(String code);
     void addToPantry(int productId, int zone);
-    void editPantryZoneProduct(int pantryId, int productId, double percentage);
+    void editPantryZoneProductSize(int pantryId, int productId, double percentage);
+    void editPantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
     List<ShoppingListIngredient> getForShoppingList(int id);

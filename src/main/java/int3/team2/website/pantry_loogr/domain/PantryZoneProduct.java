@@ -45,4 +45,14 @@ public class PantryZoneProduct extends Product{
     public void setAmountUsed(int amountUsed) {
         this.amountUsed = amountUsed;
     }
+
+    /**
+    * Returns true or false based on the final value of quantity.
+    * If the value of quantity is below 0 it will return false
+    * if the value is above 0 it will return true.
+    * */
+    public boolean removeFromQuantity(int amountToRemove) {
+        this.quantity = this.quantity - amountToRemove;
+        return quantity > 0;
+    }
 }

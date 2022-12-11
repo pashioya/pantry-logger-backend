@@ -68,7 +68,11 @@ public class ItemsController {
         if(user == null) {
             return "redirect:/login";
         }
-        ingredientService.editPantryZoneProduct(pantryId, productId, percentage);
+        if (percentage == 0) {
+            ingredientService.editPantryZoneProductQuantity(pantryId, productId, 1);
+            return "redirect:/items";
+        }
+        ingredientService.editPantryZoneProductSize(pantryId, productId, percentage);
         return "redirect:/items";
     }
     @GetMapping("/pantry-zones")

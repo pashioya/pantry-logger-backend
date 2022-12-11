@@ -68,9 +68,19 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void editPantryZoneProduct(int pantryId, int productId, double percentage) {
+    public void editPantryZoneProductSize(int pantryId, int productId, double percentage) {
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
         product.setAmountUsed((int) (product.getSize() * (1 - percentage)));
+        //TODO add check for 0% to remove quantity
+        ingredientRepository.updatePantryZoneProduct(product);
+    }
+
+    @Override
+    public void editPantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove) {
+        PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
+        if(product.removeFromQuantity(quantityToRemove)) {
+            ingredientRepository.updatePantryZoneProduct(product);
+        }
         ingredientRepository.updatePantryZoneProduct(product);
     }
 

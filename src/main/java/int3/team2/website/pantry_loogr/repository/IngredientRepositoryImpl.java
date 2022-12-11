@@ -183,7 +183,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
     @Override
     public void updatePantryZoneProduct(PantryZoneProduct product) {
-        logger.debug("" +product.getPantryZone().getId());
         jdbcTemplate.update(
                 "UPDATE PANTRY_ZONE_PRODUCTS SET " +
                             "QUANTITY = ?, " +
@@ -193,6 +192,15 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 product.getQuantity(), product.getAmountUsed(), product.getDateEntered(), product.getId(), product.getPantryZone().getId()
         );
     }
+
+    @Override
+    public void removePantryZoneProduct(PantryZoneProduct product) {
+        jdbcTemplate.update(
+                "DELETE FROM PANTRY_ZONE_PRODUCTS WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
+                product.getId(), product.getPantryZone().getId()
+        );
+    }
+
     @Override
     public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
         String sql = "SELECT " +

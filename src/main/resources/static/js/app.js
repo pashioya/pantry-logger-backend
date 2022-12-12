@@ -3,6 +3,7 @@ let button_list = document.getElementById("list-view-button");
 let item_list = document.querySelectorAll(".item");
 let recipe_list = document.querySelectorAll(".recipe");
 let favorites_list = document.querySelectorAll(".favorites-button");
+let add_section_list = document.querySelectorAll(".add-section");
 
 if (button_images) {
     button_images.onclick = function () {
@@ -60,29 +61,6 @@ function select_item() {
         this.onclick = null;
         const boxes = this.getElementsByClassName("remove-percentage")
         for(let i = (boxes.length-1); i >= 0; i--) {
-            boxes[i].onclick = function () {
-                //TODO add ajax request
-                $.ajax({
-                    url:"/scanner/checkForItem?code=" +code,
-                    type: "GET",
-                    success: function (data) {
-                        const name = document.getElementById("item-name");
-                        name.value = data.name;
-                        name.readOnly = true;
-
-                        const amount = document.getElementById("item-amount");
-                        amount.value = data.amount;
-                        amount.readOnly = true;
-
-                        const itemId = document.getElementById("item-id");
-                        itemId.value = data.itemId;
-                        itemId.readOnly = true;
-                    },
-                    error: function (data) {
-                        console.log("ERROR: Code search did not work!");
-                    }
-                })
-            }
             boxes[i].addEventListener("mouseover", function () {
                 Array.from(boxes).forEach(x => x.classList.remove("remove_hover"))
                 for (let j = i; j < boxes.length; j++){
@@ -101,10 +79,15 @@ function de_select_item() {
             change_look_property("image");
             was_images_before = false;
         }
-        document
-            .querySelector(".item[change='selected']")
-            .querySelector(".modify-container")
-            .setAttribute("modify-mode", "remove");
+
+        const current = document.querySelector(".item[change='selected']");
+        if (current.getAttribute("product-size") != "1") {
+            current
+                .querySelector(".modify-container")
+                .setAttribute("modify-mode", "remove");
+        }
+
+
         let current_item = document.querySelector(".item[change='selected']");
         current_item.setAttribute("change", "none");
         document.querySelector("body").setAttribute("item-selected", "false");
@@ -128,13 +111,39 @@ function back_button() {
         .setAttribute("modify-mode", "remove");
 }
 
+if (add_section_list) {
+    add_section_list.forEach(element => {
+        const remove = element.getElementsByClassName("amount-remove")[0];
+        const add = element.getElementsByClassName("amount-add")[0];
+        const multiply = element.getElementsByClassName("multiply-amount")[0];
+        const show_amount = element.getElementsByClassName("show-amount-val")[0];
+
+        function addAmount(num) {
+            show_amount.value = parseInt(show_amount.value) + num;
+        }
+
+        add.onclick = function () {
+            addAmount(1);
+        }
+        remove.onclick = function () {
+            if (show_amount.value > 0) {
+                addAmount(-1);
+            }
+        }
+        multiply.onclick = function () {
+            addAmount(parseInt(show_amount.value));
+        }
+    });
+}
+
 if (item_list) {
     item_list.forEach((element) => {
+        if (element.getAttribute("product-size") == "1") {
+            element.getElementsByClassName("modify-container")[0].setAttribute("modify-mode", "add")
+        }
         element.onclick = select_item;
-        element.getElementsByClassName("exit-button")[0].onclick =
-            de_select_item;
-        element.getElementsByClassName("change-to-add-button")[0].onclick =
-            add_to_item;
+        element.getElementsByClassName("exit-button")[0].onclick = de_select_item;
+        element.getElementsByClassName("change-to-add-button")[0].onclick = add_to_item;
         element.getElementsByClassName("back-button")[0].onclick = back_button;
     });
 }

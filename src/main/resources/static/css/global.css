@@ -690,6 +690,10 @@ body[item-selected="true"] .item[change="selected"] {
     display: flex;
 }
 
+.item[product-size="1"] > .modify-container[modify-mode="add"] > .add-section > .back-button {
+    display: none;
+}
+
 .modify-container[modify-mode="remove"] > .remove-section .remove_hover {
     background-color: red;
 }

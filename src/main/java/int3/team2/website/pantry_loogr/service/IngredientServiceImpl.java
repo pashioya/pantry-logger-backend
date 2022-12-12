@@ -5,6 +5,7 @@ import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
 import int3.team2.website.pantry_loogr.domain.ShoppingListIngredient;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +14,11 @@ import java.util.Map;
 
 @Component
 public class IngredientServiceImpl implements IngredientService {
+    private Logger logger;
     private IngredientRepository ingredientRepository;
 
     public IngredientServiceImpl(IngredientRepository ingredientRepository) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.ingredientRepository = ingredientRepository;
     }
 
@@ -65,15 +68,41 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    public void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage) {
+        PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
+        product.setAmountUsed((int) (product.getSize() * (1 - percentage)));
+        //TODO add check for 0% to remove quantity
+        ingredientRepository.updatePantryZoneProduct(product);
+    }
+
+    @Override
+    public void editPantryZoneProductQuantity(int pantryId, int productId, int quantity) {
+        PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
+        if(product.setQuantity(quantity)) {
+            ingredientRepository.updatePantryZoneProduct(product);
+        } else {
+            ingredientRepository.removePantryZoneProduct(product);
+        }
+    }
+
+    @Override
+    public void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove) {
+        PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
+        if(product.removeFromQuantity(quantityToRemove)) {
+            ingredientRepository.updatePantryZoneProduct(product);
+        } else {
+            ingredientRepository.removePantryZoneProduct(product);
+        }
+    }
+
+    @Override
     public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
         return ingredientRepository.getForShoppingList(shoppingListId);
     }
 
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
-        List<PantryZoneProduct> list = ingredientRepository.getProductsAndPantryZonesByUser(userId);
-        list.forEach(x -> LoggerFactory.getLogger("lol").debug(x.getProductName()));
-        return list;
+        return ingredientRepository.getProductsAndPantryZonesByUser(userId);
     }
 
     @Override

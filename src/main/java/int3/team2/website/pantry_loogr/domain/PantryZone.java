@@ -13,6 +13,11 @@ public class PantryZone {
     private int minBright;
     private int maxBright;
 
+     public PantryZone(int id, String name) {
+         this.id = id;
+         this.name = name;
+     }
+
     public PantryZone(String name, int minTemp, int maxTemp, int minHum, int maxHum, int minBright, int maxBright) {
         this.name = name;
         this.minTemp = minTemp;

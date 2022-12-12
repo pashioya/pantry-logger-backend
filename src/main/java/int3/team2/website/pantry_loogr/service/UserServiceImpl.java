@@ -15,10 +15,16 @@ public class UserServiceImpl implements UserService {
 
     private Logger logger;
     private UserRepository userRepository;
+    private PantryZoneService pantryZoneService;
+    private IngredientService ingredientService;
+    private ShoppingListService shoppingListService;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PantryZoneService pantryZoneService,IngredientService ingredientService, ShoppingListService shoppingListService) {
         logger = LoggerFactory.getLogger(this.getClass());
         this.userRepository = userRepository;
+        this.pantryZoneService = pantryZoneService;
+        this.ingredientService = ingredientService;
+        this.shoppingListService = shoppingListService;
     }
 
     @Override
@@ -55,7 +61,13 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public EndUser getByUsername(String username) {
-        return userRepository.findByUsername(username);
+
+        EndUser user =  userRepository.findByUsername(username);
+        if(user != null) {
+            user.setPantryZones(pantryZoneService.getAllForUser(user.getId()));
+            user.setShoppingList(shoppingListService.getByUser(user.getId()));
+        }
+        return user;
     }
 
 
@@ -76,7 +88,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(EndUser endUser) {
+
         userRepository.updateUser(endUser);
+        ingredientService.clearShoppingListIngredients(endUser.getShoppingList().getId());
+        ingredientService.addShoppingListIngredients(endUser.getShoppingList().getId(), endUser.getShoppingListItems());
     }
 
     public List<UserPreference> getUserPreferences(int userId) {

@@ -27,8 +27,12 @@ public class ShoppingListServiceImpl implements ShoppingListService {
         return shoppingList;
     }
 
+
+
     @Override
     public ShoppingList removeIngredientByAmount(int shoppingListId, int ingredientId, int amount) {
         return shoppingListRepository.removeIngredientByAmount(shoppingListId, ingredientId, amount);
     }
+
+
 }

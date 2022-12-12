@@ -8,4 +8,5 @@ public interface ShoppingListService {
     ShoppingList getByUser(int userId);
 
     ShoppingList removeIngredientByAmount(int shoppingListId, int ingredientId, int amount);
+
 }

@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
+import int3.team2.website.pantry_loogr.domain.UserPreference;
 import int3.team2.website.pantry_loogr.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,5 +77,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(EndUser endUser) {
         userRepository.updateUser(endUser);
+    }
+
+    public List<UserPreference> getUserPreferences(int userId) {
+        return userRepository.getUserPreferences(userId);
     }
 }

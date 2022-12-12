@@ -9,8 +9,10 @@ import int3.team2.website.pantry_loogr.service.SensorDataService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -69,12 +71,32 @@ public class ItemsController {
             return "redirect:/login";
         }
         if (percentage == 0) {
-            ingredientService.editPantryZoneProductQuantity(pantryId, productId, 1);
+            ingredientService.removePantryZoneProductQuantity(pantryId, productId, 1);
             return "redirect:/items";
         }
-        ingredientService.editPantryZoneProductSize(pantryId, productId, percentage);
+        ingredientService.editPantryZoneProductAmountUsed(pantryId, productId, percentage);
         return "redirect:/items";
     }
+
+    @RequestMapping(
+            value="/editItem",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String loginUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> editData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        logger.debug(editData.toString());
+        ingredientService.editPantryZoneProductQuantity(
+                Integer.parseInt(editData.get("pantryId").get(0)),
+                Integer.parseInt(editData.get("productId").get(0)),
+                Integer.parseInt(editData.get("quantityChange").get(0))
+        );
+        return "redirect:/items";
+    }
+
     @GetMapping("/pantry-zones")
     public String pantryZones(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));

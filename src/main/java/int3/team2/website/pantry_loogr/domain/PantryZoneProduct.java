@@ -1,5 +1,7 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDate;
 
 public class PantryZoneProduct extends Product{
@@ -44,6 +46,15 @@ public class PantryZoneProduct extends Product{
 
     public void setAmountUsed(int amountUsed) {
         this.amountUsed = amountUsed;
+    }
+
+    public boolean setQuantity(int quantity) {
+        if (quantity <= 0) {
+            LoggerFactory.getLogger(this.getClass()).debug("quantity less then 0");
+            return false;
+        }
+        this.quantity = quantity;
+        return true;
     }
 
     /**

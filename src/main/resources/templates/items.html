@@ -20,7 +20,7 @@
 				/>
 			</div>
 			<div class="items-container">
-				<div class="item" look="image" change="none" th:each="product: ${products}">
+				<div class="item" look="image" change="none" th:product-size="${product.size}" th:each="product: ${products}">
 					<div class="item-image">
 						<img
 								src="/images/filler-image.png"
@@ -69,12 +69,14 @@
 							</table>
 							<div class="change-to-add-button">+</div>
 						</div>
-						<form class="add-section">
+						<form action="/items/editItem" method="post" class="add-section">
 							<div class="amount-editor">
+								<input class="hidden" type="number" th:value="${product.id}" name="productId">
+								<input class="hidden" type="number" th:value="${product.pantryZone.id}" name="pantryId">
 								<div class="specific-amount">
 									<div class="amount-remove">-</div>
 									<div class="show-amount">
-										<input type="number" maxlength="3" />
+										<input name="quantityChange" class="show-amount-val" type="number" maxlength="3" th:value="${product.quantity}"/>
 									</div>
 									<div class="amount-add">+</div>
 								</div>
@@ -83,7 +85,7 @@
 							<input
 									class="add-buttons"
 									type="submit"
-									placeholder="update"
+									value="update"
 							/>
 							<div class="add-buttons back-button">back</div>
 						</form>

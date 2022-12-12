@@ -157,7 +157,8 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.getAll();
         recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
         List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
-        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry);
+        List<UserPreference> userPreferences = userService.getUserPreferences(user.getId());
+        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, userPreferences);
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 

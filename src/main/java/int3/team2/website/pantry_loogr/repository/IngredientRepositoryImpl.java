@@ -41,7 +41,11 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     }
     private Ingredient mapIngredientRow(ResultSet rs, int rowid) throws SQLException {
-        return new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
+        return new Ingredient(
+                rs.getInt("ID"),
+                rs.getString("NAME"),
+                rs.getString("IMAGE_PATH")
+        );
     }
 
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
@@ -57,7 +61,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                         rs.getInt("PANTRY_ID"),
                         rs.getString("PANTRY_NAME")
                 ),
-                rs.getDate("DATE_ENTERED").toLocalDate()
+                rs.getDate("DATE_ENTERED").toLocalDate(),
+                rs.getString("IMAGE_PATH")
         );
     }
 
@@ -66,7 +71,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getString("NAME"),
                 rs.getString("PRODUCT_NAME"),
                 rs.getString("CODE"),
-                rs.getInt("SIZE"));
+                rs.getInt("SIZE"),
+                rs.getString("IMAGE_PATH")
+        );
     }
     @Override
     public Ingredient get(int id) {
@@ -134,7 +141,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID, INGREDIENTS.NAME, " +
+                            "INGREDIENTS.ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH, " +
                             "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
@@ -156,7 +163,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID, INGREDIENTS.NAME, " +
+                            "INGREDIENTS.ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH," +
                             "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
@@ -173,7 +180,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID, INGREDIENTS.NAME, " +
+                            "INGREDIENTS.ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH," +
                             "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +

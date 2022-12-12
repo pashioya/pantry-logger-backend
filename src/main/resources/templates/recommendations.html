@@ -23,11 +23,11 @@
 			<div th:each="recipe : ${recommendations.keySet()}" th:class="${user.currentRecipe == recipe.id ? 'current-recipe ' : ''} + 'recipe'" look="image" change="none">
 				<div class="recipe-image">
 					<img
-							src="/images/filler-image.png"
+							th:src="${recipe.imagePath}"
 							alt="recipe image"
 					/>
 				</div>
-				<div class="favorites-button" look="selected">
+				<div class="hidden favorites-button" look="selected">
 					<img
 							src="/icons/deselected-favorite-icon.png"
 							alt="favorites icon"
@@ -37,10 +37,15 @@
 				<div class="recipe-name">
 					<h3 th:utext="${recipe.name}"></h3>
 				</div>
-
 				<div class="recipe-description">
 					<h3 th:utext="${recipe.description}">
 					</h3>
+				</div>
+				<div class="ingredients-you-have">
+					<h3 class="title">Ingredients you have</h3>
+					<ul class="ingredients-list">
+						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
+					</ul>
 				</div>
 				<div class="ingredients-you-need">
 					<h3 class="title">Ingredients You Need</h3>
@@ -55,7 +60,7 @@
 						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
 					</ul>
 				</div>
-				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id}">
+				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id} + '/recommend'">
 					<div>Cook This!</div>
 				</a>
 			</div>

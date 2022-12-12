@@ -20,6 +20,8 @@ public class Recipe {
 
     private List<Tag> tags;
 
+    private String imagePath;
+
     /**
      * Instantiates an object without any data so that the user can add it in pieces.
      */
@@ -35,12 +37,13 @@ public class Recipe {
      * @param instructions list of instructions to make the recipe
      * @param time enum time needed to cook the recipe
      */
-    public Recipe(String name, Difficulty difficulty, String description, String instructions, Time time) {
+    public Recipe(String name, Difficulty difficulty, String description, String instructions, Time time, String imagePath) {
         this.name = name;
         this.difficulty = difficulty;
         this.description = description;
         this.instructions = instructions;
         this.time = time;
+        this.imagePath = imagePath;
     }
 
     /**
@@ -54,13 +57,14 @@ public class Recipe {
      * @param instructions list of instructions to make the recipe
      * @param time enum time needed to cook the recipe
      */
-    public Recipe(int ID, String name, Difficulty difficulty, String description, String instructions, Time time) {
+    public Recipe(int ID, String name, Difficulty difficulty, String description, String instructions, Time time, String imagePath) {
         this.id = ID;
         this.name = name;
         this.difficulty = difficulty;
         this.description = description;
         this.instructions = instructions;
         this.time = time;
+        this.imagePath = imagePath;
     }
 
     public int getId() {
@@ -126,6 +130,8 @@ public class Recipe {
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
+
+    public String getImagePath() {return this.imagePath;}
 
 
     @Override

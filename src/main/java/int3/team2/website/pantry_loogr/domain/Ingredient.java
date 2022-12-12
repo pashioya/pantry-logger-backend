@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Ingredient {
     protected int id;
     protected String name;
+    protected String imagePath;
 
     public Ingredient(String name) {
         this.name = name;
@@ -13,6 +14,12 @@ public class Ingredient {
     public Ingredient(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Ingredient(int id, String name, String imagePath) {
+        this.id = id;
+        this.name = name;
+        this.imagePath = imagePath;
     }
 
     public int getId() {

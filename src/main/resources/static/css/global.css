@@ -996,6 +996,10 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 .recommendations-recipe-container > .recipe[look="image"] .cook-this {
     grid-column: right-middle / right-border;
     grid-row: content-end / bottom-border;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    padding: 0px 5px 5px 0px;
 }
 
 /* recipe look when in list form */

@@ -13,8 +13,8 @@ public interface IngredientRepository {
     List<Ingredient> findAll();
     List<Ingredient> findByName(String name);
     List<Ingredient> findIngredientsByUser(int userID);
-    Map<Ingredient, String> findIngredientsByRecipeId(int id);
-    Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
+    Map<Ingredient, Integer> findIngredientsByRecipeId(int id);
+    Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients);
     Product getByCode(String code);
     void addToPantry(int productId, int zone);
 

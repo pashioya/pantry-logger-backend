@@ -60,9 +60,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getDate("DATE_ENTERED").toLocalDate()
         );
     }
-    private ShoppingListIngredient mapShoppingListIngredientRow(ResultSet rs, int rowid) throws SQLException {
-        return new ShoppingListIngredient(rs.getInt("ID"), rs.getString("NAME"), rs.getInt("AMOUNT"));
-    }
+
     private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
         return new Product(rs.getInt("ID"),
                 rs.getString("NAME"),
@@ -105,10 +103,10 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userID), this::mapIngredientRow);
     }
     @Override
-    public Map<Ingredient, String> findIngredientsByRecipeId(int id) {
-        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id, this::mapIngredientRow);
-        List<String> amounts = jdbcTemplate.query("SELECT QUANTITY FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id,
-                (rs, rowNum) -> rs.getString("quantity"));
+    public Map<Ingredient, Integer> findIngredientsByRecipeId(int id) {
+        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?", this::mapIngredientRow, id);
+        List<Integer> amounts = jdbcTemplate.query("SELECT QUANTITY FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?",
+                (rs, rowNum) -> rs.getInt("QUANTITY"), id);
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
     }
     @Override
@@ -220,7 +218,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "           INGREDIENTS.ID = SHOPPING_LIST_INGREDIENTS.INGREDIENT_ID " +
                 "       WHERE " +
                 "           SHOPPING_LIST_INGREDIENTS.SHOPPING_LIST_ID = ?";
-        List<Ingredient> ingredients = jdbcTemplate.query(sql, this::mapRow, shoppingListId);
+        List<Ingredient> ingredients = jdbcTemplate.query(sql, this::mapIngredientRow, shoppingListId);
         List<Integer> amounts = jdbcTemplate.query("SELECT AMOUNT FROM SHOPPING_LIST_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = SHOPPING_LIST_INGREDIENTS.INGREDIENT_ID WHERE SHOPPING_LIST_INGREDIENTS.SHOPPING_LIST_ID = ?",
                 (rs, rowNum) -> rs.getInt("AMOUNT"), shoppingListId);
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));

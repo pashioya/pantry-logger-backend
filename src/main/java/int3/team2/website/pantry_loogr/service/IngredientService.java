@@ -18,8 +18,9 @@ public interface IngredientService {
     Map<Ingredient, Integer> getForShoppingList(int id);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
     List<Ingredient> getIngredientsByUser(int userID);
-
+    void editPantryZoneProductQuantity(int pantryId, int productId, int quantity);
+    void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage);
     void addShoppingListIngredients(int shoppingListId,  Map<Ingredient, Integer> shoppingListIngredients);
-
+    void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
     void clearShoppingListIngredients(int shopping_list_id);
 }

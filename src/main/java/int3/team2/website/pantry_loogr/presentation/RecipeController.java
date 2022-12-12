@@ -119,9 +119,8 @@ public class RecipeController {
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         List<Tag> tags = new ArrayList<>();
         List<Integer> ingTypes = recipeData.get("ingredient-types").stream().map(x -> Integer.parseInt(x)).toList();
-        List<String> tagTypes = recipeData.get("tag-types");
+        List<Integer> tagTypes = recipeData.get("tag-types").stream().map(x -> Integer.parseInt(x)).toList();
         List<Integer> ingAmounts = recipeData.get("ingredient-amounts").stream().map(x -> Integer.parseInt(x)).toList();
-        Map<Ingredient, String> ingredients = new HashMap<>();
         
         if (ingTypes.size() != ingAmounts.size()) {
             logger.error("Ingredient types and ingredient amounts are not of equal size!");
@@ -130,7 +129,7 @@ public class RecipeController {
             ingredients.put(ingredientService.get(ingTypes.get(i)), ingAmounts.get(i));
         }
         for(int i = 0; i < tagTypes.size(); i++) {
-            tags.add(tagService.get(Integer.parseInt(ingTypes.get(i))));
+            tags.add(tagService.get(tagTypes.get(i)));
         }
         Recipe newRecipe = new Recipe(
                 recipeData.get("recipe-name").get(0),
@@ -203,14 +202,6 @@ public class RecipeController {
         user.setCurrentRecipe(recipe);
         userService.updateUser(user);
 
-<<<<<<< src/main/java/int3/team2/website/pantry_loogr/presentation/RecipeController.java
         return "redirect:/shoppinglist/";
-
-=======
-        if(redirect.equals("recipe")) {
-            return "redirect:/recipes/" + redirect + "/" + recipeId;
-        }
-        return "redirect:/recipes/" + redirect;
->>>>>>> src/main/java/int3/team2/website/pantry_loogr/presentation/RecipeController.java
     }
 }

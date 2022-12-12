@@ -23,7 +23,7 @@
 			<div th:each="recipe : ${recommendations.keySet()}" th:class="${user.currentRecipe == recipe.id ? 'current-recipe ' : ''} + 'recipe'" look="image" change="none">
 				<div class="recipe-image">
 					<img
-							src="/images/filler-image.png"
+							th:src="${recipe.imagePath}"
 							alt="recipe image"
 					/>
 				</div>

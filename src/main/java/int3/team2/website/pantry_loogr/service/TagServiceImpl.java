@@ -51,6 +51,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> addToRelationTable(int recipeId, List<Tag> recipeTags) {
-        return tagRepository.addToRelationTable(recipeId, recipeTags);
+        if (recipeTags != null) {
+            return tagRepository.addToRelationTable(recipeId, recipeTags);
+        }
+        return null;
     }
 }

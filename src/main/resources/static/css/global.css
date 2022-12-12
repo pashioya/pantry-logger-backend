@@ -270,6 +270,13 @@ footer > .footer-section > .button-container {
     background-color: var(--dark-color);
     box-shadow: var(--button-shadow-down);
 }
+
+.cook-this > div {
+    width: 100px;
+    height: 50px;
+    background-color: var(--button-color);
+    border-radius: var(--button-radius);
+}
 /*global end*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/

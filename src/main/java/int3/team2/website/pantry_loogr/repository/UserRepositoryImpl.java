@@ -37,7 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
     private UserPreference tagMapRow(ResultSet rs, int rowid) throws SQLException {
         return new UserPreference(new Tag(rs.getString("NAME"),
                 TagFlag.valueOf(rs.getString("FLAG"))),
-                Boolean.parseBoolean(rs.getString("LIKE")));
+                Boolean.parseBoolean(rs.getString("'LIKE'")));
     }
 
     private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {

@@ -31,7 +31,9 @@ public class RecipeRepositoryImpl implements RecipeRepository {
                 Difficulty.valueOf(rs.getString("DIFFICULTY")),
                 rs.getString("DESCRIPTION"),
                 rs.getString("INSTRUCTIONS"),
-                Time.valueOf(rs.getString("TIME")));
+                Time.valueOf(rs.getString("TIME")),
+                rs.getString("IMAGE_PATH")
+        );
     }
 
     @Override

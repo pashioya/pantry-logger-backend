@@ -1,46 +1,53 @@
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, DESCRIPTION, INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, DESCRIPTION, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('Chili',
         'LONG',
         'MEDIUM',
         'This traditional chili recipe is just like mom used to make with ground beef, beans, and a simple homemade blend of chili seasonings.',
-        'https://www.food.com/recipe/award-winning-chili-105865');
+        'https://www.food.com/recipe/award-winning-chili-105865',
+        '/images/icon-set-1/chili-pepper.png');
 
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('Sausage Lentil Soup',
         'MEDIUM',
         'MEDIUM',
-        'https://www.food.com/recipe/spicy-sausage-lentil-soup-279315');
+        'https://www.food.com/recipe/spicy-sausage-lentil-soup-279315',
+        '/images/icon-set-1/arugula.png');
 
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, DESCRIPTION, INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, DESCRIPTION, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('Spaghetti Carbonara',
         'MEDIUM',
         'EASY',
         'Comfort food. Spaghetti, cheese, bacon, creamy and filling. Sure to be a favorite for you. It is for me.',
-        'https://www.food.com/recipe/rock-roll-spaghetti-carbonara-81668');
+        'https://www.food.com/recipe/rock-roll-spaghetti-carbonara-81668',
+        '/images/icon-set-1/basil.png');
 
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('Mac & Cheese',
         'QUICK',
         'EASY',
-        'https://www.food.com/recipe/fannie-farmers-classic-baked-macaroni-cheese-135350');
+        'https://www.food.com/recipe/fannie-farmers-classic-baked-macaroni-cheese-135350',
+        '/images/icon-set-1/cheese.png');
 
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('Chinese fried rice',
         'QUICK',
         'EASY',
-        'https://www.food.com/recipe/chinese-fried-rice-38748');
+        'https://www.food.com/recipe/chinese-fried-rice-38748',
+        '/images/icon-set-1/bell-pepper.png');
 
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('spaghetti with meatballs',
         'QUICK',
         'EASY',
-        'Decadent strips of gluten with balls of meat on top, covered in meat juice'
-        '');
-INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS)
+        'Decadent strips of gluten with balls of meat on top, covered in meat juice',
+        '/images/icon-set-1/mushroom.png');
+
+INSERT INTO RECIPES(NAME, "TIME", DIFFICULTY, INSTRUCTIONS, IMAGE_PATH)
 VALUES ('Pork chops',
         'MEDIUM',
         'MEDIUM',
-        'Fry some pork chops');
+        'Fry some pork chops',
+        '/images/icon-set-1/arugula.png');
 
 
 INSERT INTO INGREDIENTS (NAME)

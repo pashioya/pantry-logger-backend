@@ -134,7 +134,8 @@ public class RecipeController {
                 Difficulty.valueOf(recipeData.get("recipe-difficulty").get(0)),
                 recipeData.get("recipe-description").get(0),
                 recipeData.get("cooking-step").stream().reduce((a, b) -> a + "<br><br>" + b).orElse(""),
-                Time.valueOf(recipeData.get("recipe-time").get(0))
+                Time.valueOf(recipeData.get("recipe-time").get(0)),
+                ""
         );
         newRecipe.setIngredients(ingredients);
         newRecipe.setTags(tags);

@@ -11,13 +11,7 @@ public class RecipeRecommender {
     private static Logger logger = LoggerFactory.getLogger(RecipeRecommender.class);
 
     public static List<Recipe> filter(List<Recipe> recipes, List<Ingredient> ingredientsInPantry, List<UserPreference> userPreferences) {
-        Iterator<Recipe> itr = recipes.iterator();
-        while (itr.hasNext()) {
-            Recipe recipe = itr.next();
-            if (getTagPoints(recipe, userPreferences) == -1) {
-                recipes.remove(recipe);
-            }
-        }
+        recipes.removeIf(recipe -> getTagPoints(recipe, userPreferences) == -1);
         Map<Integer, Recipe> points = new HashMap<>();
         recipes.forEach(recipe -> {
             points.put(countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, userPreferences), recipe);

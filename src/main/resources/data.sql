@@ -232,7 +232,10 @@ INSERT INTO USER_PREFERENCES(USER_ID, TAG_ID, "LIKE")
 VALUES (1, 1, TRUE),
        (1, 2, TRUE),
        (1, 3, FALSE),
-       (1, 5, FALSE);
+       (1, 5, FALSE),
+       (2, 1, TRUE),
+       (2, 2, TRUE),
+       (2, 3, FALSE);
 
 
 

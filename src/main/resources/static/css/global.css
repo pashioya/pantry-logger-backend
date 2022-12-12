@@ -33,6 +33,10 @@ body {
     --button-padding-tb: 10px;
     --button-padding-lr: 20px;
 
+    --border-none: 0px solid var(--white);
+    --button-radius: 25px;
+    --button-color: lightgray;
+
 }
 
 .hidden {
@@ -270,6 +274,17 @@ footer > .footer-section > .button-container {
     background-color: var(--dark-color);
     box-shadow: var(--button-shadow-down);
 }
+
+.cook-this > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    background-color: var(--button-color);
+    border-radius: var(--button-radius);
+    box-shadow: var(--box-shadow-down);
+}
 /*global end*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/
@@ -425,9 +440,7 @@ body[id="items"] > header {
 .item > .modify-container {
     display: none;
     width: 100%;
-    --border-none: 0px solid var(--white);
-    --button-radius: 25px;
-    --button-color: lightgray;
+
 }
 
 .item > .exit-button {

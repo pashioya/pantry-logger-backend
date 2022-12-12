@@ -24,4 +24,12 @@ public class UserPreference {
     public void setLike(boolean like) {
         this.like = like;
     }
+
+    @Override
+    public String toString() {
+        return "UserPreference{" +
+                "tag=" + tag +
+                ", like=" + like +
+                '}';
+    }
 }

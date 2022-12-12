@@ -40,6 +40,10 @@ public class PantryZoneProduct extends Product{
         return amountUsed;
     }
 
+    public Integer getTotalRemaining() {
+        return getQuantity() * getSize() - getAmountUsed();
+    }
+
     public PantryZone getPantryZone() { return pantryZone;}
 
     public LocalDate getDateEntered() { return dateEntered; }

@@ -41,18 +41,19 @@
 					<h3 th:utext="${recipe.description}">
 					</h3>
 				</div>
-				<div class="ingredients-you-need">
-					<h3 class="title">Ingredients You Need</h3>
-					<ul class="ingredients-list">
-						<li th:each="ingredient : ${recommendations.get(recipe)[0]}" class="ingredient" th:text="${ingredient.name}"></li>
-					</ul>
-				</div>
 				<div class="ingredients-you-have">
 					<h3 class="title">Ingredients you have</h3>
 					<ul class="ingredients-list">
 						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
 					</ul>
 				</div>
+				<div class="ingredients-you-need">
+					<h3 class="title">Ingredients You Need</h3>
+					<ul class="ingredients-list">
+						<li th:each="ingredient : ${recommendations.get(recipe)[0]}" class="ingredient" th:text="${ingredient.name}"></li>
+					</ul>
+				</div>
+
 				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id} + '/recommend'">
 					<div>Cook This!</div>
 				</a>

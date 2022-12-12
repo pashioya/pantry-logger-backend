@@ -976,13 +976,13 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 }
 
 .recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-need {
-    grid-column: left-border / left-middle;
+    grid-column: right-middle / right-border;
     grid-row: bottom-middle / content-end
 }
 
 .recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-have{
     font-weight: bolder;
-    grid-column: right-middle / right-border;
+    grid-column: left-border / left-middle;
     grid-row: bottom-middle / content-end
 }
 
@@ -999,45 +999,51 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     display: flex;
     flex-direction: row-reverse;
     align-items: flex-end;
-    padding: 0px 5px 5px 0px;
+    padding: 0 5px 5px 0;
 }
 
 /* recipe look when in list form */
 .recommendations-recipe-container > .recipe[look="list"] {
     --list-image-height: 100px;
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-areas:
-      "img img name favorite"
-      "img img description description";
     width: calc((100% - var(--recipe-combined-spacing)));
-    height:calc(100% - var(--recipe-combined-spacing));
+    height: 200px;
+    padding: calc(var(--recipe-padding-width)/2);
     border-radius: 10px;
     background-color: var(--white);
-    border: 0 solid var(--white);
-    padding: calc(var(--recipe-padding-width)/2);
-    column-gap: 4px;
-    max-width: 400px;
+    display: grid;
+    grid-template-columns:
+            [left-border]
+            1fr [image-right]
+            5px [left-content]
+            1fr [left-content-middle]
+            5px [right-content-middle]
+            1fr [right-border];
+    grid-template-rows:
+            [top-border]
+            50px [middle]
+            1fr [bottom-border];
 }
 
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-image {
-    height: var(--list-image-height);
-    width: var(--list-image-height);
-    grid-area: img;
+    grid-column: left-border / image-right;
+    grid-row: top-border / bottom-border;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-image > img {
-    height: 100%;
-
+    height: auto;
+    width: 100%;
 }
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-name{
-    font-size: 0.9em;
-    grid-area: name;
+    font-size: 1.1em;
+    grid-column: left-content / left-content-middle;
+    grid-row: top-border / bottom-border;
 }
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-description{
-    font-size: 0.8em;
-    width: calc((100% - var(--recipe-combined-spacing))- --list-image-height);
-    grid-area: description;
+    grid-column: left-content / right-border;
+    grid-row: middle / bottom-border;
 }
 
 .recommendations-recipe-container > .recipe[look="list"] > .favorites-button{
@@ -1055,6 +1061,14 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 }
 .recommendations-recipe-container > .recipe[look="list"] > .ingredients-you-have{
     display: none;
+}
+
+.recommendations-recipe-container > .recipe[look="list"] > .cook-this {
+    grid-column: right-content-middle / right-border;
+    grid-row: top-border / bottom-border;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 5px 5px 0 0;
 }
 /* recipe look when in list form */
 /* reccomandations stop*/

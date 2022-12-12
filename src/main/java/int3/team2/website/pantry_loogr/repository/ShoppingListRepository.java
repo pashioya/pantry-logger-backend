@@ -8,4 +8,6 @@ public interface ShoppingListRepository {
 
     ShoppingList removeIngredientByAmount(int shoppingListId, int ingredientId, int amount);
     void addIngredientByAmount(int shoppingListId, int ingredientId, int amount);
+
+    ShoppingList add(int userId, ShoppingList shoppingList);
 }

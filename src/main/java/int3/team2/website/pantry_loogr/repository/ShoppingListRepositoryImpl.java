@@ -88,4 +88,13 @@ public class ShoppingListRepositoryImpl implements ShoppingListRepository{
         parameters.put("INGREDIENT_ID", ingredientId);
         ShoppingListIngredientsInserter.executeAndReturnKey(parameters).intValue();
     }
+
+    @Override
+    public ShoppingList add(int userId, ShoppingList shoppingList) {
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("USER_ID", userId);
+        shoppingList.setId(inserter.executeAndReturnKey(parameters).intValue());
+        return shoppingList;
+    }
 }

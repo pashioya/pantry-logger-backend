@@ -15,6 +15,8 @@ public class ShoppingList {
     public ShoppingList(int id) {
         this.id = id;
     }
+    public ShoppingList() {
+    }
 
     public void addIngredient(Ingredient ingredient, int amount) {
         ingredients.put(ingredient, amount);
@@ -31,5 +33,9 @@ public class ShoppingList {
 
     public  Map<Ingredient, Integer> getIngredients() {
         return ingredients;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

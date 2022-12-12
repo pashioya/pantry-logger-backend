@@ -48,10 +48,10 @@ public class UserController {
 
     @RequestMapping(
             value = "/logout",
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+            method = RequestMethod.GET
     )
     public String logout(HttpSession httpSession) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         httpSession.invalidate();
         return "redirect:/login";
     }

@@ -19,24 +19,22 @@
 				/>
 			</div>
 			<div class = "items-container">
-
-				<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
-					<div class="item-image">
-						<img
-								src="/images/filler-image.png"
-								alt=""
-						/>
-					</div>
-					<div class="item-texts">
-						<h4>
-							<span class="item-name" th:text="${ingredient.name}"></span>
-						</h4>
-						<h4>
-							"Quantity:"
-							<span class ="item-quantity" th:text="${ingredient.amount}"></span>
-						</h4>
-					</div>
-=======
+<!--				<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">-->
+<!--					<div class="item-image">-->
+<!--						<img-->
+<!--								src="/images/filler-image.png"-->
+<!--								alt=""-->
+<!--						/>-->
+<!--					</div>-->
+<!--					<div class="item-texts">-->
+<!--						<h4>-->
+<!--							<span class="item-name" th:text="${ingredient.name}"></span>-->
+<!--						</h4>-->
+<!--						<h4>-->
+<!--							"Quantity:"-->
+<!--							<span class ="item-quantity" th:text="${ingredient.amount}"></span>-->
+<!--						</h4>-->
+<!--					</div>-->
 			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
 				<div class="item-image">
 					<img
@@ -52,8 +50,8 @@
 						Amount:
 						<span class ="item-quantity" th:text="${ingredient.amount}"></span>
 					</h4>
->>>>>>> fbb56dcc9440b7d192161d662b0931dc23e0a380
 				</div>
+			</div>
 			</div>
 		</section>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>

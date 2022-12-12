@@ -46,6 +46,7 @@ public class ItemsController {
         model.addAttribute("title", "Items");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.HEADER_TITLES),
+                new DataItem(HtmlItems.PROFILE),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
@@ -74,6 +75,7 @@ public class ItemsController {
         model.addAttribute("title", "Pantry Zones");
         model.addAttribute("headerList", new ArrayList<>(Arrays.asList(
                 new DataItem(HtmlItems.HEADER_TITLES),
+                new DataItem(HtmlItems.PROFILE),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(

@@ -99,6 +99,7 @@ public class RecipeController {
         )));
 
         model.addAttribute("ingredients", ingredientService.getAll());
+        model.addAttribute("tags", tagService.getAll());
         return "createrecipe";
     }
 
@@ -114,7 +115,9 @@ public class RecipeController {
         }
         logger.debug(recipeData.toString());
         Map<Ingredient, String> ingredients = new HashMap<>();
+        List<Tag> tags = new ArrayList<>();
         List<String> ingTypes = recipeData.get("ingredient-types");
+        List<String> tagTypes = recipeData.get("tag-types");
         List<String> ingAmounts = recipeData.get("ingredient-amounts");
         if (ingTypes.size() != ingAmounts.size()) {
             logger.error("Ingredient types and ingredient amounts are not of equal size!");
@@ -122,6 +125,9 @@ public class RecipeController {
         for(int i = 0; i < ingTypes.size(); i++) {
             Ingredient current =  ingredientService.get(Integer.parseInt(ingTypes.get(i)));
             ingredients.put(current, ingAmounts.get(i));
+        }
+        for(int i = 0; i < tagTypes.size(); i++) {
+            tags.add(tagService.get(Integer.parseInt(ingTypes.get(i))));
         }
         Recipe newRecipe = new Recipe(
                 recipeData.get("recipe-name").get(0),
@@ -131,6 +137,7 @@ public class RecipeController {
                 Time.valueOf(recipeData.get("recipe-time").get(0))
         );
         newRecipe.setIngredients(ingredients);
+        newRecipe.setTags(tags);
         recipeService.add(newRecipe);
         return "redirect:/recipes";
     }
@@ -196,6 +203,5 @@ public class RecipeController {
             return "redirect:/recipes/" + redirect + "/" + recipeId;
         }
         return "redirect:/recipes/" + redirect;
-
     }
 }

@@ -54,8 +54,22 @@
 						<input type="button" id="add-ingredient" value="add-ingredient">
 					</div>
 				</div>
+				<label for="recipe-tags">Tags</label>
+				<div id="recipe-tags">
+					<div id="added-tags"></div>
+					<div id="tag-adder">
+						<select id="tag-name" required>
+							<option
+									th:each="tag : ${tags}"
+									th:value="${tag.id}"
+									th:utext="${tag.name}">
+							</option>
+						</select>
+						<input type="button" id="add-tag" value="add-tag">
+					</div>
 
-				<label for="recipe-time">Estimated Time</label>
+
+					<label for="recipe-time">Estimated Time</label>
 				<select name="recipe-time" id="recipe-time">
 					<option value="QUICK">quick</option>
 					<option value="MEDIUM">medium</option>

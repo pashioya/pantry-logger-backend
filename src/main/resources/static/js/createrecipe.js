@@ -5,6 +5,10 @@ const addIngredientName = document.getElementById("ingredient-name");
 const addIngredientAmount = document.getElementById("ingredient-amount");
 const addedIngredients = document.getElementById("added-ingredients");
 
+const addTagButton = document.getElementById("add-tag");
+const addTagName = document.getElementById("tag-name");
+const addedTags = document.getElementById("added-tags");
+
 addCookingStepsButton.onclick =  function () {
     const newCookingStep = document.createElement("input");
     newCookingStep.setAttribute("type", "text");
@@ -13,7 +17,6 @@ addCookingStepsButton.onclick =  function () {
     document.getElementById("cooking-steps").appendChild(newCookingStep);
     document.getElementById("cooking-steps").appendChild(document.createElement("br"));
 }
-
 
 addIngredientButton.onclick = function () {
     const newIngredient = document.createElement("div");
@@ -38,4 +41,22 @@ addIngredientButton.onclick = function () {
 
     newIngredient.append(newIngredientName, newIngredientAmount, newIngredientDelete);
     addedIngredients.appendChild(newIngredient);
+}
+
+addTagButton.onclick = function () {
+    const newTag = document.createElement("div");
+
+    const newTagName = addTagName.cloneNode(true);
+    newTagName.setAttribute("name", "tag-types");
+    newTagName.value = addTagName.value;
+
+    const newTagDelete = document.createElement("input");
+    newTagDelete.setAttribute("value", "delete")
+    newTagDelete.setAttribute("type", "button");
+    newTagDelete.onclick = function () {
+        newTag.remove();
+    }
+
+    newTag.append(newTagName, newTagDelete);
+    addedTags.appendChild(newTag);
 }

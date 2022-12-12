@@ -54,11 +54,13 @@ public class RecipeController {
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
-                new DataItem(HtmlItems.CREATE_RECIPE)
+                new DataItem(HtmlItems.SHOPPINGLIST)
+
         )));
         model.addAttribute("user", user);
-        model.addAttribute("rightFooterList", new ArrayList<>());
+        model.addAttribute("rightFooterList", new ArrayList<>(
+                Arrays.asList(new DataItem(HtmlItems.CREATE_RECIPE))
+        ));
 
         model.addAttribute("recipes", recipeService.getAll());
         return "recipes";

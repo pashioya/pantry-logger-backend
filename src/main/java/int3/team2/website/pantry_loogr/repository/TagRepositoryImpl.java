@@ -96,4 +96,15 @@ public class TagRepositoryImpl implements TagRepository {
         }
         return tagList;
     }
+
+    @Override
+    public Tag createTag(Tag tag) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("FLAG", tag.getFlag().toString());
+        parameters.put("NAME", tag.getName());
+        tag.setId(inserter.executeAndReturnKey(parameters).intValue());
+        return tag;
+    }
+
+
 }

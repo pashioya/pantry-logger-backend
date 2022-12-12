@@ -1,6 +1,8 @@
 package int3.team2.website.pantry_loogr.domain;
 
 
+import java.util.Objects;
+
 /**
  * A Tag is a very broad item that represents a property of either an
  * ingredient a recipe of even a user. It can show a allergy or a property.
@@ -8,7 +10,6 @@ package int3.team2.website.pantry_loogr.domain;
 public class Tag {
     private int id;
     private String name;
-
     private TagFlag flag;
 
     public Tag(String name, TagFlag flag) {
@@ -48,5 +49,18 @@ public class Tag {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return name.equals(tag.name) && flag == tag.flag;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, flag);
     }
 }

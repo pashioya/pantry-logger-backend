@@ -188,11 +188,13 @@ header {
 .search:focus {
     width:calc(100vw) ;
     padding: 0 16px 0 0;
+    border-radius: 10px;
 }
 
 .expand-right {
     left: auto;
-    right: 1vw;
+    right: calc(1vw - 9px);/* - 9px so it no longer touches the edge of the screen and the curved edges are visible */
+    border-radius: 10px;
 }
 
 .expand-right:focus {
@@ -243,7 +245,7 @@ footer > .footer-section > .button-container {
 }
 
 .styled-button-dark {
-    border: 0px solid var(--dark-color);
+    border: 0 solid var(--dark-color);
     border-radius: 25px;
     padding: var(--button-padding-tb) var(--button-padding-lr);
     background-color: var(--dark-color);
@@ -262,7 +264,7 @@ footer > .footer-section > .button-container {
 }
 
 .styled-button-icon {
-    border: 0px solid var(--dark-color);
+    border: 0 solid var(--dark-color);
     border-radius: 100%;
     background-color: var(--dark-color);
     box-shadow: var(--button-shadow-down);

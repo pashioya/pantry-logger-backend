@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface IngredientService {
-    List<Ingredient> getAll();
     Ingredient get(int ingredientID);
+    List<Ingredient> getAll();
     List<Ingredient> add(Ingredient ingredient);
     List<Ingredient> getByName(String name);
     Map<Ingredient, Integer> getIngredientsByRecipeId(int id);

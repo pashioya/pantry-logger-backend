@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.domain;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,15 +10,41 @@ import org.slf4j.LoggerFactory;
 public class RecipeRecommender {
     private static Logger logger = LoggerFactory.getLogger(RecipeRecommender.class);
 
-    public static List<Recipe> filter(List<Recipe> recipes, List<Ingredient> ingredientsInPantry) {
+    public static List<Recipe> filter(List<Recipe> recipes, List<Ingredient> ingredientsInPantry, List<UserPreference> userPreferences) {
+        recipes.removeIf(recipe -> getTagPoints(recipe, userPreferences) == -1);
         Map<Integer, Recipe> points = new HashMap<>();
-        for (Recipe recipe : recipes) {
-            points.put(countIngredients(recipe, ingredientsInPantry), recipe);
-        }
+        recipes.forEach(recipe -> {
+            points.put(countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, userPreferences), recipe);
+        });
+
         TreeMap<Integer, Recipe> sorted = new TreeMap<>(Collections.reverseOrder());
         sorted.putAll(points);
 
         return new ArrayList<>(sorted.values());
+    }
+
+    public static int getTagPoints(Recipe recipe, List<UserPreference> userPreferences) {
+        List<Tag> userLikes = new ArrayList<>();
+        List<Tag> userDislikes = new ArrayList<>();
+
+        userPreferences.forEach(preference -> {
+            if (preference.isLike()) {
+                userLikes.add(preference.getTag());
+            } else {
+                userDislikes.add(preference.getTag());
+            }
+        });
+
+        int points = 0;
+        for (Tag tag: userDislikes) {
+            if (recipe.getTags().contains(tag)) {return -1;}
+        }
+
+        for (Tag tag: userDislikes) {
+            if (recipe.getTags().contains(tag)) {points += 10;}
+        }
+
+        return points;
     }
 
     private static int countIngredients(Recipe recipe, List<Ingredient> ingredientsInPantry) {

@@ -48,4 +48,12 @@ public class TagServiceImpl implements TagService {
     public List<Tag> getDislikesByUserId(int userId) {
         return tagRepository.getDislikesByUserId(userId);
     }
+
+    @Override
+    public List<Tag> addToRelationTable(int recipeId, List<Tag> recipeTags) {
+        if (recipeTags != null) {
+            return tagRepository.addToRelationTable(recipeId, recipeTags);
+        }
+        return null;
+    }
 }

@@ -20,7 +20,6 @@ public class Recipe {
 
     private List<Tag> tags;
 
-
     /**
      * Instantiates an object without any data so that the user can add it in pieces.
      */

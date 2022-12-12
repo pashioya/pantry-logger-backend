@@ -25,12 +25,17 @@ body {
     --header-size: 60px;
     --view-selectors-height: 50px;
     font-family: 'Raleway', sans-serif;
+
     --box-shadow-up: 0px -5px 15px rgba(0, 0, 0, 0.2);
     --box-shadow-down: 2px 5px 15px rgba(0, 0, 0, 0.2);
     --button-shadow-down: 2px 5px 15px rgba(0, 0, 0, 0.3);
 
     --button-padding-tb: 10px;
     --button-padding-lr: 20px;
+
+    --border-none: 0px solid var(--white);
+    --button-radius: 25px;
+    --button-color: lightgray;
 
 }
 
@@ -269,6 +274,17 @@ footer > .footer-section > .button-container {
     background-color: var(--dark-color);
     box-shadow: var(--button-shadow-down);
 }
+
+.cook-this > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    background-color: var(--button-color);
+    border-radius: var(--button-radius);
+    box-shadow: var(--box-shadow-down);
+}
 /*global end*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/
@@ -424,9 +440,7 @@ body[id="items"] > header {
 .item > .modify-container {
     display: none;
     width: 100%;
-    --border-none: 1px solid var(--white);
-    --button-radius: 25px;
-    --button-color: lightgray;
+
 }
 
 .item > .exit-button {
@@ -444,12 +458,13 @@ body[id="items"] > header {
 
 .remove-section > table {
     --header-heigth: 30px;
-    background-color: var(--button-color);
+    background-color: lightgray;
     border: var(--border-none);
     border-radius: var(--button-radius);
     width: 75%;
     height: 90%;
     margin-right: 10px;
+    box-shadow: var(--box-shadow-down);
 }
 
 .remove-section > table th {
@@ -459,7 +474,7 @@ body[id="items"] > header {
 .remove-section > table td {
     text-align: center;
     background-color: var(--white);
-    border: 5px solid var(--button-color);
+    border: 5px solid lightgray;
     border-top: 2px;
 }
 
@@ -474,11 +489,14 @@ body[id="items"] > header {
 }
 
 .remove-section > .change-to-add-button {
-    padding: 15px 20px;
+    width: 20px;
+    height: 20px;
+    padding: 10px;
     text-align: center;
     background-color: var(--button-color);
     border: var(--border-none);
     border-radius: var(--button-radius);
+    box-shadow: var(--box-shadow-down);
 }
 
 .modify-container > .add-section {
@@ -499,6 +517,8 @@ body[id="items"] > header {
     flex-direction: column;
     width: 75%;
     font-size: var(--font-size);
+    box-shadow: var(--box-shadow-down);
+    border-radius: var(--button-radius);
 }
 
 .add-section > .amount-editor > * {
@@ -562,17 +582,25 @@ body[id="items"] > header {
 .add-section > .add-buttons {
     display: flex;
     justify-content: center;
-    width: 50%;
-    padding: 25px 0;
     background-color: var(--button-color);
     border: var(--border-none);
     border-radius: var(--button-radius);
 }
 
-.add-buttons > input {
-    background-color: none;
+.add-section > input.add-buttons {
     border: none;
     font-size: inherit;
+    width: 200px;
+    height: 75px;
+    padding: 25px 0;
+    box-shadow: var(--box-shadow-down);
+}
+
+.add-buttons.back-button {
+    background-color: unset;
+    width: 100px;
+    height: 20px;
+    padding: 15px 0;
 }
 
 .item[look="image"] {
@@ -690,8 +718,12 @@ body[item-selected="true"] .item[change="selected"] {
     display: flex;
 }
 
+.item[product-size="1"] > .modify-container[modify-mode="add"] > .add-section > .back-button {
+    display: none;
+}
+
 .modify-container[modify-mode="remove"] > .remove-section .remove_hover {
-    background-color: red;
+    background-color: var(--dark-color);
 }
 
 

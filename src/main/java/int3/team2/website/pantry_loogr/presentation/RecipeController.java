@@ -55,11 +55,13 @@ public class RecipeController {
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
         model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
-                new DataItem(HtmlItems.SHOPPINGLIST),
-                new DataItem(HtmlItems.CREATE_RECIPE)
+                new DataItem(HtmlItems.SHOPPINGLIST)
+
         )));
         model.addAttribute("user", user);
-        model.addAttribute("rightFooterList", new ArrayList<>());
+        model.addAttribute("rightFooterList", new ArrayList<>(
+                Arrays.asList(new DataItem(HtmlItems.CREATE_RECIPE))
+        ));
 
         model.addAttribute("recipes", recipeService.getAll());
         return "recipes";
@@ -98,6 +100,7 @@ public class RecipeController {
         )));
 
         model.addAttribute("ingredients", ingredientService.getAll());
+        model.addAttribute("tags", tagService.getAll());
         return "createrecipe";
     }
 
@@ -112,14 +115,22 @@ public class RecipeController {
             return "redirect:/login";
         }
         logger.debug(recipeData.toString());
+        
         Map<Ingredient, Integer> ingredients = new HashMap<>();
+        List<Tag> tags = new ArrayList<>();
         List<Integer> ingTypes = recipeData.get("ingredient-types").stream().map(x -> Integer.parseInt(x)).toList();
+        List<String> tagTypes = recipeData.get("tag-types");
         List<Integer> ingAmounts = recipeData.get("ingredient-amounts").stream().map(x -> Integer.parseInt(x)).toList();
+        Map<Ingredient, String> ingredients = new HashMap<>();
+        
         if (ingTypes.size() != ingAmounts.size()) {
             logger.error("Ingredient types and ingredient amounts are not of equal size!");
         }
         for(int i = 0; i < ingTypes.size(); i++) {
             ingredients.put(ingredientService.get(ingTypes.get(i)), ingAmounts.get(i));
+        }
+        for(int i = 0; i < tagTypes.size(); i++) {
+            tags.add(tagService.get(Integer.parseInt(ingTypes.get(i))));
         }
         Recipe newRecipe = new Recipe(
                 recipeData.get("recipe-name").get(0),
@@ -129,6 +140,7 @@ public class RecipeController {
                 Time.valueOf(recipeData.get("recipe-time").get(0))
         );
         newRecipe.setIngredients(ingredients);
+        newRecipe.setTags(tags);
         recipeService.add(newRecipe);
         return "redirect:/recipes";
     }
@@ -157,7 +169,8 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.getAll();
         recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
         List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
-        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry);
+        List<UserPreference> userPreferences = userService.getUserPreferences(user.getId());
+        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, userPreferences);
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 
@@ -190,7 +203,14 @@ public class RecipeController {
         user.setCurrentRecipe(recipe);
         userService.updateUser(user);
 
+<<<<<<< src/main/java/int3/team2/website/pantry_loogr/presentation/RecipeController.java
         return "redirect:/shoppinglist/";
 
+=======
+        if(redirect.equals("recipe")) {
+            return "redirect:/recipes/" + redirect + "/" + recipeId;
+        }
+        return "redirect:/recipes/" + redirect;
+>>>>>>> src/main/java/int3/team2/website/pantry_loogr/presentation/RecipeController.java
     }
 }

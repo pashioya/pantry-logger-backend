@@ -8,21 +8,22 @@ import java.util.List;
 import java.util.Map;
 
 public interface IngredientRepository {
-    List<Ingredient> findAll();
-    Ingredient get(int id);
-    List<Ingredient> findByName(String name);
-    Map<Ingredient, Integer> findIngredientsByRecipeId(int id);
-    Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients);
-    Product getByCode(String code);
 
+    Ingredient get(int id);
+    List<Ingredient> findAll();
+    List<Ingredient> findByName(String name);
+    List<Ingredient> findIngredientsByUser(int userID);
+    Map<Ingredient, String> findIngredientsByRecipeId(int id);
+    Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
+    Product getByCode(String code);
     void addToPantry(int productId, int zone);
 
     Map<Ingredient, Integer> getForShoppingList(int shoppingListId);
 
+    PantryZoneProduct getPantryZoneProduct(int productId, int pantryId);
+    void updatePantryZoneProduct(PantryZoneProduct product);
+    void removePantryZoneProduct(PantryZoneProduct product);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
-
-    List<Ingredient> findIngredientsByUser(int userID);
-
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
 
     void addToShoppingListIngredients(int shoppingListId, Map<Ingredient, Integer> shoppingListIngredients);

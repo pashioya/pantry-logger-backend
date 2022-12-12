@@ -1,6 +1,9 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
+import int3.team2.website.pantry_loogr.domain.Tag;
+import int3.team2.website.pantry_loogr.domain.TagFlag;
+import int3.team2.website.pantry_loogr.domain.UserPreference;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -31,6 +34,12 @@ public class UserRepositoryImpl implements UserRepository {
                 .usingGeneratedKeyColumns("ID");
     }
 
+    private UserPreference tagMapRow(ResultSet rs, int rowid) throws SQLException {
+        return new UserPreference(new Tag(rs.getString("NAME"),
+                TagFlag.valueOf(rs.getString("FLAG"))),
+                Boolean.parseBoolean(rs.getString("'LIKE'")));
+    }
+
     private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {
         return new EndUser(rs.getInt("ID"),
                 rs.getString("PASSWORD"),
@@ -59,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
     public EndUser add(EndUser user) {
         PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
                 "INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD) " +
-                        "VALUES (?, ?, ?)" ,
+                        "VALUES (?, ?, ?)",
                 VARCHAR, VARCHAR, VARCHAR
         );
         pscf.setReturnGeneratedKeys(true);
@@ -78,7 +87,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public EndUser findByUsername(String username) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE USERNAME = ?",  this::mapRow, username);
+            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE USERNAME = ?", this::mapRow, username);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -86,11 +95,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     public EndUser findByEmail(String email) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE EMAIL = ?",  this::mapRow, email);
+            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE EMAIL = ?", this::mapRow, email);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
     }
+
 
     @Override
     public void updateUser(EndUser endUser) {
@@ -110,4 +120,18 @@ public class UserRepositoryImpl implements UserRepository {
         );
     }
 
+    @Override
+    public List<UserPreference> getUserPreferences(int userId) {
+        String sql = "SELECT " +
+                "           NAME, FLAG, 'LIKE' " +
+                "       FROM " +
+                "           USER_PREFERENCES " +
+                "       JOIN " +
+                "           TAGS " +
+                "               ON " +
+                "           USER_PREFERENCES.TAG_ID = TAGS.TAG_ID " +
+                "       WHERE " +
+                "           USER_ID = ?";
+        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userId), this::tagMapRow);
+    }
 }

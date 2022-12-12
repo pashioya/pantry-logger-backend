@@ -1,10 +1,15 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import org.slf4j.LoggerFactory;
+
+import java.time.LocalDate;
+
 public class PantryZoneProduct extends Product{
 
     private int quantity;
     private int amountUsed;
-    private String pantryZoneName;
+    private PantryZone pantryZone;
+    private LocalDate dateEntered;
 
 
     public PantryZoneProduct(String name, String productName, String code, int size, int quantity, int amountUsed) {
@@ -19,15 +24,13 @@ public class PantryZoneProduct extends Product{
         this.amountUsed = amountUsed;
     }
 
-    public PantryZoneProduct(int id, String name, String productName, String code, int size, int quantity, int amountUsed, String pantryZoneName) {
+    public PantryZoneProduct(int id, String name, String productName, String code, int size, int quantity, int amountUsed, PantryZone pantryZone, LocalDate dateEntered) {
         super(id, name, productName, code, size);
         this.quantity = quantity;
         this.amountUsed = amountUsed;
-        this.pantryZoneName = pantryZoneName;
+        this.pantryZone = pantryZone;
+        this.dateEntered = dateEntered;
     }
-
-
-
 
     public int getQuantity() {
         return quantity;
@@ -37,9 +40,34 @@ public class PantryZoneProduct extends Product{
         return amountUsed;
     }
 
-    public String getPantryZoneName() { return pantryZoneName;}
-
     public Integer getTotalRemaining() {
         return getQuantity() * getSize() - getAmountUsed();
+    }
+
+    public PantryZone getPantryZone() { return pantryZone;}
+
+    public LocalDate getDateEntered() { return dateEntered; }
+
+    public void setAmountUsed(int amountUsed) {
+        this.amountUsed = amountUsed;
+    }
+
+    public boolean setQuantity(int quantity) {
+        if (quantity <= 0) {
+            LoggerFactory.getLogger(this.getClass()).debug("quantity less then 0");
+            return false;
+        }
+        this.quantity = quantity;
+        return true;
+    }
+
+    /**
+    * Returns true or false based on the final value of quantity.
+    * If the value of quantity is below 0 it will return false
+    * if the value is above 0 it will return true.
+    * */
+    public boolean removeFromQuantity(int amountToRemove) {
+        this.quantity = this.quantity - amountToRemove;
+        return quantity > 0;
     }
 }

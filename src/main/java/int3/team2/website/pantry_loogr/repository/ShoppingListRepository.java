@@ -7,4 +7,7 @@ public interface ShoppingListRepository {
     ShoppingList getByUser(int userId);
 
     ShoppingList removeIngredientByAmount(int shoppingListId, int ingredientId, int amount);
+    void addIngredientByAmount(int shoppingListId, int ingredientId, int amount);
+
+    ShoppingList add(int userId, ShoppingList shoppingList);
 }

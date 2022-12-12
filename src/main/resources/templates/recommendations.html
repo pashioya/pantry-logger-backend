@@ -54,6 +54,12 @@
 					</ul>
 				</div>
 
+				<div class="ingredients-you-have">
+					<h3 class="title">Ingredients you have</h3>
+					<ul class="ingredients-list">
+						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
+					</ul>
+				</div>
 				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id} + '/recommend'">
 					<div>Cook This!</div>
 				</a>

@@ -3,7 +3,6 @@ package int3.team2.website.pantry_loogr.service;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
-import int3.team2.website.pantry_loogr.domain.ShoppingListIngredient;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,12 +42,12 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public Map<Ingredient, String> getIngredientsByRecipeId(int id) {
+    public Map<Ingredient, Integer> getIngredientsByRecipeId(int id) {
         return ingredientRepository.findIngredientsByRecipeId(id);
     }
 
     @Override
-    public Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients) {
+    public Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients) {
         return ingredientRepository.addToRelationTable(recipeID, ingredients);
     }
 
@@ -67,7 +66,6 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientRepository.addToPantry(productId, zone);
     }
 
-    @Override
     public void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage) {
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
         product.setAmountUsed((int) (product.getSize() * (1 - percentage)));
@@ -96,7 +94,7 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
+    public  Map<Ingredient, Integer> getForShoppingList(int shoppingListId) {
         return ingredientRepository.getForShoppingList(shoppingListId);
     }
 
@@ -108,5 +106,15 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<Ingredient> getIngredientsByUser(int userID) {
         return ingredientRepository.findIngredientsByUser(userID);
+    }
+
+    @Override
+    public void addShoppingListIngredients(int shoppingListId,  Map<Ingredient, Integer> shoppingListIngredients) {
+        ingredientRepository.addToShoppingListIngredients(shoppingListId, shoppingListIngredients);
+    }
+
+    @Override
+    public void clearShoppingListIngredients(int shopping_list_id) {
+        ingredientRepository.clearShoppingListIngredients(shopping_list_id);
     }
 }

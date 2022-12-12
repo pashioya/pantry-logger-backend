@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import static java.sql.Types.INTEGER;
 import static java.sql.Types.VARCHAR;
@@ -77,5 +80,12 @@ public class ShoppingListRepositoryImpl implements ShoppingListRepository{
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
+    }
+    @Override
+    public void addIngredientByAmount(int shoppingListId, int ingredientId, int amount) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("SHOPPING_LIST_ID", shoppingListId);
+        parameters.put("INGREDIENT_ID", ingredientId);
+        ShoppingListIngredientsInserter.executeAndReturnKey(parameters).intValue();
     }
 }

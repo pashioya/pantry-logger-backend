@@ -3,7 +3,6 @@ package int3.team2.website.pantry_loogr.repository;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
-import int3.team2.website.pantry_loogr.domain.ShoppingListIngredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -23,6 +22,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert ingredientInserter;
     private SimpleJdbcInsert ingredientRecipeInserter;
+    private SimpleJdbcInsert shoppingListInserter;
 
     public IngredientRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -32,15 +32,15 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         this.ingredientRecipeInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("RECIPE_INGREDIENTS")
                 .usingColumns("RECIPE_ID", "INGREDIENT_ID", "QUANTITY", "OPTIONAL");
+        this.shoppingListInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("SHOPPING_LIST_INGREDIENTS")
+                .usingColumns("SHOPPING_LIST_ID", "INGREDIENT_ID", "AMOUNT");
+
 
     }
 
     private Ingredient mapRow(ResultSet rs, int rowid) throws SQLException {
         return new Ingredient(rs.getInt("ID"), rs.getString("NAME"));
-    }
-
-    private ShoppingListIngredient mapShoppingListIngredientRow(ResultSet rs, int rowid) throws SQLException {
-        return new ShoppingListIngredient(rs.getInt("ID"), rs.getString("NAME"), rs.getInt("AMOUNT"));
     }
 
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
@@ -75,14 +75,14 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     @Override
     public List<Ingredient> findByName(String name) {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapRow);
+        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", this::mapRow, name);
     }
 
     @Override
-    public Map<Ingredient, String> findIngredientsByRecipeId(int id) {
+    public Map<Ingredient, Integer> findIngredientsByRecipeId(int id) {
         List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id, this::mapRow);
-        List<String> amounts = jdbcTemplate.query("SELECT QUANTITY FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id,
-                (rs, rowNum) -> rs.getString("quantity"));
+        List<Integer> amounts = jdbcTemplate.query("SELECT QUANTITY FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = " + id,
+                (rs, rowNum) -> rs.getInt("quantity"));
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
     }
     @Override
@@ -156,13 +156,13 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
 
     @Override
-    public Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients) {
+    public Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients) {
         for (Ingredient i: ingredients.keySet()) {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("RECIPE_ID", recipeID);
             parameters.put("INGREDIENT_ID", i.getId());
             parameters.put("QUANTITY", ingredients.get(i));
-            parameters.put("OPTIONAL", "TRUE");
+            parameters.put("OPTIONAL", "FALSE");
             ingredientRecipeInserter.execute(parameters);
         }
         return ingredients;
@@ -181,7 +181,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     @Override
-    public List<ShoppingListIngredient> getForShoppingList(int shoppingListId) {
+    public  Map<Ingredient, Integer> getForShoppingList(int shoppingListId) {
         String sql = "SELECT " +
                 "          * " +
                 "       FROM " +
@@ -192,5 +192,32 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "           INGREDIENTS.ID = SHOPPING_LIST_INGREDIENTS.INGREDIENT_ID " +
                 "       WHERE " +
                 "           SHOPPING_LIST_INGREDIENTS.SHOPPING_LIST_ID = ?";
-        return jdbcTemplate.query(sql, new Object[] {shoppingListId}, new int[] {INTEGER}, this::mapShoppingListIngredientRow);
-    }}
+        List<Ingredient> ingredients = jdbcTemplate.query(sql, this::mapRow, shoppingListId);
+        List<Integer> amounts = jdbcTemplate.query("SELECT AMOUNT FROM SHOPPING_LIST_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = SHOPPING_LIST_INGREDIENTS.INGREDIENT_ID WHERE SHOPPING_LIST_INGREDIENTS.SHOPPING_LIST_ID = ?",
+                (rs, rowNum) -> rs.getInt("AMOUNT"), shoppingListId);
+        return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
+    }
+
+    @Override
+    public void clearShoppingListIngredients(int shopping_list_id) {
+
+        jdbcTemplate.update("DELETE FROM SHOPPING_LIST_INGREDIENTS WHERE SHOPPING_LIST_ID = ?", shopping_list_id);
+
+    }
+
+    @Override
+    public void addToShoppingListIngredients(int shoppingListId, Map<Ingredient, Integer> shoppingListIngredients) {
+        for (Ingredient i: shoppingListIngredients.keySet()) {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("SHOPPING_LIST_ID", shoppingListId);
+            parameters.put("INGREDIENT_ID", i.getId());
+            parameters.put("AMOUNT", shoppingListIngredients.get(i));
+            shoppingListInserter.execute(parameters);
+        }
+
+    }
+}
+
+
+
+

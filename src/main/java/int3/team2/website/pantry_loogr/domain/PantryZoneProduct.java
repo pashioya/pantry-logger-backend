@@ -38,4 +38,8 @@ public class PantryZoneProduct extends Product{
     }
 
     public String getPantryZoneName() { return pantryZoneName;}
+
+    public Integer getTotalRemaining() {
+        return getQuantity() * getSize() - getAmountUsed();
+    }
 }

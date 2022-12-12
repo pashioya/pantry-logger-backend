@@ -1,5 +1,7 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +16,7 @@ public class Recipe {
     private String description;
     private String instructions;
     private Time time;
-    private Map<Ingredient, String> ingredients;
+    private Map<Ingredient, Integer> ingredients;
 
     private List<Tag> tags;
 
@@ -110,11 +112,11 @@ public class Recipe {
         this.time = time;
     }
 
-    public Map<Ingredient, String> getIngredients() {
+    public Map<Ingredient, Integer> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Map<Ingredient, String> ingredients) {
+    public void setIngredients(Map<Ingredient, Integer> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -137,5 +139,23 @@ public class Recipe {
                 ", recipe_instructions='" + instructions + '\'' +
                 ", recipe_time=" + time +
                 '}';
+    }
+
+    public Map<Ingredient, Integer> getMissingIngredients(List<PantryZoneProduct> pantryZoneProducts) {
+        Map<Ingredient, Integer> ingredientsNeeded = new HashMap<>();
+
+        this.getIngredients().forEach((k,v) -> {
+            PantryZoneProduct pantryZoneproduct = pantryZoneProducts.stream().filter(product -> product.getId() == k.getId()).findAny().orElse(null);
+            if( pantryZoneproduct == null) {
+                ingredientsNeeded.put(k, v);
+            } else {
+                int amountNeeded = v - pantryZoneproduct.getTotalRemaining();
+                if(amountNeeded > 0) {
+                    ingredientsNeeded.put(k, amountNeeded);
+                }
+
+            }
+        });
+        return ingredientsNeeded;
     }
 }

@@ -3,6 +3,7 @@ package int3.team2.website.pantry_loogr.presentation;
 import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
+import int3.team2.website.pantry_loogr.repository.ShoppingListRepository;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.RecipeService;
 import int3.team2.website.pantry_loogr.service.TagService;
@@ -111,15 +112,14 @@ public class RecipeController {
             return "redirect:/login";
         }
         logger.debug(recipeData.toString());
-        Map<Ingredient, String> ingredients = new HashMap<>();
-        List<String> ingTypes = recipeData.get("ingredient-types");
-        List<String> ingAmounts = recipeData.get("ingredient-amounts");
+        Map<Ingredient, Integer> ingredients = new HashMap<>();
+        List<Integer> ingTypes = recipeData.get("ingredient-types").stream().map(x -> Integer.parseInt(x)).toList();
+        List<Integer> ingAmounts = recipeData.get("ingredient-amounts").stream().map(x -> Integer.parseInt(x)).toList();
         if (ingTypes.size() != ingAmounts.size()) {
             logger.error("Ingredient types and ingredient amounts are not of equal size!");
         }
         for(int i = 0; i < ingTypes.size(); i++) {
-            Ingredient current =  ingredientService.get(Integer.parseInt(ingTypes.get(i)));
-            ingredients.put(current, ingAmounts.get(i));
+            ingredients.put(ingredientService.get(ingTypes.get(i)), ingAmounts.get(i));
         }
         Recipe newRecipe = new Recipe(
                 recipeData.get("recipe-name").get(0),
@@ -179,20 +179,18 @@ public class RecipeController {
 
         return "recipes";
     }
-    @GetMapping("/select-current/{recipeId}/{redirect}")
-    public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId, @PathVariable String redirect) {
+    @GetMapping("/select-current/{recipeId}")
+    public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";
         }
 
-        user.setCurrentRecipe(recipeId);
+        Recipe recipe = recipeService.get(recipeId);
+        user.setCurrentRecipe(recipe);
         userService.updateUser(user);
 
-        if(redirect.equals("recipe")) {
-            return "redirect:/recipes/" + redirect + "/" + recipeId;
-        }
-        return "redirect:/recipes/" + redirect;
+        return "redirect:/shoppinglist/";
 
     }
 }

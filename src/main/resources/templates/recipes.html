@@ -23,7 +23,7 @@
 		<a look="image" change="none" th:each="recipe : ${recipes}" th:href="${'/recipes/' + recipe.id}" th:class="${user.currentRecipe == recipe.id ? 'current-recipe ' : ''} + 'recipe'">
 			<div class="recipe-image">
 				<img
-						src="/images/filler-image.png"
+						th:src="${recipe.imagePath}"
 						alt="recipe image"
 				/>
 			</div>

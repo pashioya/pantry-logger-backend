@@ -926,22 +926,33 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     gap: 20px;
 }
 .recommendations-recipe-container > .recipe[look="image"]{
-    display: flex;
     background-color: var(--white);
-    border: 0 solid var(--white);
-    flex-wrap: wrap;
-    border-radius: 10px;
-    gap: 10px;
+    border: var(--border-none);
+    border-radius: var(--button-radius);
     padding: calc(var(--recipe-padding-width) / 2);
-    height:calc(100% - var(--recipe-combined-spacing));
     width: calc(100% - var(--recipe-combined-spacing));
-    /* max-width: 360px; */
+    display: grid;
+    grid-template-columns:
+            [left-border]
+            1fr [left-left-middle]
+            1fr [left-middle]
+            20px [right-middle]
+            1fr [right-right-middle]
+            1fr [right-border];
+    grid-template-rows:
+            [top-border]
+            40px [title-bottom]
+            1fr [top-middle]
+            20px [bottom-middle]
+            1fr [content-end]
+            60px [bottom-border];
 }
 
-.recommendations-recipe-container > .recipe[look="image"] > .recipe-image{
+.recommendations-recipe-container > .recipe[look="image"] > .recipe-image {
     background-color: #f2f2f2;
-    border-radius: 10px;
-    margin-right: calc(var(--recipe-combined-spacing) / 2);
+    border-radius: var(--button-radius);
+    grid-column: left-border / left-middle;
+    grid-row: top-border / top-middle;
 }
 .recommendations-recipe-container > .recipe[look="image"] > .recipe-image > img{
     width: 100%;
@@ -951,93 +962,88 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 .recommendations-recipe-container > .recipe[look="image"] > .favorites-button{
     width: var(--favorites-button-width);
     height: var(--favorites-button-height);
-    /* order: 2; */
 }
 .recommendations-recipe-container > .recipe[look="image"] > .favorites-button > img{
     width: var(--favorites-button-width);
     height: var(--favorites-button-height);
 }
 
-.recommendations-recipe-container > .recipe[look="image"] > .recipe-image-favorites{
-    display: flex;
-    flex-direction: row;
-}
-
-
-.recommendations-recipe-container > .recipe[look="image"] > .recipe-name{
+.recommendations-recipe-container > .recipe[look="image"] > .recipe-name {
     font-size: 1.4em;
     font-weight: bolder;
+    grid-column: right-middle / right-border;
+    grid-row: top-border / title-bottom;
 }
 
-.recommendations-recipe-container > .recipe[look="image"] > .recipe-info{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    column-gap: 10px;
-}
-
-.recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-need > .ingredients-needed-count{
-    font-size: 1.2em;
-    align-self: center;
-    justify-self: center;
+.recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-need {
+    grid-column: right-middle / right-border;
+    grid-row: bottom-middle / content-end
 }
 
 .recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-have{
-    align-items: flex-start;
     font-weight: bolder;
+    grid-column: left-border / left-middle;
+    grid-row: bottom-middle / content-end
 }
 
-
-
-.recommendations-recipe-container > .recipe[look="image"] > .title{
-    font-size: 1.2em;
-    font-weight: bolder;
-    margin-top: 0.1em;
-}
-
-.recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-have > .ingredients-list{
+.recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-have .ingredients-you-need > .ingredients-list{
     display: flex;
     flex-direction: column;
     column-gap: 10px;
     color: green;
 }
 
+.recommendations-recipe-container > .recipe[look="image"] .cook-this {
+    grid-column: right-middle / right-border;
+    grid-row: content-end / bottom-border;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+    padding: 0 5px 5px 0;
+}
+
 /* recipe look when in list form */
 .recommendations-recipe-container > .recipe[look="list"] {
     --list-image-height: 100px;
-    display: grid;
-    grid-template-rows: auto;
-    grid-template-areas:
-      "img img name favorite"
-      "img img description description";
     width: calc((100% - var(--recipe-combined-spacing)));
-    height:calc(100% - var(--recipe-combined-spacing));
+    height: 200px;
+    padding: calc(var(--recipe-padding-width)/2);
     border-radius: 10px;
     background-color: var(--white);
-    border: 0 solid var(--white);
-    padding: calc(var(--recipe-padding-width)/2);
-    column-gap: 4px;
-    max-width: 400px;
+    display: grid;
+    grid-template-columns:
+            [left-border]
+            1fr [image-right]
+            5px [left-content]
+            1fr [left-content-middle]
+            5px [right-content-middle]
+            1fr [right-border];
+    grid-template-rows:
+            [top-border]
+            50px [middle]
+            1fr [bottom-border];
 }
 
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-image {
-    height: var(--list-image-height);
-    width: var(--list-image-height);
-    grid-area: img;
+    grid-column: left-border / image-right;
+    grid-row: top-border / bottom-border;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-image > img {
-    height: 100%;
-
+    height: auto;
+    width: 100%;
 }
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-name{
-    font-size: 0.9em;
-    grid-area: name;
+    font-size: 1.1em;
+    grid-column: left-content / left-content-middle;
+    grid-row: top-border / bottom-border;
 }
 .recommendations-recipe-container > .recipe[look="list"] > .recipe-description{
-    font-size: 0.8em;
-    width: calc((100% - var(--recipe-combined-spacing))- --list-image-height);
-    grid-area: description;
+    grid-column: left-content / right-border;
+    grid-row: middle / bottom-border;
 }
 
 .recommendations-recipe-container > .recipe[look="list"] > .favorites-button{
@@ -1056,8 +1062,16 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 .recommendations-recipe-container > .recipe[look="list"] > .ingredients-you-have{
     display: none;
 }
+
+.recommendations-recipe-container > .recipe[look="list"] > .cook-this {
+    grid-column: right-content-middle / right-border;
+    grid-row: top-border / bottom-border;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 5px 5px 0 0;
+}
 /* recipe look when in list form */
-/* raccomandations stop*/
+/* reccomandations stop*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/

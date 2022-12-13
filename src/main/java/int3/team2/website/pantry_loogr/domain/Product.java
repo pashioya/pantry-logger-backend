@@ -12,8 +12,8 @@ public class Product extends Ingredient {
         this.size = size;
     }
 
-    public Product(int id, String name, String productName, String code, int size) {
-        super(id, name);
+    public Product(int id, String name, String productName, String code, int size, String imagePath) {
+        super(id, name, imagePath);
         this.productName = productName;
         this.code = code;
         this.size = size;

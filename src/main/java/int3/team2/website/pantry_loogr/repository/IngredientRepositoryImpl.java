@@ -77,7 +77,10 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
     @Override
     public Ingredient get(int id) {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENTS where id = " + id, this::mapIngredientRow).get(0);
+        return jdbcTemplate.query(
+                "SELECT * FROM INGREDIENTS where id = ?",
+                preparedStatement -> preparedStatement.setInt(1, id),
+                this::mapIngredientRow).get(0);
     }
     @Override
     public List<Ingredient> findAll() {
@@ -136,6 +139,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
     @Override
     public void addToPantry(int productId, int zone) {
+
     }
     @Override
     public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {
@@ -233,9 +237,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     @Override
     public void clearShoppingListIngredients(int shopping_list_id) {
-
         jdbcTemplate.update("DELETE FROM SHOPPING_LIST_INGREDIENTS WHERE SHOPPING_LIST_ID = ?", shopping_list_id);
-
     }
 
     @Override
@@ -247,7 +249,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
             parameters.put("AMOUNT", shoppingListIngredients.get(i));
             shoppingListInserter.execute(parameters);
         }
-
     }
 }
 

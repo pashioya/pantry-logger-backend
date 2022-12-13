@@ -56,4 +56,9 @@ public class TagServiceImpl implements TagService {
         }
         return null;
     }
+
+    @Override
+    public Tag createUserPreference(int userId, Tag tag, boolean like) {
+        return tagRepository.createUserPreference(userId, tag, like);
+    }
 }

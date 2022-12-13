@@ -1,18 +1,15 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.UserPreference;
 import int3.team2.website.pantry_loogr.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class UserServiceImpl implements UserService {
-
     private Logger logger;
     private UserRepository userRepository;
     private PantryZoneService pantryZoneService;
@@ -92,9 +89,5 @@ public class UserServiceImpl implements UserService {
         userRepository.updateUser(endUser);
         ingredientService.clearShoppingListIngredients(endUser.getShoppingList().getId());
         ingredientService.addShoppingListIngredients(endUser.getShoppingList().getId(), endUser.getShoppingListItems());
-    }
-
-    public List<UserPreference> getUserPreferences(int userId) {
-        return userRepository.getUserPreferences(userId);
     }
 }

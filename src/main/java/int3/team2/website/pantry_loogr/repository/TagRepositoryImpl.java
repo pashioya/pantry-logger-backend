@@ -1,6 +1,5 @@
 package int3.team2.website.pantry_loogr.repository;
 
-import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Tag;
 import int3.team2.website.pantry_loogr.domain.TagFlag;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,13 +17,19 @@ public class TagRepositoryImpl implements TagRepository {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert inserter;
     private SimpleJdbcInsert recipeTagInserter;
+    private SimpleJdbcInsert userPreferenceInserter;
 
     public TagRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("TAGS")
                 .usingGeneratedKeyColumns("TAG_ID");
-        this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("RECIPE_TAGS").usingColumns("TAG_ID", "RECIPE_ID");
+        this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("RECIPE_TAGS")
+                .usingColumns("TAG_ID", "RECIPE_ID");
+        this.userPreferenceInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("USER_PREFERENCES")
+                .usingColumns("USER_ID", "TAG_ID", "'LIKE'");
     }
 
     private Tag mapRow(ResultSet rs, int rowid) throws SQLException {
@@ -106,5 +111,13 @@ public class TagRepositoryImpl implements TagRepository {
         return tag;
     }
 
-
+    @Override
+    public Tag createUserPreference(int userId, Tag tag, boolean like) {
+        Map<String, Object> tagParameters = new HashMap<>();
+        tagParameters.put("USER_ID", userId);
+        tagParameters.put("TAG_ID", tag.getId());
+        tagParameters.put("'LIKE'", like);
+        userPreferenceInserter.execute(tagParameters);
+        return tag;
+    }
 }

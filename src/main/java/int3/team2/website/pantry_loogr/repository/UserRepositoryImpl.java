@@ -1,9 +1,6 @@
 package int3.team2.website.pantry_loogr.repository;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.Tag;
-import int3.team2.website.pantry_loogr.domain.TagFlag;
-import int3.team2.website.pantry_loogr.domain.UserPreference;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -15,10 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.sql.Types.VARCHAR;
 
@@ -26,18 +20,16 @@ import static java.sql.Types.VARCHAR;
 public class UserRepositoryImpl implements UserRepository {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert inserter;
+    private SimpleJdbcInsert userPreferenceInsertser;
 
     public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("END_USERS")
                 .usingGeneratedKeyColumns("ID");
-    }
-
-    private UserPreference tagMapRow(ResultSet rs, int rowid) throws SQLException {
-        return new UserPreference(new Tag(rs.getString("NAME"),
-                TagFlag.valueOf(rs.getString("FLAG"))),
-                Boolean.parseBoolean(rs.getString("'LIKE'")));
+        this.userPreferenceInsertser = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("USER_PREFERENCES")
+                .usingColumns("USER_ID", "TAG_ID", "'LIKE'");
     }
 
     private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {
@@ -101,7 +93,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-
     @Override
     public void updateUser(EndUser endUser) {
         jdbcTemplate.update(
@@ -118,20 +109,5 @@ public class UserRepositoryImpl implements UserRepository {
                 endUser.getCurrentRecipe(),
                 endUser.getId()
         );
-    }
-
-    @Override
-    public List<UserPreference> getUserPreferences(int userId) {
-        String sql = "SELECT " +
-                "           NAME, FLAG, 'LIKE' " +
-                "       FROM " +
-                "           USER_PREFERENCES " +
-                "       JOIN " +
-                "           TAGS " +
-                "               ON " +
-                "           USER_PREFERENCES.TAG_ID = TAGS.TAG_ID " +
-                "       WHERE " +
-                "           USER_ID = ?";
-        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userId), this::tagMapRow);
     }
 }

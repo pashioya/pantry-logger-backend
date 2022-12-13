@@ -54,13 +54,12 @@ public class RecipeController {
                 new DataItem(HtmlItems.HEADER_TITLE, "Browser"),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.SHOPPINGLIST)
-
         )));
         model.addAttribute("user", user);
         model.addAttribute("rightFooterList", new ArrayList<>(
-                Arrays.asList(new DataItem(HtmlItems.CREATE_RECIPE))
+                List.of(new DataItem(HtmlItems.CREATE_RECIPE))
         ));
 
         model.addAttribute("recipes", recipeService.getAll());
@@ -118,9 +117,9 @@ public class RecipeController {
         
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         List<Tag> tags = new ArrayList<>();
-        List<Integer> ingTypes = recipeData.get("ingredient-types").stream().map(x -> Integer.parseInt(x)).toList();
-        List<Integer> tagTypes = recipeData.get("tag-types").stream().map(x -> Integer.parseInt(x)).toList();
-        List<Integer> ingAmounts = recipeData.get("ingredient-amounts").stream().map(x -> Integer.parseInt(x)).toList();
+        List<Integer> ingTypes = recipeData.get("ingredient-types").stream().map(Integer::parseInt).toList();
+        List<Integer> tagTypes = recipeData.get("tag-types").stream().map(Integer::parseInt).toList();
+        List<Integer> ingAmounts = recipeData.get("ingredient-amounts").stream().map(Integer::parseInt).toList();
         
         if (ingTypes.size() != ingAmounts.size()) {
             logger.error("Ingredient types and ingredient amounts are not of equal size!");
@@ -157,7 +156,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.HEADER_TITLE, "Recommendations"),
                 new DataItem(HtmlItems.LOGO)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECIPE_BROWSER)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -168,8 +167,9 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.getAll();
         recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
         List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
-        List<UserPreference> userPreferences = userService.getUserPreferences(user.getId());
-        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, userPreferences);
+        user.setLikes(tagService.getLikesByUserId(user.getId()));
+        user.setDislikes(tagService.getDislikesByUserId(user.getId()));
+        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 
@@ -191,6 +191,7 @@ public class RecipeController {
 
         return "recipes";
     }
+
     @GetMapping("/select-current/{recipeId}")
     public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));

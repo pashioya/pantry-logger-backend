@@ -14,4 +14,5 @@ public interface TagRepository {
     List<Tag> getDislikesByUserId(int userId);
     List<Tag> addToRelationTable(int recipeId, List<Tag> tagList);
     Tag createTag(Tag tag);
+    Tag createUserPreference(int userId, Tag tag, boolean like);
 }

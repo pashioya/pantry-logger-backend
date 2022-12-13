@@ -13,4 +13,5 @@ public interface TagService {
     List<Tag> getLikesByUserId(int userId);
     List<Tag> getDislikesByUserId(int userId);
     List<Tag> addToRelationTable(int recipeId, List<Tag> tagList);
+    Tag createUserPreference(int userId, Tag tag, boolean like);
 }

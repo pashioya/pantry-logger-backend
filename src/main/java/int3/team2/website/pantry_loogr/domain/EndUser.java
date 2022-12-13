@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import int3.team2.website.pantry_loogr.repository.ShoppingListRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +29,8 @@ public class EndUser {
     private int currentRecipe;
     private ShoppingList shoppingList;
     private List<PantryZone> pantryZones;
+    private List<Tag> likes;
+    private List<Tag> dislikes;
 
     /**
      * Constructor that initially creates users on user registration
@@ -162,6 +163,22 @@ public class EndUser {
                 ", zip='" + zip + '\'' +
                 ", country='" + country + '\'' +
                 '}';
+    }
+
+    public List<Tag> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Tag> likes) {
+        this.likes = likes;
+    }
+
+    public List<Tag> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(List<Tag> dislikes) {
+        this.dislikes = dislikes;
     }
 
     public ShoppingList getShoppingList() {

@@ -16,10 +16,30 @@
                     </h4>
                 </div>
                 <div class="profile-buttons">
-                    <button class="button">Edit Profile</button>
+                    <button id="edit-button" class="button" >Edit Profile</button>
                     <button class="button">Change Password</button>
                     <a href="/profile/logout"> <button class="button">Logout</button> </a>
                 </div>
+                <div>
+                    <form method="post" id="tag-edit-form">
+                        <label class="liked-tags">
+                            <select name="liked-tags" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" disabled>
+                                <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:text="${key.name}" selected></option>
+                                <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:text="${key.name}"></option>
+                            </select>
+                        </label>
+                        <label class="disliked-tags">
+                            <select name="disliked-tags" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" disabled>
+                                <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:text="${key.name}" selected></option>
+                                <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:text="${key.name}"></option>
+                            </select>
+                        </label>
+                        <input type="submit" disabled>
+                    </form>
+                </div>
             </section>
     </body>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/js/profile.js"></script>
 </html>

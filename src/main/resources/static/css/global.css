@@ -1321,7 +1321,24 @@ body[id="profile"] > section > .profile-image > img{
     height: 100%;
 }
 
+#tag-edit-form {
+    width: 80vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+}
 
+#tag-edit-form > label {
+    width: 40vw;
+    display: flex;
+    justify-content: center;
+}
+
+#tag-edit-form > label > select {
+    width: 90%;
+    height: 200px;
+}
 
 /*Profile Ends */
 /*-------------------------------------*/

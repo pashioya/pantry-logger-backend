@@ -123,7 +123,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<UserPreference> getUserPreferences(int userId) {
         String sql = "SELECT " +
-                "           NAME, FLAG, 'LIKE' " +
+                "           NAME, FLAG, LIKES " +
                 "       FROM " +
                 "           USER_PREFERENCES " +
                 "       JOIN " +

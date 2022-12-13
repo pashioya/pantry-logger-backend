@@ -1,10 +1,13 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Tag;
+import int3.team2.website.pantry_loogr.domain.UserTagRealationship;
 import int3.team2.website.pantry_loogr.repository.TagRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class TagServiceImpl implements TagService {
@@ -55,5 +58,24 @@ public class TagServiceImpl implements TagService {
             return tagRepository.addToRelationTable(recipeId, recipeTags);
         }
         return null;
+    }
+
+    @Override
+    public Map<Tag, UserTagRealationship> getTagsByUserRelationship(int userId) {
+        List<Tag> allTags = tagRepository.findAll();
+        Map<Tag, Boolean> userTags = tagRepository.getAllByUser(userId);
+        Map<Tag, UserTagRealationship> exitMap = new HashMap<>();
+        allTags.forEach(x -> {
+            if (userTags.containsKey(x)) {
+                if (userTags.get(x)) {
+                    exitMap.put(x, UserTagRealationship.LIKES);
+                } else {
+                    exitMap.put(x, UserTagRealationship.DISLIKES);
+                }
+            } else {
+                exitMap.put(x, UserTagRealationship.UNDEFINED);
+            }
+        });
+        return exitMap;
     }
 }

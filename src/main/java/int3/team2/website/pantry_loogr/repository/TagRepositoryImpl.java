@@ -3,6 +3,7 @@ package int3.team2.website.pantry_loogr.repository;
 import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Tag;
 import int3.team2.website.pantry_loogr.domain.TagFlag;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,24 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     private Tag mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new Tag(rs.getInt("TAG_ID"), rs.getString("NAME"), TagFlag.valueOf(rs.getString("FLAG")));
+        return new Tag(
+                rs.getInt("TAG_ID"),
+                rs.getString("NAME"),
+                TagFlag.valueOf(rs.getString("FLAG"))
+        );
+    }
+
+    private Map<Tag, Boolean> mapTagWithBoolean(ResultSet rs, int rowid) throws SQLException {
+        Map<Tag, Boolean> map = new HashMap<>();
+        map.put(
+                new Tag(
+                        rs.getInt("TAG_ID"),
+                        rs.getString("NAME"),
+                        TagFlag.valueOf(rs.getString("FLAG"))
+                ),
+                rs.getBoolean("LIKES")
+        );
+        return map;
     }
 
     @Override
@@ -77,13 +95,25 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public Map<Tag, Boolean> getAllByUser(int userId) {
+        List<Map<Tag, Boolean>> list = jdbcTemplate.query("SELECT TAGS.*, LIKES FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ?", this::mapTagWithBoolean, userId);
+        Map<Tag, Boolean> map = new HashMap<>();
+        list.forEach(x -> {
+            x.keySet().forEach( y -> {
+                map.put(y, x.get(y));
+            });
+        });
+        return map;
+    }
+
+    @Override
     public List<Tag> getLikesByUserId(int userId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.\"LIKE\" = TRUE", this::mapRow, userId);
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.LIKES = TRUE", this::mapRow, userId);
     }
 
     @Override
     public List<Tag> getDislikesByUserId(int userId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.\"LIKE\" = FALSE", this::mapRow, userId);
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.LIKES = FALSE", this::mapRow, userId);
     }
 
     @Override

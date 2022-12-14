@@ -6,9 +6,12 @@ import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.TagService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
@@ -58,6 +61,20 @@ public class UserController {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         httpSession.invalidate();
         return "redirect:/login";
+    }
+
+    @RequestMapping(
+            value="/profile/tagedit",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String loginUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> tagData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        logger.debug(tagData.toString());
+        return "redirect:/profile";
     }
 
 }

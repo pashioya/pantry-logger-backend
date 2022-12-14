@@ -1321,23 +1321,39 @@ body[id="profile"] > section > .profile-image > img{
     height: 100%;
 }
 
-#tag-edit-form {
-    width: 80vw;
+
+.tags-edit {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 10px;
+    justify-content: space-around;
+    width: 100%;
 }
 
-#tag-edit-form > label {
-    width: 40vw;
+.tags-edit > form {
+    width: 40%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
-#tag-edit-form > label > select {
+.tags-edit > form > select {
     width: 90%;
     height: 200px;
+}
+
+.tags-edit > form > .tag-edit-header {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.tags-edit > form[status="none"] input, .discard-changes {
+    display: none;
+}
+
+.tags-edit > form[status="edit"] .edit-tags {
+    display: none;
 }
 
 /*Profile Ends */

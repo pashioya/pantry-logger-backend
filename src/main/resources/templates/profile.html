@@ -16,8 +16,8 @@
                     </h4>
                 </div>
                 <div class="profile-buttons">
-                    <button id="edit-button" class="button" >Edit Profile</button>
-                    <button class="button">Change Password</button>
+                    <button class="button" id ="edit-profile-btn">Edit Profile</button>
+                    <button class="button" id="change-password-btn">Change Password</button>
                     <a href="/profile/logout"> <button class="button">Logout</button> </a>
                 </div>
                 <div class="tags-edit">
@@ -43,6 +43,40 @@
 							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
 						</select>
                     </form>
+                </div>
+
+                <div id="password-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="close">&times;</span>
+                            <span class="modal-title">Change Password</span>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <label for="password">New Password</label>
+                                <input required type="password" id="password" name="password"/>
+
+                                <label for="confirm-password">Confirm Password</label>
+                                <input required type="password" id="confirm-password" name="confirm-password"/>
+                                <input type="submit"  value="submit" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="edit-profile-modal" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span class="close">&times;</span>
+                            <span class="modal-title">Edit Profile</span>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST">
+                                <label for="username">New Username</label>
+                                <input required type="text" id="username" name="username"/>
+                                <input type="submit" value="submit" />
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </section>
     </body>

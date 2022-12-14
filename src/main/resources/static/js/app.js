@@ -196,39 +196,3 @@ if (spaces) {
         })
     })
 }
-
-// profile page js
-let modal = document.getElementsByClassName("modal");
-let passwordModal = document.getElementById("password-modal");
-let editProfileModal = document.getElementById("edit-profile-modal");
-let editProfileBtn = document.getElementById("edit-profile-btn");
-let changePassBtn = document.getElementById("change-password-btn");
-
-// get all buttons with the class name "close"
-let closeBtn = document.getElementsByClassName("close");
-
-
-
-if(modal) {
-    changePassBtn.onclick = function () {
-        passwordModal.style.display = "block";
-    }
-
-    editProfileBtn.onclick = function () {
-        editProfileModal.style.display = "block";
-    }
-
-    for (let i = 0; i < closeBtn.length; i++) {
-        closeBtn[i].onclick = function () {
-            passwordModal.style.display = "none";
-            editProfileModal.style.display = "none";
-        }
-    }
-
-    window.onclick = function (event) {
-        if (event.target == passwordModal || event.target == editProfileModal) {
-            passwordModal.style.display = "none";
-            editProfileModal.style.display = "none";
-        }
-    }
-}

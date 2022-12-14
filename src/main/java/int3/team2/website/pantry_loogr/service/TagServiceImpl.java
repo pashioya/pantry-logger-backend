@@ -3,17 +3,23 @@ package int3.team2.website.pantry_loogr.service;
 import int3.team2.website.pantry_loogr.domain.Tag;
 import int3.team2.website.pantry_loogr.domain.UserTagRealationship;
 import int3.team2.website.pantry_loogr.repository.TagRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class TagServiceImpl implements TagService {
+    private Logger logger;
     private TagRepository tagRepository;
 
     public TagServiceImpl(TagRepository tagRepository) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.tagRepository = tagRepository;
     }
 
@@ -53,9 +59,9 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> addToRelationTable(int recipeId, List<Tag> recipeTags) {
+    public List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> recipeTags) {
         if (recipeTags != null) {
-            return tagRepository.addToRelationTable(recipeId, recipeTags);
+            return tagRepository.addToRecipeRelationTable(recipeId, recipeTags);
         }
         return null;
     }
@@ -77,5 +83,24 @@ public class TagServiceImpl implements TagService {
             }
         });
         return exitMap;
+    }
+
+    @Override
+    public void updateUserTagRelationship(int userId, List<Integer> tagIds, boolean like) {
+        List<Tag> originalTags;
+        if (like) {
+            originalTags = getLikesByUserId(userId);
+        } else {
+            originalTags = getDislikesByUserId(userId);
+        }
+
+        //tags to add
+        tagIds.stream()
+                .filter(x -> !originalTags.stream().map(Tag::getId).toList().contains(x))
+                .forEach(x -> tagRepository.addUserPreference(userId, x, like));
+        //tags to delete
+        originalTags.stream()
+                .filter(x -> !tagIds.contains(x.getId()))
+                .forEach(x -> tagRepository.removeUserPreference(userId, x.getId()));
     }
 }

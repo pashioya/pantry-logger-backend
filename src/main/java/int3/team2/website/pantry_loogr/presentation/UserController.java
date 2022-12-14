@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/profile")
@@ -64,16 +65,32 @@ public class UserController {
     }
 
     @RequestMapping(
-            value="/profile/tagedit",
+            value="/editLikes",
             method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    public String loginUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> tagData) {
+    public String editLikes(HttpSession httpSession, @RequestBody MultiValueMap<String, String> tagData) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";
         }
-        logger.debug(tagData.toString());
+        List<Integer> list = tagData.get("liked-tags").stream().map(Integer::parseInt).toList();
+        tagService.updateUserTagRelationship(user.getId(), list, true);
+        return "redirect:/profile";
+    }
+
+    @RequestMapping(
+            value="/editDislikes",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String editDislikes(HttpSession httpSession, @RequestBody MultiValueMap<String, String> tagData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        List<Integer> list = tagData.get("disliked-tags").stream().map(Integer::parseInt).toList();
+        tagService.updateUserTagRelationship(user.getId(), list, false);
         return "redirect:/profile";
     }
 

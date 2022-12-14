@@ -14,7 +14,9 @@ public interface TagService {
     List<Tag> getByRecipeId(int recipeId);
     List<Tag> getLikesByUserId(int userId);
     List<Tag> getDislikesByUserId(int userId);
-    List<Tag> addToRelationTable(int recipeId, List<Tag> tagList);
+    List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> tagList);
 
     Map<Tag, UserTagRealationship> getTagsByUserRelationship(int userId);
+
+    void updateUserTagRelationship(int userId, List<Integer> tagIds, boolean like);
 }

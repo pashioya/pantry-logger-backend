@@ -1,9 +1,7 @@
 package int3.team2.website.pantry_loogr.repository;
 
-import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Tag;
 import int3.team2.website.pantry_loogr.domain.TagFlag;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -17,14 +15,16 @@ import java.util.Map;
 @Repository
 public class TagRepositoryImpl implements TagRepository {
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert inserter;
+    private SimpleJdbcInsert tagInserter;
+    private SimpleJdbcInsert preferenceInserter;
     private SimpleJdbcInsert recipeTagInserter;
 
     public TagRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.inserter = new SimpleJdbcInsert(jdbcTemplate)
+        this.tagInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("TAGS")
                 .usingGeneratedKeyColumns("TAG_ID");
+        this.preferenceInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("USER_PREFERENCES").usingColumns("USER_ID", "TAG_ID", "LIKES");
         this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("RECIPE_TAGS").usingColumns("TAG_ID", "RECIPE_ID");
     }
 
@@ -107,6 +107,22 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public void addUserPreference(int userId, int tagId, boolean like) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("USER_ID", userId);
+        parameters.put("TAG_ID", tagId);
+        parameters.put("LIKES", like);
+        preferenceInserter.execute(parameters);
+    }
+
+    @Override
+    public void removeUserPreference(int userId, int tagId) {
+        jdbcTemplate.update(
+                "DELETE FROM USER_PREFERENCES WHERE USER_ID = ? AND TAG_ID = ?;", userId, tagId
+        );
+    }
+
+    @Override
     public List<Tag> getLikesByUserId(int userId) {
         return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.LIKES = TRUE", this::mapRow, userId);
     }
@@ -117,7 +133,7 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public List<Tag> addToRelationTable(int recipeId, List<Tag> tagList) {
+    public List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> tagList) {
         for (Tag tag : tagList) {
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("RECIPE_ID", recipeId);

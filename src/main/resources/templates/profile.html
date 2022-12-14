@@ -21,26 +21,26 @@
                     <a href="/profile/logout"> <button class="button">Logout</button> </a>
                 </div>
                 <div class="tags-edit">
-                    <form method="post" id="like-edit-form" status="none" action="/profile/tagedit">
+                    <form method="post" id="like-edit-form" status="none" action="/profile/editLikes">
 						<div class="tag-edit-header">
 							<h4>You Like:</h4>
 							<button class="edit-tags" type="button" id="edit-likes">edit likes</button>
 							<input type="submit" value="save">
 						</div>
 						<select name="liked-tags" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" disabled>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:text="${key.name}" selected></option>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:text="${key.name}"></option>
+							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:value="${key.id}" th:text="${key.name}" selected></option>
+							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
 						</select>
 					</form>
-					<form method="post" id="dislike-edit-form" status="none" action="/profile/tagedit">
+					<form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
 						<div class="tag-edit-header">
 							<h4>You dont like:</h4>
 							<button class="edit-tags" type="button" id="edit-dislikes">edit dislikes</button>
 							<input type="submit" value="save">
 						</div>
 						<select name="disliked-tags" class="js-example-placeholder-multiple js-states form-control" multiple="multiple" disabled>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:text="${key.name}" selected></option>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:text="${key.name}"></option>
+							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:value="${key.id}" th:text="${key.name}" selected></option>
+							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
 						</select>
                     </form>
                 </div>

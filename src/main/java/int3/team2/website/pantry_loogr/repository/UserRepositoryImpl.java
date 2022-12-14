@@ -110,4 +110,19 @@ public class UserRepositoryImpl implements UserRepository {
                 endUser.getId()
         );
     }
+
+    @Override
+    public List<UserPreference> getUserPreferences(int userId) {
+        String sql = "SELECT " +
+                "           NAME, FLAG, LIKES " +
+                "       FROM " +
+                "           USER_PREFERENCES " +
+                "       JOIN " +
+                "           TAGS " +
+                "               ON " +
+                "           USER_PREFERENCES.TAG_ID = TAGS.TAG_ID " +
+                "       WHERE " +
+                "           USER_ID = ?";
+        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userId), this::tagMapRow);
+    }
 }

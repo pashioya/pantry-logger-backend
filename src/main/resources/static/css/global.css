@@ -16,7 +16,8 @@ profile
 
 body {
     --white: white;
-    --dark-color: rgba(147, 112, 216, 0.6);
+    --dark-color: #B49FE5;
+    --dark-color-transparent: rgba(147, 112, 216, 0.6);
     --light-color: rgb(230, 230, 250, 1);
     margin: 0;
     width: 100vw;
@@ -24,7 +25,8 @@ body {
     background-color: var(--light-color);
     --header-size: 60px;
     --view-selectors-height: 50px;
-    font-family: 'Raleway', sans-serif;
+    --main-font: 'Raleway', sans-serif;
+    font-family: var(--main-font);
 
     --box-shadow-up: 0px -5px 15px rgba(0, 0, 0, 0.2);
     --box-shadow-down: 2px 5px 15px rgba(0, 0, 0, 0.2);
@@ -102,41 +104,18 @@ header {
 }
 
 .header-titles > a > h1[target="selected"] {
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
 }
 
-/* drop-down view selector menus */
-.dropdown {
-    --dropdown-width: 50px;
-    position: relative;
-    display: inline-block;
-    top: 5px;
-    margin-right: 5px;
-}
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9c9;
-    /* min-width: 160px; */
-    padding: 12px 16px;
-}
-
-.dropdown:hover .dropdown-content {
-    display: flex;
-    flex-direction: column-reverse;
-    padding: 0;
-    background-color: #f9f9f9c9;
-}
-/* drop down menu */
-
-
-/* Search Bar */
+/* Search Bar start */
 .button {
-    display: inline-block;
-    height: 50px;
+    padding: var(--button-padding-tb) var(--button-padding-lr);
     text-align: center;
     cursor: pointer;
+    background-color: var(--white);
+    border-radius: var(--button-radius);
+    font-family: var(--main-font);
 }
 
 .button:hover {
@@ -144,29 +123,21 @@ header {
     -moz-transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
     -o-transition-duration: 0.4s;
-    background-color: var(--white);
-    color: black;
 }
 
 .search-container {
-    position: relative;
-    display: inline-block;
-    margin: 4px 2px;
     height: 50px;
     width: 50px;
     vertical-align: bottom;
 }
 
-
-
-.searchbutton {
+.search-container > form {
     position: relative;
-    font-size: 22px;
-    width: 100%;
-    bottom: 4px;
+    height: 50px;
+    width: 50px;
 }
 
-.search:focus + .searchbutton {
+.search-container > form > .search:focus + .searchbutton {
     transition-duration: 0.4s;
     -moz-transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
@@ -175,39 +146,42 @@ header {
     color: black;
 }
 
-.search {
-    position: absolute;
-    bottom: 4px;
-    left: 49px;
-    background-color: var(--white);
-    outline: none;
-    border: none;
-    padding: 0;
-    width: 0;
-    height: 100%;
+.search-container > form > .search {
     transition-duration: 0.4s;
     -moz-transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
     -o-transition-duration: 0.4s;
-}
-
-.search:focus {
-    width:calc(100vw) ;
-    padding: 0 16px 0 0;
-    border-radius: 10px;
-}
-
-.expand-right {
+    position: absolute;
+    bottom: -8px;
     left: auto;
-    right: calc(1vw - 9px);/* - 9px so it no longer touches the edge of the screen and the curved edges are visible */
-    border-radius: 10px;
+    right: 0px;
+    width: 0;
+    height: calc(100% + 8px);
+    padding: 0;
+    outline: unset;
+    border: unset;
+    border-radius: 0 0 var(--button-radius) var(--button-radius);
+    background-color: var(--dark-color);
+    color: var(--white);
 }
 
-.expand-right:focus {
-    padding: 0 0 0 16px;
+.search-container > form > .search:focus {
+    width: 100vw;
+    padding: 8px 16px;
 }
 
-/* Search Bar */
+.search-container > form > .searchbutton {
+    display: inline-block;
+    font-size: 22px;
+    height: 50px;
+    width: 50px;
+}
+
+.search-container > form > .searchbutton > img {
+    width: var(--view-selectors-height);
+    height: var(--view-selectors-height);
+}
+/* Search Bar end */
 
 
 section {
@@ -224,7 +198,7 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
     border: 0 solid gray;
     border-radius: 10px 10px 0 0;
     box-shadow: var(--box-shadow-up);
@@ -251,10 +225,10 @@ footer > .footer-section > .button-container {
 }
 
 .styled-button-dark {
-    border: 0 solid var(--dark-color);
+    border: 0 solid var(--dark-color-transparent);
     border-radius: 25px;
     padding: var(--button-padding-tb) var(--button-padding-lr);
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
     box-shadow: var(--button-shadow-down);
 }
 
@@ -270,9 +244,9 @@ footer > .footer-section > .button-container {
 }
 
 .styled-button-icon {
-    border: 0 solid var(--dark-color);
+    border: 0 solid var(--dark-color-transparent);
     border-radius: 100%;
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
     box-shadow: var(--button-shadow-down);
 }
 
@@ -724,7 +698,7 @@ body[item-selected="true"] .item[change="selected"] {
 }
 
 .modify-container[modify-mode="remove"] > .remove-section .remove_hover {
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
 }
 
 
@@ -759,7 +733,7 @@ body[item-selected="true"] .item[change="selected"] {
 
 .storage-spaces > .storage-space:hover,
 .storage-spaces > .storage-space:focus {
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
 }
 /* Storage-spaces.css stop*/
 /*--------------------------------------------------------------------*/
@@ -900,7 +874,7 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 }
 
 #scanner .storage-space[selected="true"] {
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
 }
 
 #scanner .submit-button-wrapper {
@@ -1174,7 +1148,7 @@ body[id="create-recipe"] > .header-titles{
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: var(--dark-color);
+    background-color: var(--dark-color-transparent);
     border: 0 solid gray;
     border-radius: 10px 10px 0 0;
 }
@@ -1349,6 +1323,39 @@ body[id="profile"] > section > .profile-image > img{
 }
 
 
+.tags-edit {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.tags-edit > form {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.tags-edit > form > select {
+    width: 90%;
+    height: 200px;
+}
+
+.tags-edit > form > .tag-edit-header {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.tags-edit > form[status="none"] input, .discard-changes {
+    display: none;
+}
+
+.tags-edit > form[status="edit"] .edit-tags {
+    display: none;
+}
 
 .modal {
     display: none;

@@ -8,6 +8,7 @@ import java.util.Map;
 public interface TagRepository {
     List<Tag> findAll();
     Tag get(int id);
+    Tag createTag(Tag tag);
     List<Tag> findByName(String name);
     List<Tag> getByRecipeId(int recipeId);
     List<Tag> getByIngredientId(int ingredientId);
@@ -17,6 +18,5 @@ public interface TagRepository {
     List<Tag> getLikesByUserId(int userId);
     List<Tag> getDislikesByUserId(int userId);
     List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> tagList);
-    Tag createTag(Tag tag);
-    Tag createUserPreference(int userId, Tag tag, boolean like);
+
 }

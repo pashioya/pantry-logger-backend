@@ -950,6 +950,18 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     grid-row: top-border / title-bottom;
 }
 
+.recommendations-recipe-container > .recipe[look="image"] > .recipe-description {
+    grid-column: right-middle / right-border;
+    grid-row: title-bottom / top-middle;
+}
+
+.recommendations-recipe-container > .recipe[look="image"] > .recipe-description > p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
 .recommendations-recipe-container > .recipe[look="image"] > .ingredients-you-need {
     grid-column: right-middle / right-border;
     grid-row: bottom-middle / content-end
@@ -1016,7 +1028,7 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     grid-column: left-content / left-content-middle;
     grid-row: top-border / bottom-border;
 }
-.recommendations-recipe-container > .recipe[look="list"] > .recipe-description{
+.recommendations-recipe-container > .recipe[look="list"] > .recipe-description {
     grid-column: left-content / right-border;
     grid-row: middle / bottom-border;
 }

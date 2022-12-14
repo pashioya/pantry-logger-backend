@@ -153,13 +153,4 @@ public class TagRepositoryImpl implements TagRepository {
         return tagList;
     }
 
-    @Override
-    public Tag createUserPreference(int userId, Tag tag, boolean like) {
-        Map<String, Object> tagParameters = new HashMap<>();
-        tagParameters.put("USER_ID", userId);
-        tagParameters.put("TAG_ID", tag.getId());
-        tagParameters.put("'LIKE'", like);
-        userPreferenceInserter.execute(tagParameters);
-        return tag;
-    }
 }

@@ -196,3 +196,23 @@ if (spaces) {
         })
     })
 }
+
+// profile page js
+
+let modal = document.getElementById("modal");
+let btn = document.getElementById("change-password-btn");
+let closeBtn = document.getElementsByClassName("close")[0];
+
+if(modal) {
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+    closeBtn.onclick = function () {
+        modal.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+}

@@ -61,6 +61,15 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public Tag createTag(Tag tag) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("FLAG", tag.getFlag().toString());
+        parameters.put("NAME", tag.getName());
+        tag.setId(tagInserter.executeAndReturnKey(parameters).intValue());
+        return tag;
+    }
+
+    @Override
     public List<Tag> findByName(String name) {
         return jdbcTemplate.query("SELECT * FROM TAGS WHERE NAME LIKE ?", this::mapRow, name);
     }
@@ -142,15 +151,6 @@ public class TagRepositoryImpl implements TagRepository {
             recipeTagInserter.execute(parameters);
         }
         return tagList;
-    }
-
-    @Override
-    public Tag createTag(Tag tag) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("FLAG", tag.getFlag().toString());
-        parameters.put("NAME", tag.getName());
-        tag.setId(inserter.executeAndReturnKey(parameters).intValue());
-        return tag;
     }
 
     @Override

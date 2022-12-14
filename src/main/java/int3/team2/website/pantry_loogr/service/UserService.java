@@ -1,7 +1,6 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.UserPreference;
 
 import java.util.List;
 
@@ -15,5 +14,4 @@ public interface UserService {
     boolean usernameExists(String username);
     boolean emailExists(String email);
     EndUser authenticate(String username, String password);
-    List<UserPreference> getUserPreferences(int userId);
 }

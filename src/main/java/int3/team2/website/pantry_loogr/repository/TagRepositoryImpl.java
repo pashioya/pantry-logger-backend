@@ -18,6 +18,7 @@ public class TagRepositoryImpl implements TagRepository {
     private SimpleJdbcInsert tagInserter;
     private SimpleJdbcInsert preferenceInserter;
     private SimpleJdbcInsert recipeTagInserter;
+    private SimpleJdbcInsert userPreferenceInserter;
 
     public TagRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -141,5 +142,24 @@ public class TagRepositoryImpl implements TagRepository {
             recipeTagInserter.execute(parameters);
         }
         return tagList;
+    }
+
+    @Override
+    public Tag createTag(Tag tag) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("FLAG", tag.getFlag().toString());
+        parameters.put("NAME", tag.getName());
+        tag.setId(inserter.executeAndReturnKey(parameters).intValue());
+        return tag;
+    }
+
+    @Override
+    public Tag createUserPreference(int userId, Tag tag, boolean like) {
+        Map<String, Object> tagParameters = new HashMap<>();
+        tagParameters.put("USER_ID", userId);
+        tagParameters.put("TAG_ID", tag.getId());
+        tagParameters.put("'LIKE'", like);
+        userPreferenceInserter.execute(tagParameters);
+        return tag;
     }
 }

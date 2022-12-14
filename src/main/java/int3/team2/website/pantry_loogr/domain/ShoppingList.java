@@ -1,12 +1,13 @@
 package int3.team2.website.pantry_loogr.domain;
 
 import java.util.List;
+import java.util.Map;
 
 public class ShoppingList {
     private int id;
-    private List<ShoppingListIngredient> ingredients;
+    private Map<Ingredient, Integer> ingredients;
 
-    public ShoppingList(int id, List<ShoppingListIngredient> ingredients) {
+    public ShoppingList(int id, Map<Ingredient, Integer> ingredients) {
         this.id = id;
         this.ingredients = ingredients;
     }
@@ -14,12 +15,15 @@ public class ShoppingList {
     public ShoppingList(int id) {
         this.id = id;
     }
-
-    public void addIngredient(ShoppingListIngredient ingredient) {
-        ingredients.add(ingredient);
+    public ShoppingList() {
     }
 
-    public void setIngredients(List<ShoppingListIngredient> ingredients) {
+    public void addIngredient(Ingredient ingredient, int amount) {
+        ingredients.put(ingredient, amount);
+    }
+
+
+    public void setIngredients( Map<Ingredient, Integer> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -27,7 +31,11 @@ public class ShoppingList {
         return id;
     }
 
-    public List<ShoppingListIngredient> getIngredients() {
+    public  Map<Ingredient, Integer> getIngredients() {
         return ingredients;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

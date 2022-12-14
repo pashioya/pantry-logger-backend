@@ -1,11 +1,20 @@
 package int3.team2.website.pantry_loogr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * EndUser contains all data relating to a specific user.
  * When created the first constructor is used with only the
  * necessary parameters.
  */
 public class EndUser {
+
+    private Logger logger;
     private int id;
 
     private String password;
@@ -18,6 +27,10 @@ public class EndUser {
     private String zip;
     private String country;
     private int currentRecipe;
+    private ShoppingList shoppingList;
+    private List<PantryZone> pantryZones;
+    private List<Tag> likes;
+    private List<Tag> dislikes;
 
     /**
      * Constructor that initially creates users on user registration
@@ -27,6 +40,7 @@ public class EndUser {
      * @param password password of the user
      */
     public EndUser(String username, String email, String password) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.username = username;
         this.email = email;
         this.password = password;
@@ -49,6 +63,7 @@ public class EndUser {
      * @param country country of residence
      */
     public EndUser(int id, String password, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country, int currentRecipe) {
+        this.logger = LoggerFactory.getLogger(this.getClass());
         this.id = id;
         this.password = password;
         this.username = username;
@@ -108,10 +123,32 @@ public class EndUser {
         return currentRecipe;
     }
 
-    public void setCurrentRecipe(int currentRecipe) {
-        this.currentRecipe = currentRecipe;
+    public void setCurrentRecipe(Recipe currentRecipe) {
+        this.currentRecipe = currentRecipe.getId();
+        logger.debug(String.valueOf(pantryZones.size()));
+        List<PantryZoneProduct> pantryZoneProducts = new ArrayList<>();
+        pantryZones.forEach(pantryZone -> {
+            logger.debug(String.valueOf(pantryZone.getProducts().size()));
+            pantryZoneProducts.addAll(pantryZone.getProducts());
+        });
+        Map<Ingredient, Integer> missingIngredients = currentRecipe.getMissingIngredients(pantryZoneProducts);
+        logger.debug("missingIngredients");
+        for (Ingredient i: missingIngredients.keySet()) {
+            logger.debug(i.getName() + " " +  missingIngredients.get(i));
+        }
+
+        shoppingList.setIngredients(missingIngredients);
     }
 
+    public void setPantryZones(List<PantryZone> pantryZones) {
+        this.pantryZones = pantryZones;
+    }
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+    public List<PantryZone> getPantryZones() {
+        return this.pantryZones;
+    }
     @Override
     public String toString() {
         return "end_user{" +
@@ -126,5 +163,29 @@ public class EndUser {
                 ", zip='" + zip + '\'' +
                 ", country='" + country + '\'' +
                 '}';
+    }
+
+    public List<Tag> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Tag> likes) {
+        this.likes = likes;
+    }
+
+    public List<Tag> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(List<Tag> dislikes) {
+        this.dislikes = dislikes;
+    }
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+    public  Map<Ingredient, Integer> getShoppingListItems() {
+        return shoppingList.getIngredients();
     }
 }

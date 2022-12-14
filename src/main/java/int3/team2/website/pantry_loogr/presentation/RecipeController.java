@@ -3,6 +3,7 @@ package int3.team2.website.pantry_loogr.presentation;
 import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
+import int3.team2.website.pantry_loogr.repository.ShoppingListRepository;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.RecipeService;
 import int3.team2.website.pantry_loogr.service.TagService;
@@ -53,13 +54,12 @@ public class RecipeController {
                 new DataItem(HtmlItems.HEADER_TITLE, "Browser"),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.SHOPPINGLIST)
-
         )));
         model.addAttribute("user", user);
         model.addAttribute("rightFooterList", new ArrayList<>(
-                Arrays.asList(new DataItem(HtmlItems.CREATE_RECIPE))
+                List.of(new DataItem(HtmlItems.CREATE_RECIPE))
         ));
 
         model.addAttribute("recipes", recipeService.getAll());
@@ -114,20 +114,21 @@ public class RecipeController {
             return "redirect:/login";
         }
         logger.debug(recipeData.toString());
-        Map<Ingredient, String> ingredients = new HashMap<>();
+        
+        Map<Ingredient, Integer> ingredients = new HashMap<>();
         List<Tag> tags = new ArrayList<>();
-        List<String> ingTypes = recipeData.get("ingredient-types");
-        List<String> tagTypes = recipeData.get("tag-types");
-        List<String> ingAmounts = recipeData.get("ingredient-amounts");
+        List<Integer> ingTypes = recipeData.get("ingredient-types").stream().map(Integer::parseInt).toList();
+        List<Integer> tagTypes = recipeData.get("tag-types").stream().map(Integer::parseInt).toList();
+        List<Integer> ingAmounts = recipeData.get("ingredient-amounts").stream().map(Integer::parseInt).toList();
+        
         if (ingTypes.size() != ingAmounts.size()) {
             logger.error("Ingredient types and ingredient amounts are not of equal size!");
         }
         for(int i = 0; i < ingTypes.size(); i++) {
-            Ingredient current =  ingredientService.get(Integer.parseInt(ingTypes.get(i)));
-            ingredients.put(current, ingAmounts.get(i));
+            ingredients.put(ingredientService.get(ingTypes.get(i)), ingAmounts.get(i));
         }
         for(int i = 0; i < tagTypes.size(); i++) {
-            tags.add(tagService.get(Integer.parseInt(ingTypes.get(i))));
+            tags.add(tagService.get(tagTypes.get(i)));
         }
         Recipe newRecipe = new Recipe(
                 recipeData.get("recipe-name").get(0),
@@ -156,7 +157,7 @@ public class RecipeController {
                 new DataItem(HtmlItems.HEADER_TITLE, "Recommendations"),
                 new DataItem(HtmlItems.LOGO)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECIPE_BROWSER)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -167,8 +168,9 @@ public class RecipeController {
         List<Recipe> recipes = recipeService.getAll();
         recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
         List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
-        List<UserPreference> userPreferences = userService.getUserPreferences(user.getId());
-        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, userPreferences);
+        user.setLikes(tagService.getLikesByUserId(user.getId()));
+        user.setDislikes(tagService.getDislikesByUserId(user.getId()));
+        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 
@@ -190,19 +192,18 @@ public class RecipeController {
 
         return "recipes";
     }
-    @GetMapping("/select-current/{recipeId}/{redirect}")
-    public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId, @PathVariable String redirect) {
+
+    @GetMapping("/select-current/{recipeId}")
+    public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";
         }
 
-        user.setCurrentRecipe(recipeId);
+        Recipe recipe = recipeService.get(recipeId);
+        user.setCurrentRecipe(recipe);
         userService.updateUser(user);
 
-        if(redirect.equals("recipe")) {
-            return "redirect:/recipes/" + redirect + "/" + recipeId;
-        }
-        return "redirect:/recipes/" + redirect;
+        return "redirect:/shoppinglist/";
     }
 }

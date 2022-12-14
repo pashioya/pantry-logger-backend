@@ -10,12 +10,10 @@ import org.slf4j.LoggerFactory;
 public class RecipeRecommender {
     private static Logger logger = LoggerFactory.getLogger(RecipeRecommender.class);
 
-    public static List<Recipe> filter(List<Recipe> recipes, List<Ingredient> ingredientsInPantry, List<UserPreference> userPreferences) {
-        recipes.removeIf(recipe -> getTagPoints(recipe, userPreferences) == -1);
+    public static List<Recipe> filter(List<Recipe> recipes, List<Ingredient> ingredientsInPantry, EndUser user) {
+        recipes.removeIf(recipe -> getTagPoints(recipe, user) == -1);
         Map<Integer, Recipe> points = new HashMap<>();
-        recipes.forEach(recipe -> {
-            points.put(countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, userPreferences), recipe);
-        });
+        recipes.forEach(recipe -> points.put(countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, user), recipe));
 
         TreeMap<Integer, Recipe> sorted = new TreeMap<>(Collections.reverseOrder());
         sorted.putAll(points);
@@ -23,24 +21,13 @@ public class RecipeRecommender {
         return new ArrayList<>(sorted.values());
     }
 
-    public static int getTagPoints(Recipe recipe, List<UserPreference> userPreferences) {
-        List<Tag> userLikes = new ArrayList<>();
-        List<Tag> userDislikes = new ArrayList<>();
-
-        userPreferences.forEach(preference -> {
-            if (preference.isLike()) {
-                userLikes.add(preference.getTag());
-            } else {
-                userDislikes.add(preference.getTag());
-            }
-        });
-
+    public static int getTagPoints(Recipe recipe, EndUser user) {
         int points = 0;
-        for (Tag tag: userDislikes) {
+        for (Tag tag: user.getDislikes()) {
             if (recipe.getTags().contains(tag)) {return -1;}
         }
 
-        for (Tag tag: userDislikes) {
+        for (Tag tag: user.getLikes()) {
             if (recipe.getTags().contains(tag)) {points += 10;}
         }
 

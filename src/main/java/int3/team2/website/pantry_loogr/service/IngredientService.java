@@ -10,15 +10,17 @@ public interface IngredientService {
     List<Ingredient> getAll();
     List<Ingredient> add(Ingredient ingredient);
     List<Ingredient> getByName(String name);
-    List<Ingredient> getIngredientsByUser(int userID);
-    Map<Ingredient, String> getIngredientsByRecipeId(int id);
-    Map<Ingredient, String> addToRelationTable(int recipeID, Map<Ingredient, String> ingredients);
+    Map<Ingredient, Integer> getIngredientsByRecipeId(int id);
+    Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients);
+    List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
     Product getByCode(String code);
     void addToPantry(int productId, int zone);
-    void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage);
-    void editPantryZoneProductQuantity(int pantryId, int productId, int quantity);
-    void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
+    Map<Ingredient, Integer> getForShoppingList(int id);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
-    List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
-    List<ShoppingListIngredient> getForShoppingList(int id);
+    List<Ingredient> getIngredientsByUser(int userID);
+    void editPantryZoneProductQuantity(int pantryId, int productId, int quantity);
+    void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage);
+    void addShoppingListIngredients(int shoppingListId,  Map<Ingredient, Integer> shoppingListIngredients);
+    void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
+    void clearShoppingListIngredients(int shopping_list_id);
 }

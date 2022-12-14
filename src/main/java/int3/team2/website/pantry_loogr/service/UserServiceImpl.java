@@ -1,24 +1,27 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.UserPreference;
 import int3.team2.website.pantry_loogr.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class UserServiceImpl implements UserService {
-
     private Logger logger;
     private UserRepository userRepository;
+    private PantryZoneService pantryZoneService;
+    private IngredientService ingredientService;
+    private ShoppingListService shoppingListService;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PantryZoneService pantryZoneService,IngredientService ingredientService, ShoppingListService shoppingListService) {
         logger = LoggerFactory.getLogger(this.getClass());
         this.userRepository = userRepository;
+        this.pantryZoneService = pantryZoneService;
+        this.ingredientService = ingredientService;
+        this.shoppingListService = shoppingListService;
     }
 
     @Override
@@ -55,7 +58,13 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public EndUser getByUsername(String username) {
-        return userRepository.findByUsername(username);
+
+        EndUser user =  userRepository.findByUsername(username);
+        if(user != null) {
+            user.setPantryZones(pantryZoneService.getAllForUser(user.getId()));
+            user.setShoppingList(shoppingListService.getByUser(user.getId()));
+        }
+        return user;
     }
 
 
@@ -76,10 +85,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(EndUser endUser) {
-        userRepository.updateUser(endUser);
-    }
 
-    public List<UserPreference> getUserPreferences(int userId) {
-        return userRepository.getUserPreferences(userId);
+        userRepository.updateUser(endUser);
+        ingredientService.clearShoppingListIngredients(endUser.getShoppingList().getId());
+        ingredientService.addShoppingListIngredients(endUser.getShoppingList().getId(), endUser.getShoppingListItems());
     }
 }

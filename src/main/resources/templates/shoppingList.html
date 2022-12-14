@@ -35,7 +35,7 @@
 <!--							<span class ="item-quantity" th:text="${ingredient.amount}"></span>-->
 <!--						</h4>-->
 <!--					</div>-->
-			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">
+			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients.keySet()}">
 				<div class="item-image">
 					<img
 							src="/images/filler-image.png"
@@ -48,7 +48,7 @@
 					</h4>
 					<h4>
 						Amount:
-						<span class ="item-quantity" th:text="${ingredient.amount}"></span>
+						<span class ="item-quantity" th:text="${shoppingListIngredients.get(ingredient)}"></span>
 					</h4>
 				</div>
 			</div>

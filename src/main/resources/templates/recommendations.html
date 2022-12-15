@@ -60,7 +60,7 @@
 						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
 					</ul>
 				</div>
-				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id} + '/recommend'">
+				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id}">
 					<div>Cook This!</div>
 				</a>
 			</div>

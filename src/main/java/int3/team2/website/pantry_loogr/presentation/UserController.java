@@ -94,4 +94,43 @@ public class UserController {
         return "redirect:/profile";
     }
 
+    @RequestMapping(
+            value="/editProfile",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String editProfile(HttpSession httpSession, @RequestBody MultiValueMap<String, String> tagData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        String username = tagData.get("username").get(0);
+        user.setUsername(username);
+        httpSession.setAttribute("username", username);
+        userService.updateUser(user);
+        return "redirect:/profile";
+    }
+
+    @RequestMapping(
+            value="/editPassword",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String editPassword(HttpSession httpSession, @RequestBody MultiValueMap<String, String> tagData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        String password = tagData.get("password").get(0);
+        String passwordConfirm = tagData.get("confirm-password").get(0);
+        if(!password.equals(passwordConfirm)) {
+            System.out.println("Passwords do not match");
+            return "redirect:/profile";
+        }
+        user.setPassword(password);
+        httpSession.setAttribute("password", password);
+        userService.updateUser(user);
+        return "redirect:/profile";
+    }
+
 }

@@ -181,6 +181,15 @@ public class EndUser {
         this.dislikes = dislikes;
     }
 
+//    TODO: I this safe to do?
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    //    TODO: I this safe to do?
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public ShoppingList getShoppingList() {
         return shoppingList;
     }

@@ -196,3 +196,27 @@ if (spaces) {
         })
     })
 }
+
+/* Recommender JS */
+
+const have = document.getElementsByClassName("ingredients-you-have");
+const need = document.getElementsByClassName("ingredients-you-need");
+const max_list_length = 5;
+
+function remove_list_items(list, max_length) {
+    Array.from(list).forEach(list => {
+        const elements = list.querySelectorAll("li");
+        if (elements.length > max_length) {
+            for(let i = max_length; i < elements.length; i++) {
+                elements[i].classList.add("hidden");
+            }
+            list.querySelector(".dots").classList.remove("hidden");
+        }
+    })
+}
+
+if (have.length > 0 && need.length > 0) {
+    remove_list_items(have, max_list_length);
+    remove_list_items(need, max_list_length);
+}
+

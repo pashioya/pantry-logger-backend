@@ -50,42 +50,42 @@ VALUES ('Pork chops',
         '/images/icon-set-1/arugula.png');
 
 
-INSERT INTO INGREDIENTS (NAME)
-VALUES ('onion'),
-       ('garlic'),
-       ('ground beef'),
-       ('beef sirloin'),
-       ('tomato'), -- 5
-       ('dark beer'),
-       ('green pepper'),
-       ('tomato sauce'),
-       ('paprika'),
-       ('kidney beans'), --10
-       ('black beans'),
-       ('sour cream'),
-       ('cheddar'),
-       ('green onion'),
-       ('carrot'), --15
-       ('italian sausage'),
-       ('chicken broth'),
-       ('lentils'),
-       ('spaghetti'),
-       ('egg'), --20
-       ('heavy cream'),
-       ('shallots'),
-       ('bacon'),
-       ('parmesan'),
-       ('macaroni'), --25
-       ('butter'),
-       ('flour'),
-       ('milk'),
-       ('cream'),
-       ('jalapenos'), --30
-       ('soy sauce'),
-       ('sesame oil'),
-       ('chicken breast'),
-       ('peas'),
-       ('rice'); --35
+INSERT INTO INGREDIENTS (NAME, IMAGE_PATH)
+VALUES ('onion', '/images/icon-set-1/mushroom.png'),
+       ('garlic', '/images/icon-set-1/basil.png'),
+       ('ground beef', '/images/icon-set-1/arugula.png'),
+       ('beef sirloin', '/images/icon-set-1/bell-pepper.png'),
+       ('tomato', '/images/icon-set-1/basil.png'), -- 5
+       ('dark beer', '/images/icon-set-1/arugula.png'),
+       ('green pepper', '/images/icon-set-1/chili-pepper.png'),
+       ('tomato sauce', '/images/icon-set-1/mushroom.png'),
+       ('paprika', '/images/icon-set-1/arugula.png'),
+       ('kidney beans', '/images/icon-set-1/chili-pepper.png'), --10
+       ('black beans', '/images/icon-set-1/bell-pepper.png'),
+       ('sour cream', '/images/icon-set-1/arugula.png'),
+       ('cheddar', '/images/icon-set-1/bell-pepper.png'),
+       ('green onion', '/images/icon-set-1/basil.png'),
+       ('carrot', '/images/icon-set-1/basil.png'), --15
+       ('italian sausage', '/images/icon-set-1/cheese.png'),
+       ('chicken broth', '/images/icon-set-1/bell-pepper.png'),
+       ('lentils', '/images/icon-set-1/arugula.png'),
+       ('spaghetti', '/images/icon-set-1/chili-pepper.png'),
+       ('egg', '/images/icon-set-1/cheese.png'), --20
+       ('heavy cream', '/images/icon-set-1/cheese.png'),
+       ('shallots', '/images/icon-set-1/arugula.png'),
+       ('bacon', '/images/icon-set-1/mushroom.png'),
+       ('parmesan', '/images/icon-set-1/cheese.png'),
+       ('macaroni', '/images/icon-set-1/bell-pepper.png'), --25
+       ('butter', '/images/icon-set-1/mushroom.png'),
+       ('flour', '/images/icon-set-1/arugula.png'),
+       ('milk', '/images/icon-set-1/basil.png'),
+       ('cream', '/images/icon-set-1/cheese.png'),
+       ('jalapenos', '/images/icon-set-1/chili-pepper.png'), --30
+       ('soy sauce', '/images/icon-set-1/mushroom.png'),
+       ('sesame oil', '/images/icon-set-1/arugula.png'),
+       ('chicken breast', '/images/icon-set-1/bell-pepper.png'),
+       ('peas', '/images/icon-set-1/basil.png'),
+       ('rice', '/images/icon-set-1/mushroom.png'); --35
 
 INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD, CURRENT_RECIPE)
 VALUES ('tom', 'tom@gmail.com', '12', 3),

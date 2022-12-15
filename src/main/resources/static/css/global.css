@@ -39,6 +39,11 @@ body {
     --button-radius: 25px;
     --button-color: lightgray;
 
+    --item-padding-width: 20px;
+    --item-margin-width: 20px;
+    --item-list-margin-width: 10px;
+    --item-combined-spacing: calc(var(--item-margin-width) + var(--item-padding-width));
+    --item-list-combined-spacing: calc(var(--item-list-margin-width) + var(--item-padding-width));
 }
 
 .hidden {
@@ -373,10 +378,6 @@ body[id="items"] > header {
 }
 
 .item {
-    --item-padding-width: 20px;
-    --item-margin-width: 20px;
-    --item-list-margin-width: 10px;
-    --item-combined-spacing: calc(var(--item-margin-width) + var(--item-padding-width));
     display: flex;
     background-color: var(--white);
     border: 0 solid var(--white);
@@ -595,7 +596,6 @@ body[id="items"] > header {
     --list-image-height: 35px;
     flex-direction: row;
     gap: 15px;
-    --item-list-combined-spacing: calc(var(--item-list-margin-width) + var(--item-padding-width));
     width: calc(100% - var(--item-list-combined-spacing));
     margin: calc(var(--item-list-margin-width) / 2);
 }
@@ -1353,6 +1353,14 @@ body[id="create-recipe"] > .header-titles{
 /*Shopping list Starts */
 
 
+
+#shoppinglist > .shoppinglist > .shoppinglist-item[look="image"] {
+    width: calc(calc(100% / 3) - var(--item-combined-spacing));
+}
+
+#shoppinglist > .shoppinglist > .shoppinglist-item[look="list"] {
+    width: calc(calc(100% / 2) - var(--item-list-combined-spacing));
+}
 
 
 /*Shopping List Ends */

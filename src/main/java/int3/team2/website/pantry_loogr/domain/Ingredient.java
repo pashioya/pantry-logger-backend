@@ -38,6 +38,8 @@ public class Ingredient {
         this.name = name;
     }
 
+    public String getImagePath() { return imagePath;}
+
     @Override
     public String toString() {
         return "Ingredient{" +

@@ -21,53 +21,48 @@
 		</div>
 		<div class="recommendations-recipe-container">
 			<div th:each="recipe : ${recommendations.keySet()}" th:class="${user.currentRecipe == recipe.id ? 'current-recipe ' : ''} + 'recipe'" look="image" change="none">
-				<div class="recipe-image">
-					<img
-							th:src="${recipe.imagePath}"
-							alt="recipe image"
-					/>
-				</div>
-				<div class="hidden favorites-button" look="selected">
-					<img
-							src="/icons/deselected-favorite-icon.png"
-							alt="favorites icon"
-							class="icon"
-					/>
-				</div>
-				<div class="recipe-name">
-					<h3 th:utext="${recipe.name}"></h3>
-				</div>
-				<div class="recipe-description">
-					<h3 th:utext="${recipe.description}">
-					</h3>
-				</div>
-				<div class="ingredients-you-have">
-					<h3 class="title">Ingredients you have</h3>
-					<ul class="ingredients-list">
-						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
-					</ul>
-				</div>
-				<div class="ingredients-you-need">
-					<h3 class="title">Ingredients You Need</h3>
-					<ul class="ingredients-list">
-						<li th:each="ingredient : ${recommendations.get(recipe)[0]}" class="ingredient" th:text="${ingredient.name}"></li>
-					</ul>
-				</div>
-
-				<div class="ingredients-you-have">
-					<h3 class="title">Ingredients you have</h3>
-					<ul class="ingredients-list">
-						<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
-					</ul>
-				</div>
-				<a class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id} + '/recommend'">
+				<a th:href="'/recipes/' + ${recipe.id}" class="recipe-container">
+					<div class="recipe-image">
+						<img
+								th:src="${recipe.imagePath}"
+								alt="recipe image"
+						/>
+					</div>
+					<div class="hidden favorites-button" look="selected">
+						<img
+								src="/icons/deselected-favorite-icon.png"
+								alt="favorites icon"
+								class="icon"
+						/>
+					</div>
+					<div class="recipe-info">
+						<h3 th:utext="${recipe.name}"></h3>
+						<p th:utext="${recipe.description}">
+						</p>
+					</div>
+					<div class="ingredients-you-have">
+						<h3 class="title">Ingredients you have</h3>
+						<ul class="ingredients-list">
+							<li th:each="ingredient : ${recommendations.get(recipe)[1]}" class="ingredient" th:text="${ingredient.name}">Spaghetti</li>
+							<li class="hidden dots">...</li>
+						</ul>
+					</div>
+					<div class="ingredients-you-need">
+						<h3 class="title">Ingredients You Need</h3>
+						<ul class="ingredients-list">
+							<li th:each="ingredient : ${recommendations.get(recipe)[0]}" class="ingredient" th:text="${ingredient.name}"></li>
+							<li class="hidden dots">...</li>
+						</ul>
+					</div>
+				</a>
+				<a type="button" class="cook-this" th:href="'/recipes/select-current/' + ${recipe.id}">
 					<div>Cook This!</div>
 				</a>
 			</div>
 		</div>
 	</section>
 
-		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
+	<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
 	<script src="/js/app.js" ></script>
 
 	</body>

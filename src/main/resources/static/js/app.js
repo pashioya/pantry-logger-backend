@@ -197,38 +197,26 @@ if (spaces) {
     })
 }
 
-// profile page js
-let modal = document.getElementsByClassName("modal");
-let passwordModal = document.getElementById("password-modal");
-let editProfileModal = document.getElementById("edit-profile-modal");
-let editProfileBtn = document.getElementById("edit-profile-btn");
-let changePassBtn = document.getElementById("change-password-btn");
+/* Recommender JS */
 
-// get all buttons with the class name "close"
-let closeBtn = document.getElementsByClassName("close");
+const have = document.getElementsByClassName("ingredients-you-have");
+const need = document.getElementsByClassName("ingredients-you-need");
+const max_list_length = 5;
 
-
-
-if(modal) {
-    changePassBtn.onclick = function () {
-        passwordModal.style.display = "block";
-    }
-
-    editProfileBtn.onclick = function () {
-        editProfileModal.style.display = "block";
-    }
-
-    for (let i = 0; i < closeBtn.length; i++) {
-        closeBtn[i].onclick = function () {
-            passwordModal.style.display = "none";
-            editProfileModal.style.display = "none";
+function remove_list_items(list, max_length) {
+    Array.from(list).forEach(list => {
+        const elements = list.querySelectorAll("li");
+        if (elements.length > max_length) {
+            for(let i = max_length; i < elements.length; i++) {
+                elements[i].classList.add("hidden");
+            }
+            list.querySelector(".dots").classList.remove("hidden");
         }
-    }
-
-    window.onclick = function (event) {
-        if (event.target == passwordModal || event.target == editProfileModal) {
-            passwordModal.style.display = "none";
-            editProfileModal.style.display = "none";
-        }
-    }
+    })
 }
+
+if (have.length > 0 && need.length > 0) {
+    remove_list_items(have, max_list_length);
+    remove_list_items(need, max_list_length);
+}
+

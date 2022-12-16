@@ -3,7 +3,7 @@
 	<head th:replace="fragments/head :: head (${title})"></head>
 	<body>
 		<header th:replace="fragments/header :: header (${headerList})"></header>
-		<section>
+		<section id="shoppinglist">
 			<div class="view-selectors">
 				<img
 						src="/icons/list-icon-1.png"
@@ -18,40 +18,24 @@
 						id="image-view-button"
 				/>
 			</div>
-			<div class = "items-container">
-<!--				<div class="item" look="image" th:each="ingredient:${shoppingListIngredients}">-->
-<!--					<div class="item-image">-->
-<!--						<img-->
-<!--								src="/images/filler-image.png"-->
-<!--								alt=""-->
-<!--						/>-->
-<!--					</div>-->
-<!--					<div class="item-texts">-->
-<!--						<h4>-->
-<!--							<span class="item-name" th:text="${ingredient.name}"></span>-->
-<!--						</h4>-->
-<!--						<h4>-->
-<!--							"Quantity:"-->
-<!--							<span class ="item-quantity" th:text="${ingredient.amount}"></span>-->
-<!--						</h4>-->
-<!--					</div>-->
-			<div class="item" look="image" th:each="ingredient:${shoppingListIngredients.keySet()}">
-				<div class="item-image">
-					<img
-							src="/images/filler-image.png"
-							alt=""
-					/>
+			<div class="items-container shoppinglist">
+				<div class="item shoppinglist-item" look="image" th:each="ingredient:${shoppingListIngredients.keySet()}">
+					<div class="item-image">
+						<img
+								th:src="${ingredient.imagePath}"
+								alt="ingredient image"
+						/>
+					</div>
+					<div class="item-texts">
+						<h4>
+							<span class="item-name" th:text="${ingredient.name}"></span>
+						</h4>
+						<h4>
+							Amount:
+							<span class ="item-quantity" th:text="${shoppingListIngredients.get(ingredient)}"></span>
+						</h4>
+					</div>
 				</div>
-				<div class="item-texts">
-					<h4>
-						<span class="item-name" th:text="${ingredient.name}"></span>
-					</h4>
-					<h4>
-						Amount:
-						<span class ="item-quantity" th:text="${shoppingListIngredients.get(ingredient)}"></span>
-					</h4>
-				</div>
-			</div>
 			</div>
 		</section>
 		<footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>

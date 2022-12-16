@@ -45,7 +45,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe add(Recipe recipe) {
         Recipe newRecipe = recipeRepository.createRecipe(recipe);
         ingredientService.addToRelationTable(newRecipe.getId(), newRecipe.getIngredients());
-        tagService.addToRelationTable(newRecipe.getId(), newRecipe.getTags());
+        tagService.addToRecipeRelationTable(newRecipe.getId(), newRecipe.getTags());
         return newRecipe;
     }
 

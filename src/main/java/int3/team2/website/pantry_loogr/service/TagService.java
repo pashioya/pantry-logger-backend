@@ -1,8 +1,10 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Tag;
+import int3.team2.website.pantry_loogr.domain.UserTagRealationship;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TagService {
     List<Tag> getAll();
@@ -12,6 +14,9 @@ public interface TagService {
     List<Tag> getByRecipeId(int recipeId);
     List<Tag> getLikesByUserId(int userId);
     List<Tag> getDislikesByUserId(int userId);
-    List<Tag> addToRelationTable(int recipeId, List<Tag> tagList);
-    Tag createUserPreference(int userId, Tag tag, boolean like);
+    List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> tagList);
+
+    Map<Tag, UserTagRealationship> getTagsByUserRelationship(int userId);
+
+    void updateUserTagRelationship(int userId, List<Integer> tagIds, boolean like);
 }

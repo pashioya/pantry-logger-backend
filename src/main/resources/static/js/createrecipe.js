@@ -1,7 +1,7 @@
 const addCookingStepsButton = document.getElementById("add-cooking-step");
 
 const addIngredientButton = document.getElementById("add-ingredient");
-const addIngredientName = document.getElementById("ingredient-name");
+const addIngredientName = document.getElementById("ingredient-selector").cloneNode(true);
 const addIngredientAmount = document.getElementById("ingredient-amount");
 const addedIngredients = document.getElementById("added-ingredients");
 
@@ -10,7 +10,7 @@ const addTagName = document.getElementById("tag-name");
 const addedTags = document.getElementById("added-tags");
 
 addCookingStepsButton.onclick =  function () {
-    const newCookingStep = document.createElement("input");
+    const newCookingStep = document.createElement("textarea");
     newCookingStep.setAttribute("type", "text");
     newCookingStep.setAttribute("class", "cooking-step");
     newCookingStep.setAttribute("name", "cooking-step");
@@ -19,44 +19,47 @@ addCookingStepsButton.onclick =  function () {
 }
 
 addIngredientButton.onclick = function () {
-    const newIngredient = document.createElement("div");
+    const parent = document.createElement("li");
+    const newType = addIngredientName.cloneNode(true);
+    newType.removeAttribute("id");
+    newType.setAttribute("name", "ingredient-types");
+    newType.setAttribute("id", "newType");
+    newType.classList.add("addedIngr")
+    parent.appendChild(newType);
 
-    const newIngredientName = addIngredientName.cloneNode(true);
-    newIngredientName.setAttribute("name", "ingredient-types");
-    newIngredientName.value = addIngredientName.value;
 
-    const newIngredientAmount = document.createElement("input");
-    newIngredientAmount.setAttribute("name", "ingredient-amounts");
-    newIngredientAmount.setAttribute("type", "number");
-    newIngredientAmount.setAttribute("required", "");
-    newIngredientAmount.value = addIngredientAmount.value;
-    newIngredientAmount.innerText = addIngredientAmount.innerText
+    const newAmount = addIngredientAmount.cloneNode(true);
+    newAmount.removeAttribute("id");
+    newAmount.setAttribute("name", "ingredient-amounts");
+    parent.appendChild(newAmount);
 
-    const newIngredientDelete = document.createElement("input");
-    newIngredientDelete.setAttribute("value", "delete")
-    newIngredientDelete.setAttribute("type", "button");
-    newIngredientDelete.onclick = function () {
-        newIngredient.remove();
+    const newButton = document.createElement("button");
+    newButton.setAttribute("type", "button");
+    newButton.classList.add("button-dark")
+    newButton.innerText = "remove";
+    parent.appendChild(newButton);
+    newButton.onclick = function () {
+        parent.remove();
     }
 
-    newIngredient.append(newIngredientName, newIngredientAmount, newIngredientDelete);
-    addedIngredients.appendChild(newIngredient);
+    addedIngredients.appendChild(parent);
+    ingredientSelect($(".addedIngr"));
+    $("#newType").val(document.getElementById("ingredient-selector").value);
+    $("#newType").trigger('change');
+    newType.removeAttribute("id");
 }
 
-addTagButton.onclick = function () {
-    const newTag = document.createElement("div");
-
-    const newTagName = addTagName.cloneNode(true);
-    newTagName.setAttribute("name", "tag-types");
-    newTagName.value = addTagName.value;
-
-    const newTagDelete = document.createElement("input");
-    newTagDelete.setAttribute("value", "delete")
-    newTagDelete.setAttribute("type", "button");
-    newTagDelete.onclick = function () {
-        newTag.remove();
-    }
-
-    newTag.append(newTagName, newTagDelete);
-    addedTags.appendChild(newTag);
+function ingredientSelect(jQuery_object) {
+    $(document).ready(function() {
+        jQuery_object.select2();
+    });
 }
+
+ingredientSelect($("#ingredient-selector"));
+
+$(document).ready(function() {
+    $("#tag-selector").select2();
+});
+
+// $('.newNode').val(addIngredientName.value);
+// $('.newNode').trigger('change');

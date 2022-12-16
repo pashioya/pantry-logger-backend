@@ -130,6 +130,19 @@ header {
     -o-transition-duration: 0.4s;
 }
 
+.button-dark {
+    outline: unset;
+    background-color: var(--dark-color);
+    border: var(--border-none);
+    border-radius: var(--button-radius);
+    padding: var(--button-padding-tb) var(--button-padding-lr);
+    box-shadow: var(--button-shadow-down);
+}
+
+.button-dark:hover {
+    background-color: var(--dark-color);
+}
+
 .search-container {
     height: 50px;
     width: 50px;
@@ -1102,7 +1115,7 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     justify-content: center;
 }
 
-body[id="create-recipe"] > .header-titles{
+#create-recipe > .header-titles{
     border: 0 solid black;
     font-size: 0.9em;
     justify-content: center;
@@ -1110,49 +1123,128 @@ body[id="create-recipe"] > .header-titles{
     left: -48px;
 }
 
-
-.new-recipe-section > .recipe-image > img{
-    width: 100%;
-    top: 0;
-    position: relative;
-    height: auto;
-    vertical-align: middle;
-}
-
-
 .new-recipe-section > .create-recipe-form{
+    width: calc(100% - var(--item-combined-spacing));
+    padding: var(--item-padding-width) calc(var(--item-padding-width) / 2);
+    margin: calc(var(--item-margin-width) / 2);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    background-color: var(--white);
+    border: var(--border-none);
+    border-radius: var(--button-radius);
+}
+
+.create-recipe-form > * {
     width: 100%;
-    max-width: 500px;
+    margin-bottom: 20px;
 }
 
-.new-recipe-section > .create-recipe-form > .recipe-image{
-    width:300px;
-    height:300px;
+.create-recipe-form label {
+    width: 100%;
+}
+
+.create-recipe-form textarea {
+    resize: vertical;
+    width: calc(100% - 8px);
+}
+
+.create-recipe-form > .recipe-name-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-recipe-form > .recipe-name-container > label {
+    width: unset;
+}
+
+.create-recipe-form > .recipe-description-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.create-recipe-form > .cooking-steps-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-recipe-form > .cooking-steps-container > #cooking-steps {
+    width: 100%;
+}
+
+.create-recipe-form > .cooking-steps-container > #cooking-steps > input {
+    width: calc(100% - 10px);
+    margin: 5px 0;
+}
+
+.create-recipe-form > .cooking-steps-container > input {
+    max-width: 100px;
 }
 
 
-
-.new-recipe-section > .create-recipe-form > .input[class="file"] {
-    display: none;
-}
-.new-recipe-section > .create-recipe-form > #file-upload.file{
-    display: none;
+.create-recipe-form > .recipe-ingredients-container {
+    display: flex;
+    flex-direction: column;
 }
 
-.new-recipe-section > .create-recipe-form > .custom-file-upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
+#recipe-ingredients .ingredient-amount {
+    max-width: 100px;
 }
 
-.new-recipe-section > .create-recipe-form > #recipe-description, #recipe-ingredients, #recipe-instructions{
-    height: 100px;
+#recipe-ingredients > #added-ingredients > li{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+#recipe-ingredients > #added-ingredients > li > .button-dark {
+    padding: 5px 10px;
+}
+
+#recipe-ingredients > #ingredient-adder {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-recipe-form > .recipe-tags-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.create-recipe-form > .recipe-tags-container > #recipe-tags {
+    width: 100%;
+}
+
+.create-recipe-form > .recipe-tags-container > #recipe-tags > select {
+    width: 100%;
+}
+
+.create-recipe-form > .recipe-extra-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.create-recipe-form > .recipe-extra-container > * {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.create-recipe-form > input {
+    margin-bottom: 0;
 }
 
 /*create recipe stop*/

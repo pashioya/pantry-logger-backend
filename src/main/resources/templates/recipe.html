@@ -7,7 +7,7 @@
 			<div class="recipe">
 				<div class="recipe-image">
 					<img
-							src="/images/filler-image.png"
+							th:src="${recipe.imagePath}"
 							alt="recipe image"
 					/>
 				</div>
@@ -21,6 +21,7 @@
 						<h3>Ingredients</h3>
 						<ul>
 							<li
+									type="checkbox"
 									th:each="ingredient : ${recipe.getIngredients().keySet()}"
 									th:utext="${ingredient.name + ' ' + recipe.getIngredients().get(ingredient)}">
 							</li>

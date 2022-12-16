@@ -1,4 +1,4 @@
-$(".js-example-placeholder-multiple").select2({
+$(".js-multiple").select2({
     placeholder: "Select your tags"
 });
 

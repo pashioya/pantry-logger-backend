@@ -36,6 +36,7 @@ public class Recipe {
      * @param description quick description of the recipe
      * @param instructions list of instructions to make the recipe
      * @param time enum time needed to cook the recipe
+     * @param imagePath the path to the image the recipe is tied to
      */
     public Recipe(String name, Difficulty difficulty, String description, String instructions, Time time, String imagePath) {
         this.name = name;
@@ -56,6 +57,7 @@ public class Recipe {
      * @param description quick description of the recipe
      * @param instructions list of instructions to make the recipe
      * @param time enum time needed to cook the recipe
+     * @param imagePath the path to the image the recipe is tied to
      */
     public Recipe(int ID, String name, Difficulty difficulty, String description, String instructions, Time time, String imagePath) {
         this.id = ID;

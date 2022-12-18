@@ -193,6 +193,18 @@ public class EndUser {
         this.dislikes = dislikes;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     /**
      * @return the items that belong to the user's shopping list
      */

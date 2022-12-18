@@ -146,6 +146,10 @@ public class EndUser {
     public void setShoppingList(ShoppingList shoppingList) {
         this.shoppingList = shoppingList;
     }
+
+    /**
+     * @return a list of all the places the User stores food at
+     */
     public List<PantryZone> getPantryZones() {
         return this.pantryZones;
     }
@@ -165,6 +169,10 @@ public class EndUser {
                 '}';
     }
 
+    /**
+     * @return a list of Tags that the User likes
+     * (these can be indicated by the User or can be deducted by the AI)
+     */
     public List<Tag> getLikes() {
         return likes;
     }
@@ -173,6 +181,10 @@ public class EndUser {
         this.likes = likes;
     }
 
+    /**
+     * @return a list of Tags that the User likes
+     * (these can be indicated by the User or can be deducted by the AI)
+     */
     public List<Tag> getDislikes() {
         return dislikes;
     }
@@ -180,17 +192,10 @@ public class EndUser {
     public void setDislikes(List<Tag> dislikes) {
         this.dislikes = dislikes;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
+    /**
+     * @return the items that belong to the user's shopping list
+     */
     public ShoppingList getShoppingList() {
         return shoppingList;
     }

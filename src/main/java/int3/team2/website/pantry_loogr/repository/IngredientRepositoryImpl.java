@@ -24,6 +24,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     private SimpleJdbcInsert ingredientInserter;
     private SimpleJdbcInsert ingredientRecipeInserter;
     private SimpleJdbcInsert shoppingListInserter;
+    private SimpleJdbcInsert pantryZoneProductInserter;
 
     public IngredientRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.logger = LoggerFactory.getLogger(this.getClass());
@@ -37,8 +38,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         this.shoppingListInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("SHOPPING_LIST_INGREDIENTS")
                 .usingColumns("SHOPPING_LIST_ID", "INGREDIENT_ID", "AMOUNT");
-
-
+        this.pantryZoneProductInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("PANTRY_ZONE_PRODUCTS")
+                .usingColumns("PRODUCT_ID", "PANTRY_ZONE_ID");
     }
     private Ingredient mapIngredientRow(ResultSet rs, int rowid) throws SQLException {
         return new Ingredient(
@@ -84,11 +86,15 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
     @Override
     public List<Ingredient> findAll() {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENTS", this::mapIngredientRow);
+        return jdbcTemplate.query(
+                "SELECT * FROM INGREDIENTS", this::mapIngredientRow
+        );
     }
     @Override
     public List<Ingredient> findByName(String name) {
-        return jdbcTemplate.query("SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapIngredientRow);
+        return jdbcTemplate.query(
+                "SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapIngredientRow
+        );
     }
     @Override
     public List<Ingredient> findIngredientsByUser(int userID) {
@@ -114,8 +120,17 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
     @Override
     public Map<Ingredient, Integer> findIngredientsByRecipeId(int id) {
-        List<Ingredient> ingredients = jdbcTemplate.query("SELECT * FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?", this::mapIngredientRow, id);
-        List<Integer> amounts = jdbcTemplate.query("SELECT QUANTITY FROM RECIPE_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?",
+        List<Ingredient> ingredients = jdbcTemplate.query(
+                "SELECT * " +
+                        "FROM RECIPE_INGREDIENTS " +
+                        "JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID " +
+                        "WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?",
+                this::mapIngredientRow, id);
+        List<Integer> amounts = jdbcTemplate.query(
+                "SELECT QUANTITY " +
+                        "FROM RECIPE_INGREDIENTS " +
+                        "JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID " +
+                        "WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?",
                 (rs, rowNum) -> rs.getInt("QUANTITY"), id);
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
     }
@@ -139,7 +154,10 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
     @Override
     public void addToPantry(int productId, int zone) {
-
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("PRODUCT_ID", productId);
+        parameters.put("PANTRY_ZONE_ID", zone);
+        pantryZoneProductInserter.execute(parameters);
     }
     @Override
     public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {

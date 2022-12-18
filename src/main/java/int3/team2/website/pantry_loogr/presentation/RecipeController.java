@@ -3,7 +3,6 @@ package int3.team2.website.pantry_loogr.presentation;
 import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
-import int3.team2.website.pantry_loogr.repository.ShoppingListRepository;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.RecipeService;
 import int3.team2.website.pantry_loogr.service.TagService;
@@ -22,7 +21,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/recipes")
 public class RecipeController {
-
     private Logger logger;
     private RecipeService recipeService;
     private IngredientService ingredientService;
@@ -42,6 +40,9 @@ public class RecipeController {
         this.userService = userService;
     }
 
+    /**
+     * show the recipe page
+     */
     @GetMapping
     public String recipes(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -66,6 +67,10 @@ public class RecipeController {
         return "recipes";
     }
 
+    /**
+     * show the recipe page of a specific recipe
+     * @param recipeID the id used to get the information wanted from the DB
+     */
     @GetMapping("/{recipeID}")
     public String getRecipe(HttpSession httpSession, Model model, @PathVariable int recipeID) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -84,6 +89,9 @@ public class RecipeController {
         return "recipe";
     }
 
+    /**
+     * shows the page to create a recipe
+     */
     @GetMapping("/createrecipe")
     public String createRecipe(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -103,6 +111,10 @@ public class RecipeController {
         return "createrecipe";
     }
 
+    /**
+     * fetches the information of the created recipe and adds it to the DB through the recipe service
+     * @return redirects the user to the recipe page
+     */
     @RequestMapping(
             value="/createrecipe",
             method= RequestMethod.POST,
@@ -127,9 +139,10 @@ public class RecipeController {
         for(int i = 0; i < ingTypes.size(); i++) {
             ingredients.put(ingredientService.get(ingTypes.get(i)), ingAmounts.get(i));
         }
-        for(int i = 0; i < tagTypes.size(); i++) {
-            tags.add(tagService.get(tagTypes.get(i)));
+        for (Integer tag : tagTypes) {
+            tags.add(tagService.get(tag));
         }
+
         Recipe newRecipe = new Recipe(
                 recipeData.get("recipe-name").get(0),
                 Difficulty.valueOf(recipeData.get("recipe-difficulty").get(0)),
@@ -144,6 +157,9 @@ public class RecipeController {
         return "redirect:/recipes";
     }
 
+    /**
+     * shows the recommended recipe tab to the user
+     */
     @GetMapping("/recommend")
     public String recommendations(HttpSession httpSession, Model model) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -165,12 +181,14 @@ public class RecipeController {
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
 
-        List<Recipe> recipes = recipeService.getAll();
+        List<Recipe> recipes = recipeService.getAll(); //fetches all recipes
         recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
-        List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
+
+        List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId()); //fetches the ingredients in the user's pantry
         user.setLikes(tagService.getLikesByUserId(user.getId()));
         user.setDislikes(tagService.getDislikesByUserId(user.getId()));
         List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
+        //makes a recommendation based on user preference and the ingredients in the user's pantry
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 

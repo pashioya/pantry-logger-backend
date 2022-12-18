@@ -66,9 +66,16 @@ public class IngredientServiceImpl implements IngredientService {
         ingredientRepository.addToPantry(productId, zone);
     }
 
+    /**
+     * when the user uses a certain amount of a product, it gets deducted from PantryZoneProduct.amountUsed
+     * @param pantryId used to retrieve the pantryZoneProduct from the DB
+     * @param productId used to retrieve the pantryZoneProduct from the DB
+     * @param percentage the percentage of the pack that the user has used
+     */
     public void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage) {
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
         product.setAmountUsed((int) (product.getSize() * (1 - percentage)));
+
         //TODO add check for 0% to remove quantity
         ingredientRepository.updatePantryZoneProduct(product);
     }

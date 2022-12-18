@@ -180,14 +180,15 @@ public class EndUser {
     public void setDislikes(List<Tag> dislikes) {
         this.dislikes = dislikes;
     }
-
-//    TODO: I this safe to do?
     public void setUsername(String username) {
         this.username = username;
     }
-    //    TODO: I this safe to do?
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public ShoppingList getShoppingList() {

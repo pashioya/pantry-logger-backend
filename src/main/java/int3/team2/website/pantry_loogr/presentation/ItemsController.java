@@ -5,7 +5,6 @@ import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
-import int3.team2.website.pantry_loogr.service.SensorDataService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +21,17 @@ import java.util.*;
 @RequestMapping("/items")
 public class ItemsController {
     private Logger logger;
-
     private UserService userService;
     private PantryZoneService pantryZoneService;
     private IngredientService ingredientService;
+    private SensorDataService sensorDataService;
 
-    public ItemsController(UserService userService, IngredientService ingredientService, PantryZoneService pantryZoneService) {
+    public ItemsController(UserService userService, IngredientService ingredientService, PantryZoneService pantryZoneService, SensorDataService sensorDataService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.userService = userService;
         this.pantryZoneService = pantryZoneService;
         this.ingredientService = ingredientService;
+        this.sensorDataService = sensorDataService;
     }
 
     @GetMapping
@@ -57,7 +57,6 @@ public class ItemsController {
         List<PantryZoneProduct> products = ingredientService.getProductsAndPantryZonesByUser(user.getId());
 
         model.addAttribute("products", products);
-
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
         return "items";
@@ -124,9 +123,6 @@ public class ItemsController {
         List<PantryZone> pantryZones = pantryZoneService.getAllForUser(user.getId());
 
         model.addAttribute("pantryZones", pantryZones);
-        List<SensorData> temp = new ArrayList<>();
-        List<SensorData> hum = new ArrayList<>();
-        List<SensorData> lum = new ArrayList<>();
 
         return "pantryZones";
     }
@@ -154,7 +150,6 @@ public class ItemsController {
         List<PantryZoneProduct> products = ingredientService.getByPantryZoneId(pantryZoneID);
 
         model.addAttribute("products", products);
-
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
 

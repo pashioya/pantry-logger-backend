@@ -16,4 +16,9 @@ public interface SensorDataRepository {
 
     SensorData create(SensorData sensorData, int pantryZoneId);
 
+    int getLatestTemp(int pantryZoneId);
+
+    int getLatestHum(int pantryZoneId);
+
+    int getLatestBright(int pantryZoneId);
 }

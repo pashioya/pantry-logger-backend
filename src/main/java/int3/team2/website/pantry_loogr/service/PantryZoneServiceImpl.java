@@ -15,11 +15,13 @@ public class PantryZoneServiceImpl implements PantryZoneService {
     private final Logger logger;
     private PantryZoneRepository pantryZoneRepository;
     private IngredientService ingredientService;
+    private SensorDataService sensorDataService;
 
-    public PantryZoneServiceImpl(PantryZoneRepository pantryZoneRepository, IngredientService ingredientService) {
+    public PantryZoneServiceImpl(PantryZoneRepository pantryZoneRepository, IngredientService ingredientService, SensorDataService sensorDataService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.pantryZoneRepository = pantryZoneRepository;
         this.ingredientService = ingredientService;
+        this.sensorDataService = sensorDataService;
     }
 
     @Override
@@ -36,6 +38,7 @@ public class PantryZoneServiceImpl implements PantryZoneService {
         List<PantryZone> pantryZones = pantryZoneRepository.getAllForUser(userID);
         pantryZones.forEach(pantryZone -> {
             pantryZone.setProducts(this.ingredientService.getByPantryZoneId(pantryZone.getId()));
+            pantryZone.setEnviro(this.sensorDataService.getLatest(pantryZone.getId()));
         });
 
         return pantryZones;

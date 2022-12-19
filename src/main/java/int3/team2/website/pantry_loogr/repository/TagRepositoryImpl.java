@@ -24,9 +24,13 @@ public class TagRepositoryImpl implements TagRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.tagInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("TAGS")
-                .usingGeneratedKeyColumns("TAG_ID");
-        this.preferenceInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("USER_PREFERENCES").usingColumns("USER_ID", "TAG_ID", "LIKES");
-        this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate).withTableName("RECIPE_TAGS").usingColumns("TAG_ID", "RECIPE_ID");
+                .usingGeneratedKeyColumns("tag_id");
+        this.preferenceInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("USER_PREFERENCES")
+                .usingColumns("user_id", "tag_id", "LIKES");
+        this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("RECIPE_TAGS")
+                .usingColumns("tag_id", "recipe_id");
     }
 
     private Tag mapRow(ResultSet rs, int rowid) throws SQLException {

@@ -99,10 +99,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove) {
+        logger.debug(productId + " " + pantryId);
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
         if(product.removeFromQuantity(quantityToRemove)) {
+            logger.debug("yes");
             ingredientRepository.updatePantryZoneProduct(product);
         } else {
+            logger.debug("no");
             ingredientRepository.removePantryZoneProduct(product);
         }
     }

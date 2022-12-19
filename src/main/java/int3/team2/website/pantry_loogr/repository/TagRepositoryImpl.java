@@ -27,7 +27,7 @@ public class TagRepositoryImpl implements TagRepository {
                 .usingGeneratedKeyColumns("tag_id");
         this.preferenceInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("USER_PREFERENCES")
-                .usingColumns("user_id", "tag_id", "LIKE");
+                .usingColumns("user_id", "tag_id", "LIKES");
         this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("RECIPE_TAGS")
                 .usingColumns("tag_id", "recipe_id");

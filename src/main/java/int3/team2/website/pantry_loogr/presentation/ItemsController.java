@@ -21,7 +21,6 @@ import java.util.*;
 @RequestMapping("/items")
 public class ItemsController {
     private Logger logger;
-
     private UserService userService;
     private PantryZoneService pantryZoneService;
     private IngredientService ingredientService;
@@ -56,7 +55,6 @@ public class ItemsController {
         List<PantryZoneProduct> products = ingredientService.getProductsAndPantryZonesByUser(user.getId());
 
         model.addAttribute("products", products);
-
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
         return "items";
@@ -71,7 +69,6 @@ public class ItemsController {
             return "redirect:/login";
         }
         if (percentage == 0) {
-            logger.debug(pantryId + " " + productId);
             ingredientService.removePantryZoneProductQuantity(pantryId, productId, 1);
             return "redirect:/items";
         }
@@ -154,7 +151,6 @@ public class ItemsController {
         List<PantryZoneProduct> products = ingredientService.getByPantryZoneId(pantryZoneID);
 
         model.addAttribute("products", products);
-
         model.addAttribute("itemsActive", "selected");
         model.addAttribute("pantryZoneActive", "undefined");
 

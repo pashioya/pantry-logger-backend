@@ -71,9 +71,11 @@ public class ItemsController {
         if(user == null) {
             return "redirect:/login";
         }
-        if (percentage == 0) {
-            ingredientService.removePantryZoneProductQuantity(pantryId, productId, 1);
-            return "redirect:/items";
+        if(!user.ownsPantry(pantryId)) {
+            if (percentage == 0) {
+                ingredientService.removePantryZoneProductQuantity(pantryId, productId, 1);
+                return "redirect:/items";
+            }
         }
         ingredientService.editPantryZoneProductAmountUsed(pantryId, productId, percentage);
         return "redirect:/items";

@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.domain;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * PantryZone represent a place where the User stores his food
@@ -16,6 +17,11 @@ public class PantryZone {
     private int maxHum;
     private int minBright;
     private int maxBright;
+
+    private int latestTemp;
+    private int latestHum;
+    private int latestBright;
+    private boolean enviroOutOfRange = false;
 
      public PantryZone(int id, String name) {
          this.id = id;
@@ -119,5 +125,33 @@ public class PantryZone {
 
     public int getMaxBright() {
         return maxBright;
+    }
+
+    public int getLatestTemp() {
+        return latestTemp;
+    }
+
+    public int getLatestHum() {
+        return latestHum;
+    }
+
+    public int getLatestBright() {
+        return latestBright;
+    }
+
+    public boolean isEnviroOutOfRange() {
+        return enviroOutOfRange;
+    }
+
+    public void setEnviro(Map<String, Integer> latest) {
+        this.latestTemp = latest.get("temp");
+        this.latestHum = latest.get("hum");
+        this.latestBright = latest.get("bright");
+
+        if((latestTemp > maxTemp || latestTemp < minTemp)
+            || (latestHum > maxHum || latestHum < minHum)
+            || (latestBright > maxBright || latestBright < minBright)) {
+            enviroOutOfRange = true;
+        }
     }
 }

@@ -63,8 +63,6 @@ public class ItemsController {
         return "items";
     }
 
-
-    //TODO rework the way this is accessed
     @GetMapping("/editItem/{pantryId}/{productId}/{percentage}")
     public String editItem(HttpSession httpSession,@PathVariable int pantryId, @PathVariable int productId, @PathVariable double percentage) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -86,7 +84,7 @@ public class ItemsController {
             method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    public String loginUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> editData) {
+    public String editItemQuantity(HttpSession httpSession, @RequestBody MultiValueMap<String, String> editData) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";

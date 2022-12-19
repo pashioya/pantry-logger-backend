@@ -38,10 +38,12 @@ let modal = document.getElementsByClassName("modal");
 let passwordModal = document.getElementById("password-modal");
 let editProfileModal = document.getElementById("edit-profile-modal");
 let addSensorBoxModal = document.getElementById("add-sensor-box-modal");
+let editSensorBoxModal = document.getElementById("sensor-box-editor-modal");
 
 let editProfileBtn = document.getElementById("edit-profile-btn");
 let changePassBtn = document.getElementById("change-password-btn");
 let addSensorBoxBtn = document.getElementById("add-sensor-box-btn");
+let sensorBox = document.getElementsByClassName("sensor-box");
 
 let closeBtn = document.getElementsByClassName("close");
 
@@ -58,11 +60,22 @@ if(modal) {
         addSensorBoxModal.style.display = "block";
     }
 
+    for (let i = 0; i < sensorBox.length; i++) {
+        sensorBox[i].onclick = function () {
+            editSensorBoxModal.style.display = "block";
+            let selectedId = sensorBox[i].getAttribute("sensor-id");
+            let sensorBoxId = document.getElementById("sensor-id");
+            sensorBoxId.value = selectedId;
+        }
+    }
+
+
     for (let i = 0; i < closeBtn.length; i++) {
         closeBtn[i].onclick = function () {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
             addSensorBoxModal.style.display = "none";
+            editSensorBoxModal.style.display = "none";
         }
     }
 
@@ -70,7 +83,10 @@ if(modal) {
         if (event.target == passwordModal || event.target == editProfileModal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
+        }
+        if(event.target == addSensorBoxModal || event.target == editSensorBoxModal) {
             addSensorBoxModal.style.display = "none";
+            editSensorBoxModal.style.display = "none";
         }
     }
 }
@@ -85,3 +101,5 @@ if(selectPantryZone) {
         document.getElementById("no-zones-error").style.display = "block";
     }
 }
+// console.log(sensorBox.getAttribute("sensor-id"));
+// document.getElementById("sensor-id").value = 12345;

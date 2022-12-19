@@ -762,7 +762,7 @@ body[item-selected="true"] .item[change="selected"] {
     height: 100%;
     border-radius: 15px;
     background-color: rgba(255,255,255,0.1);
-    border: 1px solid rgba(158,2,184,1.00);
+    border: 2.5px dotted rgba(158,2,184,1.00);
     backdrop-filter: blur(30px);
     font-size: 14px;
     letter-spacing: 2px;
@@ -1697,6 +1697,10 @@ body[id="profile"] > section > .profile-image > img{
 .sensor-box > .sensor-box-text > h4:first-child {
     font-size: 1em;
     width: 100%;
+}
+
+#sensor-id{
+    text-align: center;
 }
 
 #add-sensor-box-btn{

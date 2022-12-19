@@ -6,6 +6,7 @@ package int3.team2.website.pantry_loogr.domain;
  * it also holds how much of that product is in one pack and what barCode it is associated to
  */
 public class Product extends Ingredient {
+    protected int productId;
     protected String productName;
     protected String code;
     protected int size;
@@ -35,8 +36,9 @@ public class Product extends Ingredient {
      * @param size teh quantity of the product in one pack
      * @param imagePath used to tie the ingredient to the image
      */
-    public Product(int id, String name, String productName, String code, int size, String imagePath) {
+    public Product(int id, int productId, String name, String productName, String code, int size, String imagePath) {
         super(id, name, imagePath);
+        this.productId = productId;
         this.productName = productName;
         this.code = code;
         this.size = size;
@@ -60,5 +62,9 @@ public class Product extends Ingredient {
 
     public int getSize() {
         return size;
+    }
+
+    public int getProductId() {
+        return productId;
     }
 }

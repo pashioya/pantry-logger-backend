@@ -24,7 +24,7 @@
                     <form method="post" id="like-edit-form" status="none" action="/profile/editLikes">
                         <div class="tag-edit-header">
                             <h4>Your Likes:</h4>
-                            <button class="edit-tags" type="button" id="edit-likes">edit likes</button>
+                            <button class="edit-tags" type="button" id="edit-likes">Edit Likes</button>
                             <input type="submit" value="save">
                         </div>
                         <select name="liked-tags" class="js-multiple js-states form-control" multiple="multiple" disabled>
@@ -35,7 +35,7 @@
                     <form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
                         <div class="tag-edit-header">
                             <h4>Your Dislikes:</h4>
-                            <button class="edit-tags" type="button" id="edit-dislikes">edit dislikes</button>
+                            <button class="edit-tags" type="button" id="edit-dislikes">Edit Dislikes</button>
                             <input type="submit" value="save">
                         </div>
                         <select name="disliked-tags" class="js-multiple js-states form-control" multiple="multiple" disabled>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div class="sensor-box" sensor-box-selected="false">
+                        <div class="sensor-box" sensor-id="123451">
                             <img src='/icons/sensor-box.png'
                                     class="sensor-box-image"
                                     alt="sensor box icon"
@@ -115,8 +115,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="modal" id="sensor-box-editor" >
+                    <div class="modal" id="sensor-box-editor-modal" >
                         <div class="modal-content">
                             <div class="modal-header">
                                 <span class="close">&times;</span>
@@ -124,22 +123,24 @@
                             </div>
                             <div class="modal-body">
                                 <form method="POST" action="/profile/editSensorBox">
+                                    <label for="sensor-id">Sensor Box ID</label>
+                                    <input type="text" id="sensor-id" name="sensor-box-id" disabled/>
                                     <label for="new-pantry-zone">New Location</label>
                                     <select id="new-pantry-zone" name="pantry-zone">
                                         <option value="" disabled selected>Select Pantry Zone</option>
                                     </select>
-                                    <label for="temp-lower-limmit">Temparature Lower Limit</label>
-                                    <input type="number" id="temp-lower-limmit" name="temp-lower-limmit" placeholder="Lower Limit"/>
-                                    <label for="temp-upper-limmit">Temparature Upper Limit</label>
-                                    <input type="number" id="temp-upper-limmit" name="temp-upper-limmit" placeholder="Upper Limit"/>
-                                    <label for="hum-lower-limmit">Humidity Lower Limit</label>
-                                    <input type="number" id="hum-lower-limmit" name="hum-lower-limmit" placeholder="Lower Limit"/>
-                                    <label for="hum-upper-limmit">Humidity Upper Limit</label>
-                                    <input type="number" id="hum-upper-limmit" name="hum-upper-limmit" placeholder="Upper Limit"/>
-                                    <label for="brightness-lower-limmit">Brightness Lower Limit</label>
-                                    <input type="number" id="brightness-lower-limmit" name="brightness-lower-limmit" placeholder="Lower Limit"/>
-                                    <label for="brightness-upper-limmit">Brightness Upper Limit</label>
-                                    <input type="number" id="brightness-upper-limmit" name="brightness-upper-limmit" placeholder="Upper Limit"/>
+                                    <label for="temp-lower-limit">Temperature Lower Limit</label>
+                                    <input type="number" id="temp-lower-limit" name="temp-lower-limit" placeholder="Lower Limit"/>
+                                    <label for="temp-upper-limit">Temperature Upper Limit</label>
+                                    <input type="number" id="temp-upper-limit" name="temp-upper-limit" placeholder="Upper Limit"/>
+                                    <label for="hum-lower-limit">Humidity Lower Limit</label>
+                                    <input type="number" id="hum-lower-limit" name="hum-lower-limit" placeholder="Lower Limit"/>
+                                    <label for="hum-upper-limit">Humidity Upper Limit</label>
+                                    <input type="number" id="hum-upper-limit" name="hum-upper-limit" placeholder="Upper Limit"/>
+                                    <label for="brightness-lower-limit">Brightness Lower Limit</label>
+                                    <input type="number" id="brightness-lower-limit" name="brightness-lower-limit" placeholder="Lower Limit"/>
+                                    <label for="brightness-upper-limit">Brightness Upper Limit</label>
+                                    <input type="number" id="brightness-upper-limit" name="brightness-upper-limit" placeholder="Upper Limit"/>
                                     <input type="submit" value="submit" />
                                 </form>
                             </div>

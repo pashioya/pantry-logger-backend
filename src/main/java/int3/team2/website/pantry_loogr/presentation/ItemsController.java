@@ -26,12 +26,14 @@ public class ItemsController {
     private UserService userService;
     private PantryZoneService pantryZoneService;
     private IngredientService ingredientService;
+    private SensorDataService sensorDataService;
 
-    public ItemsController(UserService userService, IngredientService ingredientService, PantryZoneService pantryZoneService) {
+    public ItemsController(UserService userService, IngredientService ingredientService, PantryZoneService pantryZoneService, SensorDataService sensorDataService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.userService = userService;
         this.pantryZoneService = pantryZoneService;
         this.ingredientService = ingredientService;
+        this.sensorDataService = sensorDataService;
     }
 
     @GetMapping
@@ -124,9 +126,6 @@ public class ItemsController {
         List<PantryZone> pantryZones = pantryZoneService.getAllForUser(user.getId());
 
         model.addAttribute("pantryZones", pantryZones);
-        List<SensorData> temp = new ArrayList<>();
-        List<SensorData> hum = new ArrayList<>();
-        List<SensorData> lum = new ArrayList<>();
 
         return "pantryZones";
     }

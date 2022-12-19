@@ -46,6 +46,12 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
     }
 
     @Override
+    public PantryZone getBySensorBoxCode(String sensorBoxCode) {
+        PantryZone pantryZone = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where SENSOR_BOX_CODE = ?", this::mapRow, sensorBoxCode).get(0);
+        return pantryZone;
+    }
+
+    @Override
     public List<PantryZone> getAll() {
         List<PantryZone> pantryZones = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES", this::mapRow);
         return pantryZones;

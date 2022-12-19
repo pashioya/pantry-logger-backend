@@ -26,10 +26,10 @@ public class SensorDataApiControler {
         this.pantryZoneService = pantryZoneService;
         this.sensorDataService = sensorDataService;
     }
-    @GetMapping("/{pantryZoneID}/time_stamp/{timestamp}/temp/{temp}/hum/{hum}/bright/{bright}")
+    @GetMapping("/{sensorBoxCode}/time_stamp/{timestamp}/temp/{temp}/hum/{hum}/bright/{bright}")
     //@GetMapping("/{pantryZoneID}/temp/{temp}/hum/{hum}/bright/{bright}")
-    public String insertData(@PathVariable int pantryZoneID, @PathVariable String timestamp, @PathVariable int temp, @PathVariable int hum, @PathVariable int bright) {
-        PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
+    public String insertData(@PathVariable String sensorBoxCode, @PathVariable String timestamp, @PathVariable int temp, @PathVariable int hum, @PathVariable int bright) {
+        PantryZone pantryZone = pantryZoneService.getBySensorBoxCode(sensorBoxCode);
         if(pantryZone == null) {
             return "Pantry Zone Not Found";
         }

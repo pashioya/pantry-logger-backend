@@ -18,7 +18,6 @@ public class TagRepositoryImpl implements TagRepository {
     private SimpleJdbcInsert tagInserter;
     private SimpleJdbcInsert preferenceInserter;
     private SimpleJdbcInsert recipeTagInserter;
-    private SimpleJdbcInsert userPreferenceInserter;
 
     public TagRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -27,7 +26,7 @@ public class TagRepositoryImpl implements TagRepository {
                 .usingGeneratedKeyColumns("tag_id");
         this.preferenceInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("USER_PREFERENCES")
-                .usingColumns("user_id", "tag_id", "LIKES");
+                .usingColumns("user_id", "tag_id", "likes");
         this.recipeTagInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("RECIPE_TAGS")
                 .usingColumns("tag_id", "recipe_id");
@@ -49,7 +48,7 @@ public class TagRepositoryImpl implements TagRepository {
                         rs.getString("NAME"),
                         TagFlag.valueOf(rs.getString("FLAG"))
                 ),
-                rs.getBoolean("LIKES")
+                rs.getBoolean("likes")
         );
         return map;
     }
@@ -110,7 +109,7 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public Map<Tag, Boolean> getAllByUser(int userId) {
-        List<Map<Tag, Boolean>> list = jdbcTemplate.query("SELECT TAGS.*, LIKES FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ?", this::mapTagWithBoolean, userId);
+        List<Map<Tag, Boolean>> list = jdbcTemplate.query("SELECT TAGS.*, likes FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ?", this::mapTagWithBoolean, userId);
         Map<Tag, Boolean> map = new HashMap<>();
         list.forEach(x -> {
             x.keySet().forEach( y -> {
@@ -121,11 +120,11 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public void addUserPreference(int userId, int tagId, boolean like) {
+    public void addUserPreference(int userId, int tagId, boolean likes) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("USER_ID", userId);
         parameters.put("TAG_ID", tagId);
-        parameters.put("LIKES", like);
+        parameters.put("likes", likes);
         preferenceInserter.execute(parameters);
     }
 
@@ -138,12 +137,12 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> getLikesByUserId(int userId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.LIKES = TRUE", this::mapRow, userId);
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.likes = TRUE", this::mapRow, userId);
     }
 
     @Override
     public List<Tag> getDislikesByUserId(int userId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.LIKES = FALSE", this::mapRow, userId);
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.likes = FALSE", this::mapRow, userId);
     }
 
     @Override

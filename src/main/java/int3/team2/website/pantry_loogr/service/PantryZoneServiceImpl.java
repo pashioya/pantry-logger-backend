@@ -52,6 +52,12 @@ public class PantryZoneServiceImpl implements PantryZoneService {
     }
 
     @Override
+    public PantryZone getBySensorBoxCode(String sensorBoxCode) {
+        PantryZone pantryZone = pantryZoneRepository.getBySensorBoxCode(sensorBoxCode);
+        return pantryZone;
+    }
+
+    @Override
     public PantryZone add(PantryZone pantryZone) {
         return pantryZoneRepository.create(pantryZone);
     }

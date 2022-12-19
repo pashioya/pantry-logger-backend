@@ -14,4 +14,6 @@ public interface PantryZoneService {
     PantryZone add(PantryZone pantryZone);
 
     void update(PantryZone pantryzone);
+
+    PantryZone getBySensorBoxCode(String sensorBoxCode);
 }

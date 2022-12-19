@@ -14,4 +14,6 @@ public interface PantryZoneRepository {
 
     PantryZone create(PantryZone pantryzone);
     void update(PantryZone pantryzone);
+
+    PantryZone getBySensorBoxCode(String sensorBoxCode);
 }

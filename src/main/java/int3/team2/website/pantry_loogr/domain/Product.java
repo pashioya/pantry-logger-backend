@@ -9,6 +9,7 @@ public class Product extends Ingredient {
     protected String productName;
     protected String code;
     protected int size;
+    protected int productId;
 
     /**
      * Constructor to create a new Product before it is inserted into the database.
@@ -35,8 +36,16 @@ public class Product extends Ingredient {
      * @param size teh quantity of the product in one pack
      * @param imagePath used to tie the ingredient to the image
      */
-    public Product(int id, String name, String productName, String code, int size, String imagePath) {
-        super(id, name, imagePath);
+    public Product(int ingredientId, String name, String productName, String code, int size, String imagePath) {
+        super(ingredientId, name, imagePath);
+        this.productName = productName;
+        this.code = code;
+        this.size = size;
+    }
+
+    public Product(int ingredientId, int productId, String name, String productName, String code, int size, String imagePath) {
+        super(ingredientId, name, imagePath);
+        this.productId = productId;
         this.productName = productName;
         this.code = code;
         this.size = size;
@@ -60,5 +69,20 @@ public class Product extends Ingredient {
 
     public int getSize() {
         return size;
+    }
+
+    public int getProductId() { return productId; }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productName='" + productName + '\'' +
+                ", code='" + code + '\'' +
+                ", size=" + size +
+                ", productId=" + productId +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
     }
 }

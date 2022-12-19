@@ -258,20 +258,31 @@ $(function() {
                 url:"/scanner/checkForItem?code=" +code,
                 type: "GET",
                 success: function (data) {
-                    const name = document.getElementById("item-name");
-                    name.value = data.name;
-                    name.readOnly = true;
+                    if (data.found === "true") {
+                        const name = document.getElementById("product-name");
+                        name.value = data.name;
+                        name.readOnly = true;
 
-                    const amount = document.getElementById("item-amount");
-                    amount.value = data.amount;
-                    amount.readOnly = true;
+                        const amount = document.getElementById("product-amount");
+                        amount.value = data.amount;
+                        amount.readOnly = true;
 
-                    const itemId = document.getElementById("item-id");
-                    itemId.value = data.itemId;
-                    itemId.readOnly = true;
+                        const productId = document.getElementById("product-id");
+                        productId.value = data.productId;
+                        productId.readOnly = true;
+
+                    } else if(data.found === "false") {
+                        const ingredientName = document.getElementById("ingredient-name");
+                        ingredientName.classList.remove("hidden");
+                        $(document).ready(function() {
+                            $("#ingredient-name").select2();
+                        });
+                        document.getElementById("create-product").setAttribute("checked", "")
+                        document.getElementById("product-code").value = code;
+                    }
+
                 },
                 error: function (data) {
-                    console.log("ERROR: Code search did not work!");
                 }
             })
         }

@@ -6,10 +6,19 @@ import int3.team2.website.pantry_loogr.domain.Product;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import static java.sql.Types.INTEGER;
+import static java.sql.Types.VARCHAR;
 
 @Component
 public class IngredientServiceImpl implements IngredientService {
@@ -49,6 +58,11 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients) {
         return ingredientRepository.addToRelationTable(recipeID, ingredients);
+    }
+
+    @Override
+    public Product addProduct(Product product) {
+        return ingredientRepository.addProduct(product);
     }
 
     @Override

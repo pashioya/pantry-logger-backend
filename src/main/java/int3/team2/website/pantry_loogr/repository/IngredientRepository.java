@@ -15,17 +15,16 @@ public interface IngredientRepository {
     List<Ingredient> findIngredientsByUser(int userID);
     Map<Ingredient, Integer> findIngredientsByRecipeId(int id);
     Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients);
+    Product getProduct(int id);
+    Product addProduct(Product product);
     Product getByCode(String code);
-    void addToPantry(int productId, int zone);
-
+    void addToPantry(int productId, int zone, int quantity, int amountUsed);
     Map<Ingredient, Integer> getForShoppingList(int shoppingListId);
-
     PantryZoneProduct getPantryZoneProduct(int productId, int pantryId);
     void updatePantryZoneProduct(PantryZoneProduct product);
     void removePantryZoneProduct(PantryZoneProduct product);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
-
     void addToShoppingListIngredients(int shoppingListId, Map<Ingredient, Integer> shoppingListIngredients);
     void clearShoppingListIngredients(int shopping_list_id);
 }

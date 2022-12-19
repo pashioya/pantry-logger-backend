@@ -1124,8 +1124,7 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 }
 
 .new-recipe-section > .create-recipe-form{
-    width: calc(100% - var(--item-combined-spacing));
-    padding: var(--item-padding-width) calc(var(--item-padding-width) / 2);
+    padding: var(--item-padding-width) var(--item-padding-width);
     margin: calc(var(--item-margin-width) / 2);
     display: flex;
     flex-direction: column;
@@ -1156,7 +1155,10 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
 }
 
 .create-recipe-form > .recipe-name-container > label {
-    width: unset;
+    width: 30%;
+}
+.create-recipe-form > .recipe-name-container > input {
+    width: 60%;
 }
 
 .create-recipe-form > .recipe-description-container {
@@ -1191,16 +1193,30 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     flex-direction: column;
 }
 
+.create-recipe-form > .recipe-ingredients-container > label {
+    margin-bottom: 10px;
+}
+
 #recipe-ingredients .ingredient-amount {
     max-width: 100px;
 }
 
+#recipe-ingredients > #added-ingredients {
+    width: 100%;
+    padding: unset;
+    margin: unset;
+}
+
 #recipe-ingredients > #added-ingredients > li{
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: center;
     gap: 5px;
     margin-bottom: 5px;
+}
+
+#recipe-ingredients > #added-ingredients > li > select {
+    min-width: 30%;
 }
 
 #recipe-ingredients > #added-ingredients > li > .button-dark {

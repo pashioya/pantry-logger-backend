@@ -239,4 +239,11 @@ public class EndUser {
     public  Map<Ingredient, Integer> getShoppingListItems() {
         return shoppingList.getIngredients();
     }
+
+    public boolean ownsPantry(int pantryId) {
+        for(PantryZone pantryZone: pantryZones) {
+            if(pantryZone.getId() == pantryId) return true;
+        }
+        return false;
+    }
 }

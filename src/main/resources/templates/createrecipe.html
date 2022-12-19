@@ -7,7 +7,7 @@
 		<section class="new-recipe-section">
 			<form class="create-recipe-form" method="post">
 				<div class="recipe-name-container">
-					<label for="recipe-name">Recipe Name</label>
+					<label for="recipe-name">Recipe<br> Name</label>
 					<input name="recipe-name" id="recipe-name" type="text" required />
 				</div>
 				<div class="recipe-description-container">
@@ -28,14 +28,14 @@
 
 						</ul>
 						<div id="ingredient-adder">
-							<select class="ingredient-type from-control" id="ingredient-selector">
+							<select class="hidden" id="ingredient-selector">
+								<option></option>
 								<option
 										th:each="ingredient : ${ingredients}"
 										th:value="${ingredient.id}"
 										th:utext="${ingredient.name}">
 								</option>
 							</select>
-							<input class="ingredient-amount" id="ingredient-amount" type="number" value="amount" required>
 							<input type="button" class="button-dark" id="add-ingredient" value="add">
 						</div>
 					</div>

@@ -1,13 +1,22 @@
+const allTextAreas = document.querySelectorAll("textarea");
+
+if (allTextAreas) {
+    Array.from(allTextAreas).forEach(x => {
+        x.setAttribute("onkeyup", "textAreaAdjust(this)")
+    })
+}
+
+function textAreaAdjust(element) {
+    element.style.height = "1px";
+    element.style.height = (25+element.scrollHeight)+"px";
+}
+
+
 const addCookingStepsButton = document.getElementById("add-cooking-step");
 
 const addIngredientButton = document.getElementById("add-ingredient");
 const addIngredientName = document.getElementById("ingredient-selector").cloneNode(true);
-const addIngredientAmount = document.getElementById("ingredient-amount");
 const addedIngredients = document.getElementById("added-ingredients");
-
-const addTagButton = document.getElementById("add-tag");
-const addTagName = document.getElementById("tag-name");
-const addedTags = document.getElementById("added-tags");
 
 addCookingStepsButton.onclick =  function () {
     const newCookingStep = document.createElement("textarea");
@@ -22,14 +31,19 @@ addIngredientButton.onclick = function () {
     const parent = document.createElement("li");
     const newType = addIngredientName.cloneNode(true);
     newType.removeAttribute("id");
+    newType.classList.remove("hidden")
     newType.setAttribute("name", "ingredient-types");
     newType.setAttribute("id", "newType");
     newType.classList.add("addedIngr")
     parent.appendChild(newType);
 
 
-    const newAmount = addIngredientAmount.cloneNode(true);
-    newAmount.removeAttribute("id");
+    //const newAmount = addIngredientAmount.cloneNode(true);
+    const newAmount = document.createElement("input");
+    newAmount.setAttribute("class", "ingredient-amount");
+    newAmount.setAttribute("type", "number");
+    newAmount.setAttribute("value", "amount");
+    newAmount.setAttribute("required", "");
     newAmount.setAttribute("name", "ingredient-amounts");
     parent.appendChild(newAmount);
 
@@ -44,8 +58,6 @@ addIngredientButton.onclick = function () {
 
     addedIngredients.appendChild(parent);
     ingredientSelect($(".addedIngr"));
-    $("#newType").val(document.getElementById("ingredient-selector").value);
-    $("#newType").trigger('change');
     newType.removeAttribute("id");
 }
 
@@ -54,8 +66,6 @@ function ingredientSelect(jQuery_object) {
         jQuery_object.select2();
     });
 }
-
-ingredientSelect($("#ingredient-selector"));
 
 $(document).ready(function() {
     $("#tag-selector").select2();

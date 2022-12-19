@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import static java.sql.Types.INTEGER;
 import static java.sql.Types.VARCHAR;
 
 @Repository
@@ -59,16 +60,17 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public EndUser add(EndUser user) {
         PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-                "INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD) " +
-                        "VALUES (?, ?, ?)",
-                VARCHAR, VARCHAR, VARCHAR
+                "INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD, CURRENT_RECIPE) " +
+                        "VALUES (?, ?, ?, ?)",
+                VARCHAR, VARCHAR, VARCHAR, INTEGER
         );
         pscf.setReturnGeneratedKeys(true);
         PreparedStatementCreator psc = pscf.newPreparedStatementCreator(
                 Arrays.asList(
                         user.getUsername(),
                         user.getEmail(),
-                        user.getPassword()
+                        user.getPassword(),
+                        0
                 )
         );
         KeyHolder keyHolder = new GeneratedKeyHolder();

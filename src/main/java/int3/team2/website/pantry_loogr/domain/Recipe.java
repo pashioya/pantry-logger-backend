@@ -138,13 +138,16 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "Model{" +
-                "recipe_id=" + id +
-                ", recipe_name='" + name + '\'' +
-                ", recipe_difficulty=" + difficulty +
-                ", recipe_description='" + description + '\'' +
-                ", recipe_instructions='" + instructions + '\'' +
-                ", recipe_time=" + time +
+        return "Recipe{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", difficulty=" + difficulty +
+                ", description='" + description + '\'' +
+                ", instructions='" + instructions + '\'' +
+                ", time=" + time +
+                ", ingredients=" + ingredients +
+                ", tags=" + tags +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 

@@ -60,6 +60,10 @@ public class UserController {
     )
     public String logout(HttpSession httpSession) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+
         httpSession.invalidate();
         return "redirect:/login";
     }
@@ -104,9 +108,30 @@ public class UserController {
         if(user == null) {
             return "redirect:/login";
         }
+
         String username = tagData.get("username").get(0);
-        user.setUsername(username);
-        httpSession.setAttribute("username", username);
+        String firstName = tagData.get("firstName").get(0);
+        String lastName = tagData.get("lastName").get(0);
+        String city = tagData.get("city").get(0);
+        String stateRegion = tagData.get("stateRegion").get(0);
+        String country = tagData.get("country").get(0);
+
+        if(!username.isBlank()) {
+            user.setUsername(username);
+            httpSession.setAttribute("username", username);
+        }
+        if(!firstName.isBlank())
+            user.setFirstName(firstName);
+        if(!lastName.isBlank())
+            user.setLastName(lastName);
+        if(!city.isBlank())
+            user.setCity(city);
+        if(!stateRegion.isBlank())
+            user.setStateRegion(stateRegion);
+        if(!country.isBlank())
+            user.setCountry(country);
+
+
         userService.updateUser(user);
         return "redirect:/profile";
     }

@@ -34,7 +34,7 @@
 					</form>
 					<form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
 						<div class="tag-edit-header">
-							<h4>You dont like:</h4>
+							<h4>You don't like:</h4>
 							<button class="edit-tags" type="button" id="edit-dislikes">edit dislikes</button>
 							<input type="submit" value="save">
 						</div>
@@ -72,11 +72,75 @@
                         <div class="modal-body">
                             <form method="POST" action="/profile/editProfile">
                                 <label for="username">New Username</label>
-                                <input required type="text" id="username" name="username"/>
+                                <input type="text" id="username" name="username"/>
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName"/>
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName"/>
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city"/>
+                                <label for="stateRegion">State/Region</label>
+                                <input type="text" id="stateRegion" name="stateRegion"/>
+                                <label for="country">Country</label>
+                                <input type="text" id="country" name="country"/>
                                 <input type="submit" value="submit" />
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="edit-sensor-boxes">
+                    <div class="all-sensor-boxes">
+                        <div class="sensor-box">
+                            <img src='/icons/sensor-box.png'
+                                 class="sensor-box-image"
+                                 alt="sensor box icon"
+                            />
+                            <div class="sensor-box-text">
+                                <h4>
+                                    Location:
+                                    <span class="pantry-zone-name">Fridge</span>
+                                </h4>
+                                <h4>
+                                    Temperature:
+                                    <span class="sensorBox-temp">10*</span>
+                                </h4>
+                                <h4>
+                                    Humidity:
+                                    <span class="sensorBox-hum">50%</span>
+                                </h4>
+                                <h4>
+                                    Brightness:
+                                    <span class="sensorBox-Brightness">10lum</span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="button" id="add-sensor-box-btn">
+                        Add Sensor Box
+                    </button>
+
+                    <div id="add-sensor-box-modal" class="modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <span class="close">&times;</span>
+                                <span class="modal-title">Add Sensor Box</span>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="/profile/addSensorBox">
+                                    <label for="sensor-box-code"> Sensor Box Code</label>
+                                    <input required type="text" id="sensor-box-code" name="sensor-box-code"/>
+                                    <label for="select-pantry-zone">Choose Pantry Zone</label>
+                                    <select id="select-pantry-zone" name="pantry-zone">
+                                        <option value="" disabled selected>Select Pantry Zone</option>
+                                    </select>
+                                    <div id="no-zones-error" class="error"> No Pantry Zones Added</div>
+                                    <input id="submit-sensor-box" type="submit"  value="submit" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
     </body>

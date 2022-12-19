@@ -172,7 +172,7 @@ header {
     position: absolute;
     bottom: -8px;
     left: auto;
-    right: 0px;
+    right: 0;
     width: 0;
     height: calc(100% + 8px);
     padding: 0;
@@ -1554,6 +1554,7 @@ body[id="profile"] > section > .profile-image > img{
     display: flex;
     flex-direction: column;
     gap: 20px;
+    border-radius: 10px;
 }
 
 .modal-header{
@@ -1603,7 +1604,62 @@ body[id="profile"] > section > .profile-image > img{
 }
 
 
+.all-sensor-boxes{
+    display: flex;
+    flex-direction: column;
+}
 
+.edit-sensor-boxes{
+    display: flex;
+    flex-direction: column;
+}
+
+.sensor-box{
+    display: flex;
+    background-color: var(--white);
+    border: 0 solid var(--white);
+    border-radius: 10px;
+    padding: calc(var(--item-padding-width) / 2);
+    box-shadow: var(--box-shadow-down);
+    --list-image-height: 35px;
+    flex-direction: row;
+    gap: 15px;
+    width: calc(100% - var(--item-list-combined-spacing));
+    margin: calc(var(--item-list-margin-width) / 2);
+}
+
+.sensor-box> .sensor-box-image{
+    height: var(--list-image-height);
+}
+
+.sensor-box> .sensor-box-image > img{
+    height: 100%;
+}
+
+.sensor-box > .sensor-box-text{
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10%;
+}
+
+.sensor-box > .sensor-box-text > h4{
+    font-size: 0.7em;
+}
+
+.sensor-box > .sensor-box-text > h4:first-child {
+    font-size: 1em;
+    width: 100%;
+}
+
+#add-sensor-box-btn{
+    align-self: center;
+}
+
+.error{
+    color: red;
+    display: none;
+}
 
 
 /*Profile Ends */

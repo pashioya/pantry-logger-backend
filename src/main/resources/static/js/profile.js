@@ -37,8 +37,11 @@ updateStatus(dislikes_form, "none")
 let modal = document.getElementsByClassName("modal");
 let passwordModal = document.getElementById("password-modal");
 let editProfileModal = document.getElementById("edit-profile-modal");
+let addSensorBoxModal = document.getElementById("add-sensor-box-modal");
+
 let editProfileBtn = document.getElementById("edit-profile-btn");
 let changePassBtn = document.getElementById("change-password-btn");
+let addSensorBoxBtn = document.getElementById("add-sensor-box-btn");
 
 let closeBtn = document.getElementsByClassName("close");
 
@@ -51,10 +54,15 @@ if(modal) {
         editProfileModal.style.display = "block";
     }
 
+    addSensorBoxBtn.onclick = function () {
+        addSensorBoxModal.style.display = "block";
+    }
+
     for (let i = 0; i < closeBtn.length; i++) {
         closeBtn[i].onclick = function () {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
+            addSensorBoxModal.style.display = "none";
         }
     }
 
@@ -62,6 +70,18 @@ if(modal) {
         if (event.target == passwordModal || event.target == editProfileModal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
+            addSensorBoxModal.style.display = "none";
         }
+    }
+}
+
+let selectPantryZone = document.getElementById("select-pantry-zone");
+
+// if select pantry zone is empty disable submit button
+if(selectPantryZone) {
+    if(selectPantryZone.options.length == 1) {
+        document.getElementById("select-pantry-zone").disabled = true;
+        document.getElementById("submit-sensor-box").disabled = true;
+        document.getElementById("no-zones-error").style.display = "block";
     }
 }

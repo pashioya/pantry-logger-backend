@@ -205,6 +205,30 @@ public class EndUser {
         this.email = email;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setStateRegion(String stateRegion) {
+        this.stateRegion = stateRegion;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     /**
      * @return the items that belong to the user's shopping list
      */

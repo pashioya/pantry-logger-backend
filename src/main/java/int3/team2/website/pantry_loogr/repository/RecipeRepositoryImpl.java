@@ -69,6 +69,7 @@ public class RecipeRepositoryImpl implements RecipeRepository {
         parameters.put("DESCRIPTION", recipe.getDescription());
         parameters.put("INSTRUCTIONS", recipe.getInstructions());
         parameters.put("TIME", recipe.getTime().toString());
+        parameters.put("IMAGE_PATH", recipe.getImagePath());
         recipe.setId(inserter.executeAndReturnKey(parameters).intValue());
         return recipe;
     }

@@ -125,7 +125,6 @@ public class RecipeController {
         if(user == null) {
             return "redirect:/login";
         }
-        logger.debug(recipeData.toString());
         
         Map<Ingredient, Integer> ingredients = new HashMap<>();
         List<Tag> tags = new ArrayList<>();
@@ -149,10 +148,11 @@ public class RecipeController {
                 recipeData.get("recipe-description").get(0),
                 recipeData.get("cooking-step").stream().reduce((a, b) -> a + "<br><br>" + b).orElse(""),
                 Time.valueOf(recipeData.get("recipe-time").get(0)),
-                ""
+                "/images/icon-set-1/mushroom.png"
         );
         newRecipe.setIngredients(ingredients);
         newRecipe.setTags(tags);
+        logger.debug(newRecipe.toString());
         recipeService.add(newRecipe);
         return "redirect:/recipes";
     }

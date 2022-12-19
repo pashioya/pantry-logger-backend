@@ -93,7 +93,7 @@ public class IndexController {
             method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
     )
-    public String registerUser(@RequestBody MultiValueMap<String, String> data) {
+    public String registerUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> data) {
         logger.debug(data.toString());
 
         EndUser user;
@@ -108,6 +108,8 @@ public class IndexController {
                 logger.info("User already exists with this name please use a different name!");
             } else {
                 logger.debug(user.toString());
+                httpSession.setAttribute("username", data.get("username").get(0));
+                httpSession.setAttribute("password", data.get("password").get(0));
                 return "redirect:/items/pantry-zones";
             }
         }

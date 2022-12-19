@@ -22,26 +22,26 @@
                 </div>
                 <div class="tags-edit">
                     <form method="post" id="like-edit-form" status="none" action="/profile/editLikes">
-						<div class="tag-edit-header">
-							<h4>You Like:</h4>
-							<button class="edit-tags" type="button" id="edit-likes">edit likes</button>
-							<input type="submit" value="save">
-						</div>
-						<select name="liked-tags" class="js-multiple js-states form-control" multiple="multiple" disabled>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:value="${key.id}" th:text="${key.name}" selected></option>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
-						</select>
-					</form>
-					<form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
-						<div class="tag-edit-header">
-							<h4>You don't like:</h4>
-							<button class="edit-tags" type="button" id="edit-dislikes">edit dislikes</button>
-							<input type="submit" value="save">
-						</div>
-						<select name="disliked-tags" class="js-multiple js-states form-control" multiple="multiple" disabled>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:value="${key.id}" th:text="${key.name}" selected></option>
-							<option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
-						</select>
+                        <div class="tag-edit-header">
+                            <h4>Your Likes:</h4>
+                            <button class="edit-tags" type="button" id="edit-likes">edit likes</button>
+                            <input type="submit" value="save">
+                        </div>
+                        <select name="liked-tags" class="js-multiple js-states form-control" multiple="multiple" disabled>
+                            <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:value="${key.id}" th:text="${key.name}" selected></option>
+                            <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
+                        </select>
+                    </form>
+                    <form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
+                        <div class="tag-edit-header">
+                            <h4>Your Dislikes:</h4>
+                            <button class="edit-tags" type="button" id="edit-dislikes">edit dislikes</button>
+                            <input type="submit" value="save">
+                        </div>
+                        <select name="disliked-tags" class="js-multiple js-states form-control" multiple="multiple" disabled>
+                            <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:value="${key.id}" th:text="${key.name}" selected></option>
+                            <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
+                        </select>
                     </form>
                 </div>
 
@@ -90,10 +90,10 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div class="sensor-box">
+                        <div class="sensor-box" sensor-box-selected="false">
                             <img src='/icons/sensor-box.png'
-                                 class="sensor-box-image"
-                                 alt="sensor box icon"
+                                    class="sensor-box-image"
+                                    alt="sensor box icon"
                             />
                             <div class="sensor-box-text">
                                 <h4>
@@ -112,6 +112,36 @@
                                     Brightness:
                                     <span class="sensorBox-Brightness">10lum</span>
                                 </h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal" id="sensor-box-editor" >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <span class="close">&times;</span>
+                                <span class="modal-title">Edit Sensor Box</span>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="/profile/editSensorBox">
+                                    <label for="new-pantry-zone">New Location</label>
+                                    <select id="new-pantry-zone" name="pantry-zone">
+                                        <option value="" disabled selected>Select Pantry Zone</option>
+                                    </select>
+                                    <label for="temp-lower-limmit">Temparature Lower Limit</label>
+                                    <input type="number" id="temp-lower-limmit" name="temp-lower-limmit" placeholder="Lower Limit"/>
+                                    <label for="temp-upper-limmit">Temparature Upper Limit</label>
+                                    <input type="number" id="temp-upper-limmit" name="temp-upper-limmit" placeholder="Upper Limit"/>
+                                    <label for="hum-lower-limmit">Humidity Lower Limit</label>
+                                    <input type="number" id="hum-lower-limmit" name="hum-lower-limmit" placeholder="Lower Limit"/>
+                                    <label for="hum-upper-limmit">Humidity Upper Limit</label>
+                                    <input type="number" id="hum-upper-limmit" name="hum-upper-limmit" placeholder="Upper Limit"/>
+                                    <label for="brightness-lower-limmit">Brightness Lower Limit</label>
+                                    <input type="number" id="brightness-lower-limmit" name="brightness-lower-limmit" placeholder="Lower Limit"/>
+                                    <label for="brightness-upper-limmit">Brightness Upper Limit</label>
+                                    <input type="number" id="brightness-upper-limmit" name="brightness-upper-limmit" placeholder="Upper Limit"/>
+                                    <input type="submit" value="submit" />
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -140,7 +170,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
     </body>

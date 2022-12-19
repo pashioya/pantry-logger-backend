@@ -36,8 +36,16 @@ public class Product extends Ingredient {
      * @param size teh quantity of the product in one pack
      * @param imagePath used to tie the ingredient to the image
      */
-    public Product(int id, int productId, String name, String productName, String code, int size, String imagePath) {
-        super(id, name, imagePath);
+
+    public Product(int ingredientId, String name, String productName, String code, int size, String imagePath) {
+        super(ingredientId, name, imagePath);
+        this.productName = productName;
+        this.code = code;
+        this.size = size;
+    }
+
+    public Product(int ingredientId, int productId, String name, String productName, String code, int size, String imagePath) {
+        super(ingredientId, name, imagePath);
         this.productId = productId;
         this.productName = productName;
         this.code = code;
@@ -64,7 +72,17 @@ public class Product extends Ingredient {
         return size;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProductId() { return productId; }
+
+    public String toString() {
+        return "Product{" +
+                "productName='" + productName + '\'' +
+                ", code='" + code + '\'' +
+                ", size=" + size +
+                ", productId=" + productId +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
     }
 }

@@ -4,18 +4,21 @@ import int3.team2.website.pantry_loogr.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.sql.Types.INTEGER;
+import static java.sql.Types.VARCHAR;
 
 @Repository
 public class IngredientRepositoryImpl implements IngredientRepository {
@@ -50,6 +53,18 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         );
     }
 
+    private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
+        return new Product(
+                rs.getInt("ID"),
+                rs.getInt("PRODUCT_ID"),
+                rs.getString("NAME"),
+                rs.getString("PRODUCT_NAME"),
+                rs.getString("CODE"),
+                rs.getInt("SIZE"),
+                rs.getString("IMAGE_PATH")
+        );
+    }
+
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
         PantryZoneProduct product = new PantryZoneProduct(
                 rs.getInt("INGREDIENT_ID"),
@@ -68,17 +83,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getString("IMAGE_PATH")
         );
         return product;
-    }
-
-    private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
-        return new Product(rs.getInt("ID"),
-                rs.getInt("PRODUCT_ID"),
-                rs.getString("NAME"),
-                rs.getString("PRODUCT_NAME"),
-                rs.getString("CODE"),
-                rs.getInt("SIZE"),
-                rs.getString("IMAGE_PATH")
-        );
     }
     @Override
     public Ingredient get(int id) {
@@ -149,17 +153,55 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         }
         return ingredients;
     }
+
     @Override
-    public Product getByCode(String code) {
-        return jdbcTemplate.query("SELECT PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID WHERE PRODUCTS.CODE = ?",
-                preparedStatement -> preparedStatement.setString(1, code),
+    public Product getProduct(int id) {
+        return jdbcTemplate.query(
+                "SELECT " +
+                            "PRODUCTS.ID, PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, " +
+                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH " +
+                        "FROM PRODUCTS " +
+                        "JOIN INGREDIENTS ON PRODUCTS.INGREDIENT_ID = INGREDIENTS.ID " +
+                        "WHERE PRODUCTS.ID = ?",
+                preparedStatement -> preparedStatement.setInt(1, id),
                 this::mapProductRow).get(0);
     }
+
     @Override
-    public void addToPantry(int productId, int zone) {
+    public Product addProduct(Product product) {
+        PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
+                "INSERT INTO PRODUCTS(INGREDIENT_ID, PRODUCT_NAME, CODE, SIZE) " +
+                        "VALUES (?, ?, ?, ?)",
+                INTEGER, VARCHAR, VARCHAR, INTEGER
+        );
+        pscf.setReturnGeneratedKeys(true);
+        PreparedStatementCreator psc = pscf.newPreparedStatementCreator(
+                Arrays.asList(
+                        product.getId(),
+                        product.getProductName(),
+                        product.getCode(),
+                        product.getSize()
+                )
+        );
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(psc, keyHolder);
+        return this.getProduct(Objects.requireNonNull(keyHolder.getKey()).intValue());
+    }
+
+    @Override
+    public Product getByCode(String code) {
+        List<Product> list = jdbcTemplate.query("SELECT PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID WHERE PRODUCTS.CODE = ?",
+                preparedStatement -> preparedStatement.setString(1, code),
+                this::mapProductRow);
+        return list.isEmpty() ? null : list.get(0);
+    }
+    @Override
+    public void addToPantry(int productId, int zone, int quantity, int amountUsed) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("PRODUCT_ID", productId);
         parameters.put("PANTRY_ZONE_ID", zone);
+        parameters.put("QUANTITY", quantity);
+        parameters.put("AMOUNT_USED", amountUsed);
         pantryZoneProductInserter.execute(parameters);
     }
     @Override

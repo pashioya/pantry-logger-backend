@@ -102,18 +102,24 @@
 		<section class="text-panel">
 			<div view-stage="scan" class="scan-product-welcome">
 				<h1>Scan your product</h1>
-<!--				<a href="#" id="scan_now">scan</a>-->
 				<a href="/items/pantry-zones" class="styled-button-dark">back</a>
 			</div>
 			<form id="scan-item-form" method="post">
-				<h3 view-stage="one">Item Name</h3>
-				<input type="text" id="item-name" name="name" view-stage="one" />
+				<input class="hidden" id="create-product" type="checkbox" name="create">
+				<input class="hidden" id="product-code" type="number" name="code">
+				<h3 view-stage="one">Type of Ingredient</h3>
+				<select view-stage="one" class="hidden" name="ingredient" id="ingredient-name">
+					<option></option>
+					<option th:each="ingredient : ${ingredients}" th:value="${ingredient.id}" th:text="${ingredient.name}"></option>
+				</select>
+				<h3 view-stage="one">Product Name</h3>
+				<input type="text" id="product-name" name="name" view-stage="one" />
 				<h3 view-stage="one">Package amount [in g or ml]</h3>
-				<input type="text" id="item-amount" name="amount" view-stage="one" />
-				<input type="hidden" id="item-id" name="item_id" view-stage="one" />
+				<input type="text" id="product-amount" name="amount" view-stage="one" />
+				<input type="hidden" id="product-id" name="productId" view-stage="one" />
 				<div class="submit-container" view-stage="one">
-					<input class="styled-button-dark" type="button" value="cancel" id="itemscan-back" />
-					<input class="styled-button-dark" type="button" value="continue" id="item-continue" />
+					<input class="styled-button-dark" type="button" value="cancel" id="product-scan-back" />
+					<input class="styled-button-dark" type="button" value="continue" id="product-continue" />
 				</div>
 				<div view-stage="two">
 					<div class="storage-spaces" >
@@ -135,6 +141,7 @@
 		</section>
 
 		<script src="//code.jquery.com/jquery-1.11.0.min.js" ></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 		<script src="/js/quagga.min.js" ></script>
 		<script src="/js/scanner.js" ></script>
 		<script src="/js/app.js" ></script>

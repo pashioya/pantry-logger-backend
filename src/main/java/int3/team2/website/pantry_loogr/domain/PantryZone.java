@@ -10,6 +10,7 @@ import java.util.Map;
 public class PantryZone {
     private int id;
     private String name;
+    private String sensorBoxCode;
     private List<PantryZoneProduct> products;
     private int minTemp;
     private int maxTemp;
@@ -153,5 +154,13 @@ public class PantryZone {
             || (latestBright > maxBright || latestBright < minBright)) {
             enviroOutOfRange = true;
         }
+    }
+
+    public void setSensorBoxCode(String sensorBoxCode) {
+        this.sensorBoxCode = sensorBoxCode;
+    }
+
+    public String getSensorBoxCode() {
+        return this.sensorBoxCode;
     }
 }

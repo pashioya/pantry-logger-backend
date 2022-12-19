@@ -161,8 +161,12 @@
                                     <label for="sensor-box-code"> Sensor Box Code</label>
                                     <input required type="text" id="sensor-box-code" name="sensor-box-code"/>
                                     <label for="select-pantry-zone">Choose Pantry Zone</label>
-                                    <select id="select-pantry-zone" name="pantry-zone">
+                                    <select th:if="${pantryZones.isEmpty()}" name="pantry-zone">
                                         <option value="" disabled selected>Select Pantry Zone</option>
+                                    </select>
+                                    <select th:unless="${pantryZones.isEmpty()}" id="select-pantry-zone" name="pantry-zone">
+                                        <option></option>
+                                        <option th:each="pantryZone:${pantryZones}" th:value="${pantryZone.id}" th:text="${pantryZone.name}">
                                     </select>
                                     <div id="no-zones-error" class="error"> No Pantry Zones Added</div>
                                     <input id="submit-sensor-box" type="submit"  value="submit" />

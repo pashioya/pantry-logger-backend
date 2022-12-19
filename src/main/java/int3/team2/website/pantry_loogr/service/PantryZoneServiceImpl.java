@@ -52,9 +52,12 @@ public class PantryZoneServiceImpl implements PantryZoneService {
     }
 
     @Override
-    public List<PantryZone> add(PantryZone pantryZone) {
-        return null;
+    public PantryZone add(PantryZone pantryZone) {
+        return pantryZoneRepository.create(pantryZone);
     }
 
-
+    @Override
+    public void update(PantryZone pantryzone) {
+        pantryZoneRepository.update(pantryzone);
+    }
 }

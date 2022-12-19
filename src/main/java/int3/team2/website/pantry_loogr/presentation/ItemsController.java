@@ -5,7 +5,6 @@ import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
-import int3.team2.website.pantry_loogr.service.SensorDataService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +71,7 @@ public class ItemsController {
             return "redirect:/login";
         }
         if (percentage == 0) {
+            logger.debug(pantryId + " " + productId);
             ingredientService.removePantryZoneProductQuantity(pantryId, productId, 1);
             return "redirect:/items";
         }

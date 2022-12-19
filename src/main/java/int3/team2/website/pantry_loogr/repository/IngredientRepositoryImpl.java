@@ -31,16 +31,16 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.ingredientInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("INGREDIENTS")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
         this.ingredientRecipeInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("RECIPE_INGREDIENTS")
-                .usingColumns("RECIPE_ID", "INGREDIENT_ID", "QUANTITY", "OPTIONAL");
+                .usingColumns("recipe_id", "ingredient_id", "quantity", "optional");
         this.shoppingListInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("SHOPPING_LIST_INGREDIENTS")
-                .usingColumns("SHOPPING_LIST_ID", "INGREDIENT_ID", "AMOUNT");
+                .usingColumns("shopping_list_id", "ingredient_id", "amount");
         this.pantryZoneProductInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("PANTRY_ZONE_PRODUCTS")
-                .usingColumns("PRODUCT_ID", "PANTRY_ZONE_ID");
+                .usingColumns("product_id", "pantry_zone_id");
     }
     private Ingredient mapIngredientRow(ResultSet rs, int rowid) throws SQLException {
         return new Ingredient(

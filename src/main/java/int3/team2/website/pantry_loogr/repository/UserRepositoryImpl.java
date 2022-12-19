@@ -26,10 +26,10 @@ public class UserRepositoryImpl implements UserRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("END_USERS")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
         this.userPreferenceInsertser = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("USER_PREFERENCES")
-                .usingColumns("USER_ID", "TAG_ID", "'LIKE'");
+                .usingColumns("user_id", "tag_id", "'LIKE'");
     }
 
     private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {

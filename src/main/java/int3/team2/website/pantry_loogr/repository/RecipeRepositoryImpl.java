@@ -22,7 +22,7 @@ public class RecipeRepositoryImpl implements RecipeRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("RECIPES")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
     }
 
     private Recipe mapRow(ResultSet rs, int rowid) throws SQLException {

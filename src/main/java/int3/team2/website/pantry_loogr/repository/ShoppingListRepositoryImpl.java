@@ -26,7 +26,7 @@ public class ShoppingListRepositoryImpl implements ShoppingListRepository{
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("SHOPPING_LISTS")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
         this.ShoppingListIngredientsInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("SHOPPING_LISTS_INGREDIENTS");
 

@@ -41,8 +41,8 @@ public class PantryZoneProduct extends Product{
      * @param amountUsed the amount that has been used up by the owner
      * @param imagePath used to tie the ingredient to the image
      */
-    public PantryZoneProduct(int id, String name, String productName, String code, int size, int quantity, int amountUsed, String imagePath) {
-        super(id, name, productName, code, size, imagePath);
+    public PantryZoneProduct(int id, int productId, String name, String productName, String code, int size, int quantity, int amountUsed, String imagePath) {
+        super(id, productId, name, productName, code, size, imagePath);
         this.quantity = quantity;
         this.amountUsed = amountUsed;
     }
@@ -62,8 +62,8 @@ public class PantryZoneProduct extends Product{
      *                    (useful when calculating if a product is about to go bad)
      * @param imagePath used to tie the ingredient to the image
      */
-    public PantryZoneProduct(int id, String name, String productName, String code, int size, int quantity, int amountUsed, PantryZone pantryZone, LocalDate dateEntered, String imagePath) {
-        super(id, name, productName, code, size, imagePath);
+    public PantryZoneProduct(int id, int productId, String name, String productName, String code, int size, int quantity, int amountUsed, PantryZone pantryZone, LocalDate dateEntered, String imagePath) {
+        super(id, productId, name, productName, code, size, imagePath);
         this.quantity = quantity;
         this.amountUsed = amountUsed;
         this.pantryZone = pantryZone;
@@ -107,5 +107,9 @@ public class PantryZoneProduct extends Product{
     public boolean removeFromQuantity(int amountToRemove) {
         this.quantity = this.quantity - amountToRemove;
         return quantity > 0;
+    }
+
+    public int getProductId() {
+        return productId;
     }
 }

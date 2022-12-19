@@ -31,16 +31,16 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.ingredientInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("INGREDIENTS")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
         this.ingredientRecipeInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("RECIPE_INGREDIENTS")
-                .usingColumns("RECIPE_ID", "INGREDIENT_ID", "QUANTITY", "OPTIONAL");
+                .usingColumns("recipe_id", "ingredient_id", "quantity", "optional");
         this.shoppingListInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("SHOPPING_LIST_INGREDIENTS")
-                .usingColumns("SHOPPING_LIST_ID", "INGREDIENT_ID", "AMOUNT");
+                .usingColumns("shopping_list_id", "ingredient_id", "amount");
         this.pantryZoneProductInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("PANTRY_ZONE_PRODUCTS")
-                .usingColumns("PRODUCT_ID", "PANTRY_ZONE_ID");
+                .usingColumns("product_id", "pantry_zone_id");
     }
     private Ingredient mapIngredientRow(ResultSet rs, int rowid) throws SQLException {
         return new Ingredient(
@@ -51,8 +51,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
-        return new PantryZoneProduct(
-                rs.getInt("ID"),
+        PantryZoneProduct product = new PantryZoneProduct(
+                rs.getInt("INGREDIENT_ID"),
+                rs.getInt("PRODUCT_ID"),
                 rs.getString("NAME"),
                 rs.getString("PRODUCT_NAME"),
                 rs.getString("CODE"),
@@ -66,10 +67,12 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getDate("DATE_ENTERED").toLocalDate(),
                 rs.getString("IMAGE_PATH")
         );
+        return product;
     }
 
     private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
         return new Product(rs.getInt("ID"),
+                rs.getInt("PRODUCT_ID"),
                 rs.getString("NAME"),
                 rs.getString("PRODUCT_NAME"),
                 rs.getString("CODE"),
@@ -163,8 +166,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH, " +
-                            "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
+                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH, " +
+                            "PRODUCTS.PRODUCT_NAME, PANTRY_ZONE_PRODUCTS.PRODUCT_ID, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
                         "FROM PANTRY_ZONE_PRODUCTS " +
@@ -181,19 +184,21 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 },
                 this::mapPantryZoneProductRow).get(0);
     }
+
     @Override
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
+        String sql = "SELECT " +
+                "INGREDIENTS.ID AS INGREDIENT_ID, PANTRY_ZONE_PRODUCTS.PRODUCT_ID AS PRODUCT_ID, INGREDIENTS.NAME, " +
+                "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, " +
+                "INGREDIENTS.IMAGE_PATH, PANTRY_ZONE_PRODUCTS.DATE_ENTERED, " +
+                "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
+                "FROM PANTRY_ZONES " +
+                "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
+                "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                "WHERE PANTRY_ZONES.ID = ? ";
         return jdbcTemplate.query(
-                "SELECT " +
-                            "INGREDIENTS.ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH," +
-                            "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
-                            "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
-                            "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
-                        "FROM PANTRY_ZONES " +
-                            "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
-                            "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
-                            "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
-                        "WHERE PANTRY_ZONES.ID = ? ",
+                sql,
                 preparedStatement -> preparedStatement.setInt(1, pantryZoneId),
                 this::mapPantryZoneProductRow
         );
@@ -202,8 +207,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH," +
-                            "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE," +
+                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH," +
+                            "PRODUCTS.PRODUCT_NAME, PANTRY_ZONE_PRODUCTS.PRODUCT_ID, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
                         "FROM PANTRY_ZONES " +
@@ -223,7 +228,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                             "AMOUNT_USED = ? ," +
                             "DATE_ENTERED = ? " +
                         "WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
-                product.getQuantity(), product.getAmountUsed(), product.getDateEntered(), product.getId(), product.getPantryZone().getId()
+                product.getQuantity(), product.getAmountUsed(), product.getDateEntered(), product.getProductId(), product.getPantryZone().getId()
         );
     }
 
@@ -231,7 +236,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public void removePantryZoneProduct(PantryZoneProduct product) {
         jdbcTemplate.update(
                 "DELETE FROM PANTRY_ZONE_PRODUCTS WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
-                product.getId(), product.getPantryZone().getId()
+                product.getProductId(), product.getPantryZone().getId()
         );
     }
 

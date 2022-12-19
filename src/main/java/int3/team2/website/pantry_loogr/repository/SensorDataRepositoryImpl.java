@@ -28,7 +28,7 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("SENSOR_DATA")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
     }
     private SensorData mapRow(ResultSet rs, int rowid) throws SQLException {
         return new SensorData(

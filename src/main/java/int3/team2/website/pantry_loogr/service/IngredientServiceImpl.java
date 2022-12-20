@@ -76,8 +76,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void addToPantry(int productId, int zone) {
-        ingredientRepository.addToPantry(productId, zone);
+    public void addToPantry(int productId, int zone, int quantity, int amountUsed) {
+        ingredientRepository.addToPantry(productId, zone, quantity, amountUsed);
     }
 
     /**

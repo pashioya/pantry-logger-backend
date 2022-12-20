@@ -10,6 +10,7 @@ public class Product extends Ingredient {
     protected String productName;
     protected String code;
     protected int size;
+    protected int productId;
 
     /**
      * Constructor to create a new Product before it is inserted into the database.
@@ -74,6 +75,7 @@ public class Product extends Ingredient {
 
     public int getProductId() { return productId; }
 
+    @Override
     public String toString() {
         return "Product{" +
                 "productName='" + productName + '\'' +

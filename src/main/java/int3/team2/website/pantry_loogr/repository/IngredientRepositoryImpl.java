@@ -55,8 +55,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
         return new Product(
+                rs.getInt("INGREDIENT_ID"),
                 rs.getInt("ID"),
-                rs.getInt("PRODUCT_ID"),
                 rs.getString("NAME"),
                 rs.getString("PRODUCT_NAME"),
                 rs.getString("CODE"),
@@ -64,6 +64,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getString("IMAGE_PATH")
         );
     }
+
 
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
         PantryZoneProduct product = new PantryZoneProduct(
@@ -84,6 +85,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         );
         return product;
     }
+
     @Override
     public Ingredient get(int id) {
         return jdbcTemplate.query(

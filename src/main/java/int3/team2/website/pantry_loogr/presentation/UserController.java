@@ -56,7 +56,7 @@ public class UserController {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("tagMap", tagService.getTagsByUserRelationship(user.getId()));
-        model.addAttribute("pantryZones", pantryZoneService.getAll());
+        model.addAttribute("pantryZones", pantryZoneService.getAllForUser(user.getId()));
         return "profile";
     }
 

@@ -144,6 +144,30 @@ public class PantryZone {
         return enviroOutOfRange;
     }
 
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public void setMinHum(int minHum) {
+        this.minHum = minHum;
+    }
+
+    public void setMaxHum(int maxHum) {
+        this.maxHum = maxHum;
+    }
+
+    public void setMinBright(int minBright) {
+        this.minBright = minBright;
+    }
+
+    public void setMaxBright(int maxBright) {
+        this.maxBright = maxBright;
+    }
+
     public void setEnviro(Map<String, Integer> latest) {
         this.latestTemp = latest.get("temp");
         this.latestHum = latest.get("hum");

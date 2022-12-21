@@ -90,7 +90,7 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div class="sensor-box" sensor-id="123451">
+                        <div th:each="pantryZone, iStat: ${pantryZones}" class="sensor-box" th:sensor-box-code="${pantryZone.sensorBoxCode}">
                             <img src='/icons/sensor-box.png'
                                     class="sensor-box-image"
                                     alt="sensor box icon"
@@ -98,19 +98,19 @@
                             <div class="sensor-box-text">
                                 <h4>
                                     Location:
-                                    <span class="pantry-zone-name">Fridge</span>
+                                    <span th:text="${pantryZone.name}" class="pantry-zone-name"></span>
                                 </h4>
                                 <h4>
                                     Temperature:
-                                    <span class="sensorBox-temp">10*</span>
+                                    <span th:text="${pantryZone.latestTemp + ' RH '}" class="sensorBox-temp"></span>
                                 </h4>
                                 <h4>
                                     Humidity:
-                                    <span class="sensorBox-hum">50%</span>
+                                    <span th:text="${pantryZone.latestHum + ' RH '}" class="sensorBox-hum"></span>
                                 </h4>
                                 <h4>
                                     Brightness:
-                                    <span class="sensorBox-Brightness">10lum</span>
+                                    <span th:text="${pantryZone.latestBright + ' LUM '}" class="sensorBox-Brightness"></span>
                                 </h4>
                             </div>
                         </div>
@@ -124,23 +124,22 @@
                             <div class="modal-body">
                                 <form method="POST" action="/profile/editSensorBox">
                                     <label for="sensor-id">Sensor Box ID</label>
-                                    <input type="text" id="sensor-id" name="sensor-box-id" disabled/>
-                                    <label for="new-pantry-zone">New Location</label>
+                                    <input type="text" id="sensor-id" name="sensor-box-code" disabled/>
+                                    <label for="new-pantry-zone">Location</label>
                                     <select id="new-pantry-zone" name="pantry-zone">
-                                        <option value="" disabled selected>Select Pantry Zone</option>
                                     </select>
                                     <label for="temp-lower-limit">Temperature Lower Limit</label>
-                                    <input type="number" id="temp-lower-limit" name="temp-lower-limit" placeholder="Lower Limit"/>
+                                    <input type="number" id="temp-lower-limit" name="temp-lower-limit" value="${pantryZone.minTemp}"/>
                                     <label for="temp-upper-limit">Temperature Upper Limit</label>
-                                    <input type="number" id="temp-upper-limit" name="temp-upper-limit" placeholder="Upper Limit"/>
+                                    <input type="number" id="temp-upper-limit" name="temp-upper-limit" value="${pantryZone.maxTemp}"/>
                                     <label for="hum-lower-limit">Humidity Lower Limit</label>
-                                    <input type="number" id="hum-lower-limit" name="hum-lower-limit" placeholder="Lower Limit"/>
+                                    <input type="number" id="hum-lower-limit" name="hum-lower-limit" value="${pantryZone.minHum}"/>
                                     <label for="hum-upper-limit">Humidity Upper Limit</label>
-                                    <input type="number" id="hum-upper-limit" name="hum-upper-limit" placeholder="Upper Limit"/>
+                                    <input type="number" id="hum-upper-limit" name="hum-upper-limit" value="${pantryZone.maxHum}"/>
                                     <label for="brightness-lower-limit">Brightness Lower Limit</label>
-                                    <input type="number" id="brightness-lower-limit" name="brightness-lower-limit" placeholder="Lower Limit"/>
+                                    <input type="number" id="brightness-lower-limit" name="brightness-lower-limit" value="${pantryZone.minBright}"/>
                                     <label for="brightness-upper-limit">Brightness Upper Limit</label>
-                                    <input type="number" id="brightness-upper-limit" name="brightness-upper-limit" placeholder="Upper Limit"/>
+                                    <input type="number" id="brightness-upper-limit" name="brightness-upper-limit" value="${pantryZone.maxBright}"/>
                                     <input type="submit" value="submit" />
                                 </form>
                             </div>

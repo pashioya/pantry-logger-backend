@@ -63,7 +63,7 @@ if(modal) {
     for (let i = 0; i < sensorBox.length; i++) {
         sensorBox[i].onclick = function () {
             editSensorBoxModal.style.display = "block";
-            let selectedId = sensorBox[i].getAttribute("sensor-id");
+            let selectedId = sensorBox[i].getAttribute("sensor-box-code");
             let sensorBoxId = document.getElementById("sensor-id");
             sensorBoxId.value = selectedId;
         }
@@ -101,5 +101,5 @@ if(selectPantryZone) {
         document.getElementById("no-zones-error").style.display = "block";
     }
 }
-// console.log(sensorBox.getAttribute("sensor-id"));
-// document.getElementById("sensor-id").value = 12345;
+// console.log(sensorBox.getAttribute("sensor-box-code"));
+// document.getElementById("sensor-box-code").value = 12345;

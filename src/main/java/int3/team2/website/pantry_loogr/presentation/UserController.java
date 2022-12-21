@@ -184,4 +184,52 @@ public class UserController {
         return "redirect:/profile";
     }
 
+//    delete sensor box
+    @RequestMapping(
+            value="/deleteSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String deleteSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        PantryZone pantryzone = pantryZoneService.get(Integer.parseInt(sensorBoxData.get("pantry-zone").get(0)));
+
+        pantryzone.setSensorBoxCode(null);
+        pantryZoneService.update(pantryzone);
+        return "redirect:/profile";
+    }
+
+
+    @RequestMapping(
+            value="/editSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String editSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        String sensorBoxCode = sensorBoxData.get("sensor-box-code").get(0);
+        PantryZone pantryzone = pantryZoneService.getBySensorBoxCode(sensorBoxCode);
+
+        if(!pantryzone.getSensorBoxCode().equals(sensorBoxCode)) {
+            pantryzone.setSensorBoxCode(sensorBoxCode);
+            pantryZoneService.update(pantryzone);
+        }
+
+        pantryzone.setMaxTemp(Integer.parseInt(sensorBoxData.get("temp-upper-limit").get(0)));
+        pantryzone.setMinTemp(Integer.parseInt(sensorBoxData.get("temp-lower-limit").get(0)));
+        pantryzone.setMaxHum(Integer.parseInt(sensorBoxData.get("humidity-upper-limit").get(0)));
+        pantryzone.setMinHum(Integer.parseInt(sensorBoxData.get("humidity-lower-limit").get(0)));
+        pantryzone.setMaxBright(Integer.parseInt(sensorBoxData.get("light-upper-limit").get(0)));
+        pantryzone.setMinBright(Integer.parseInt(sensorBoxData.get("light-lower-limit").get(0)));
+
+        pantryZoneService.update(pantryzone);
+        return "redirect:/profile";
+    }
+
 }

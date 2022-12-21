@@ -65,7 +65,7 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
     @Override
     public int getLatestTemp(int pantryZoneId) {
         try {
-            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA WHERE PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'TEMPERATURE' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapRow, pantryZoneId);
+            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'TEMPERATURE' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapRow, pantryZoneId);
             return sensorData.getValue();
         } catch (EmptyResultDataAccessException e) {
             return 0;

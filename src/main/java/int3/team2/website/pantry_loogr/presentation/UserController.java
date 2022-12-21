@@ -1,8 +1,10 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 import int3.team2.website.pantry_loogr.domain.EndUser;
+import int3.team2.website.pantry_loogr.domain.PantryZone;
 import int3.team2.website.pantry_loogr.presentation.helper.DataItem;
 import int3.team2.website.pantry_loogr.presentation.helper.HtmlItems;
+import int3.team2.website.pantry_loogr.service.PantryZoneService;
 import int3.team2.website.pantry_loogr.service.TagService;
 import int3.team2.website.pantry_loogr.service.UserService;
 import org.slf4j.LoggerFactory;
@@ -29,10 +31,13 @@ public class UserController {
     private UserService userService;
     private TagService tagService;
 
-    public UserController(UserService userService, TagService tagService) {
+    private PantryZoneService pantryZoneService;
+
+    public UserController(UserService userService, TagService tagService, PantryZoneService pantryZoneService) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.userService = userService;
         this.tagService = tagService;
+        this.pantryZoneService = pantryZoneService;
     }
 
 
@@ -51,6 +56,7 @@ public class UserController {
         model.addAttribute("username", user.getUsername());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("tagMap", tagService.getTagsByUserRelationship(user.getId()));
+        model.addAttribute("pantryZones", pantryZoneService.getAllForUser(user.getId()));
         return "profile";
     }
 
@@ -155,6 +161,74 @@ public class UserController {
         user.setPassword(password);
         httpSession.setAttribute("password", password);
         userService.updateUser(user);
+        return "redirect:/profile";
+    }
+
+
+
+    @RequestMapping(
+            value="/addSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String addSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        String sensorBoxCode = sensorBoxData.get("sensor-box-code").get(0);
+        PantryZone pantryzone = pantryZoneService.get(Integer.parseInt(sensorBoxData.get("pantry-zone").get(0)));
+
+        pantryzone.setSensorBoxCode(sensorBoxCode);
+        pantryZoneService.update(pantryzone);
+        return "redirect:/profile";
+    }
+
+//    delete sensor box
+    @RequestMapping(
+            value="/deleteSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String deleteSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        PantryZone pantryzone = pantryZoneService.get(Integer.parseInt(sensorBoxData.get("pantry-zone").get(0)));
+
+        pantryzone.setSensorBoxCode(null);
+        pantryZoneService.update(pantryzone);
+        return "redirect:/profile";
+    }
+
+
+    @RequestMapping(
+            value="/editSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String editSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        String sensorBoxCode = sensorBoxData.get("sensor-box-code").get(0);
+        PantryZone pantryzone = pantryZoneService.getBySensorBoxCode(sensorBoxCode);
+
+        if(!pantryzone.getSensorBoxCode().equals(sensorBoxCode)) {
+            pantryzone.setSensorBoxCode(sensorBoxCode);
+            pantryZoneService.update(pantryzone);
+        }
+
+        pantryzone.setMaxTemp(Integer.parseInt(sensorBoxData.get("temp-upper-limit").get(0)));
+        pantryzone.setMinTemp(Integer.parseInt(sensorBoxData.get("temp-lower-limit").get(0)));
+        pantryzone.setMaxHum(Integer.parseInt(sensorBoxData.get("humidity-upper-limit").get(0)));
+        pantryzone.setMinHum(Integer.parseInt(sensorBoxData.get("humidity-lower-limit").get(0)));
+        pantryzone.setMaxBright(Integer.parseInt(sensorBoxData.get("light-upper-limit").get(0)));
+        pantryzone.setMinBright(Integer.parseInt(sensorBoxData.get("light-lower-limit").get(0)));
+
+        pantryZoneService.update(pantryzone);
         return "redirect:/profile";
     }
 

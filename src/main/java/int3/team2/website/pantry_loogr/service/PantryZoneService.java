@@ -11,5 +11,9 @@ public interface PantryZoneService {
     List<PantryZone> getAll();
     List<PantryZone> getAllForUser(int userID);
     PantryZone get(int pantryZoneID);
-    List<PantryZone> add(PantryZone pantryZone);
+    PantryZone add(PantryZone pantryZone);
+
+    void update(PantryZone pantryzone);
+
+    PantryZone getBySensorBoxCode(String sensorBoxCode);
 }

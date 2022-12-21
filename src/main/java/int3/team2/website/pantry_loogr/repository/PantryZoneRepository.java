@@ -11,4 +11,9 @@ public interface PantryZoneRepository {
     PantryZone get(int id);
     List<PantryZone> getAll();
     List<PantryZone> getAllForUser(int userId);
+
+    PantryZone create(PantryZone pantryzone);
+    void update(PantryZone pantryzone);
+
+    PantryZone getBySensorBoxCode(String sensorBoxCode);
 }

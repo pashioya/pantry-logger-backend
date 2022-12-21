@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,6 +46,12 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
     }
 
     @Override
+    public PantryZone getBySensorBoxCode(String sensorBoxCode) {
+        PantryZone pantryZone = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where SENSOR_BOX_CODE = ?", this::mapRow, sensorBoxCode).get(0);
+        return pantryZone;
+    }
+
+    @Override
     public List<PantryZone> getAll() {
         List<PantryZone> pantryZones = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES", this::mapRow);
         return pantryZones;
@@ -54,5 +61,36 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
     public List<PantryZone> getAllForUser(int userId) {
         String sql = "SELECT * FROM PANTRY_ZONES WHERE USER_ID = ?";
         return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userId), this::mapRow);
+    }
+
+    @Override
+    public PantryZone create(PantryZone pantryzone) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("NAME", pantryzone.getName());
+        parameters.put("MIN_TEMP", pantryzone.getMinTemp());
+        parameters.put("MAX_TEMP", pantryzone.getMaxTemp());
+        parameters.put("MIN_HUM", pantryzone.getMinHum());
+        parameters.put("MAX_HUM", pantryzone.getMaxHum());
+        parameters.put("MIN_BRIGHT", pantryzone.getMinBright());
+        parameters.put("MAX_BRIGHT", pantryzone.getMaxBright());
+        pantryzone.setId(inserter.executeAndReturnKey(parameters).intValue());
+        return pantryzone;
+    }
+
+    @Override
+    public void update(PantryZone pantryzone) {
+        jdbcTemplate.update(
+                "UPDATE PANTRY_ZONES SET " +
+                        "NAME = ?, " +
+                        "SENSOR_BOX_CODE = ?, " +
+                        "MIN_TEMP = ?," +
+                        "MAX_TEMP = ?, " +
+                        "MIN_HUM = ?," +
+                        "MAX_HUM = ?, " +
+                        "MIN_BRIGHT = ?," +
+                        "MAX_BRIGHT = ? " +
+                    "WHERE PANTRY_ZONES.ID = ?;",
+                pantryzone.getName(), pantryzone.getSensorBoxCode(), pantryzone.getMinTemp(), pantryzone.getMaxTemp(), pantryzone.getMinHum(), pantryzone.getMaxHum(), pantryzone.getMinBright(), pantryzone.getMaxBright(), pantryzone.getId()
+        );
     }
 }

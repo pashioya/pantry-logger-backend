@@ -26,26 +26,18 @@ public class SensorDataApiControler {
         this.pantryZoneService = pantryZoneService;
         this.sensorDataService = sensorDataService;
     }
-    @GetMapping("/{pantryZoneID}/time_stamp/{timestamp}/temp/{temp}/hum/{hum}/bright/{bright}")
-    //@GetMapping("/{pantryZoneID}/temp/{temp}/hum/{hum}/bright/{bright}")
-    public String insertData(@PathVariable int pantryZoneID, @PathVariable String timestamp, @PathVariable int temp, @PathVariable int hum, @PathVariable int bright) {
-        PantryZone pantryZone = pantryZoneService.get(pantryZoneID);
+    @GetMapping("/{sensorBoxCode}/temp/{temp}/hum/{hum}/bright/{bright}")
+    public String insertData(@PathVariable String sensorBoxCode, @PathVariable int temp, @PathVariable int hum, @PathVariable int bright) {
+        PantryZone pantryZone = pantryZoneService.getBySensorBoxCode(sensorBoxCode);
         if(pantryZone == null) {
             return "Pantry Zone Not Found";
         }
 
-        System.out.println(timestamp);
+        LocalDateTime dateTime = LocalDateTime.now();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime dateTime = LocalDateTime.parse(timestamp, formatter);
-
-        System.out.println(dateTime);
-
-        System.out.println(temp);
-        //System.out.println(sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("TEMPERATURE"), temp), pantryZone.getId()).getType());
-        sensorDataService.add(new SensorData(LocalDateTime.now(), SensorType.valueOf("TEMPERATURE"), temp), pantryZone.getId());
-        sensorDataService.add(new SensorData(LocalDateTime.now(), SensorType.valueOf("HUMIDITY"), hum), pantryZone.getId());
-        sensorDataService.add(new SensorData(LocalDateTime.now(), SensorType.valueOf("BRIGHTNESS"), bright), pantryZone.getId());
+        sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("TEMPERATURE"), temp), pantryZone.getId());
+        sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("HUMIDITY"), hum), pantryZone.getId());
+        sensorDataService.add(new SensorData(dateTime, SensorType.valueOf("BRIGHTNESS"), bright), pantryZone.getId());
 
         return "success";
     }

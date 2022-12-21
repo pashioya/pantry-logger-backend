@@ -99,6 +99,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapIngredientRow
         );
     }
+
+
+
     @Override
     public List<Ingredient> findIngredientsByUser(int userID) {
         String sql = "SELECT " +
@@ -220,6 +223,21 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 this::mapPantryZoneProductRow
         );
     }
+
+    @Override
+    public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
+        String sql = "SELECT INGREDIENTS.*" +
+                    "FROM INGREDIENTS " +
+                    "JOIN PRODUCTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                    "JOIN PANTRY_ZONE_PRODUCTS ON PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
+                    "JOIN PANTRY_ZONES ON PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = PANTRY_ZONES.ID " +
+                    "WHERE DATE_ENTERED < CURRENT_DATE - interval '1 week' AND USER_ID = ?";
+        return jdbcTemplate.query(sql,
+                preparedStatement -> preparedStatement.setInt(1, userId),
+                this::mapIngredientRow
+        );
+    }
+
     @Override
     public void updatePantryZoneProduct(PantryZoneProduct product) {
         jdbcTemplate.update(

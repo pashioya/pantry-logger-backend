@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Difficulty;
+import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
 import int3.team2.website.pantry_loogr.repository.RecipeRepository;
@@ -63,4 +64,11 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getByTime(Time time) {
         return recipeRepository.findByTime(time);
     }
+
+    @Override
+    public List<Recipe> getRecipeByIngredient(List<Ingredient> ingredients) {
+        return recipeRepository.getRecipeByIngredient(ingredients);
+    }
+
+
 }

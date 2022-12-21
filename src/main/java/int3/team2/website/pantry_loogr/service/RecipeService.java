@@ -1,6 +1,7 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Difficulty;
+import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.Recipe;
 import int3.team2.website.pantry_loogr.domain.Time;
 
@@ -13,5 +14,5 @@ public interface RecipeService {
     List<Recipe> getByName(String name);
     List<Recipe> getByDifficulty(Difficulty difficulty);
     List<Recipe> getByTime(Time time);
-
+    List<Recipe> getRecipeByIngredient(List<Ingredient> ingredients);
 }

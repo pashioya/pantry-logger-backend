@@ -41,6 +41,13 @@ public class ShoppingListServiceImpl implements ShoppingListService {
     public ShoppingList removeIngredientByAmount(int shoppingListId, int ingredientId, int amount) {
         return shoppingListRepository.removeIngredientByAmount(shoppingListId, ingredientId, amount);
     }
+
+    @Override
+    public ShoppingList removeIngredient(int shoppingListId, int ingredientId) {
+        return shoppingListRepository.removeIngredient(shoppingListId, ingredientId);
+    }
+
+
     @Override
     public ShoppingList add(int userId, ShoppingList shoppingList) {
         return shoppingListRepository.add(userId, shoppingList);

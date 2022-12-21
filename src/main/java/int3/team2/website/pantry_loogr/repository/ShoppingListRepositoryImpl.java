@@ -81,6 +81,16 @@ public class ShoppingListRepositoryImpl implements ShoppingListRepository{
             return null;
         }
     }
+
+    @Override
+    public ShoppingList removeIngredient(int shoppingListId, int ingredientId) {
+        jdbcTemplate.update(
+                "DELETE FROM SHOPPING_LIST_INGREDIENTS WHERE INGREDIENT_ID = ? AND SHOPPING_LIST_ID = ?;",
+                ingredientId, shoppingListId
+        );
+        return null;
+    }
+
     @Override
     public void addIngredientByAmount(int shoppingListId, int ingredientId, int amount) {
         Map<String, Object> parameters = new HashMap<>();

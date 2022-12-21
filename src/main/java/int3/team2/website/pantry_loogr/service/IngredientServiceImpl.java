@@ -126,6 +126,11 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
+        return ingredientRepository.getProductsEnteredAWeekAgo(userId);
+    }
+
+    @Override
     public void addShoppingListIngredients(int shoppingListId,  Map<Ingredient, Integer> shoppingListIngredients) {
         ingredientRepository.addToShoppingListIngredients(shoppingListId, shoppingListIngredients);
     }

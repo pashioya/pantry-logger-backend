@@ -180,15 +180,19 @@ public class RecipeController {
                 new DataItem(HtmlItems.REFRESH),
                 new DataItem(HtmlItems.CREATE_RECIPE)
         )));
-
-        List<Recipe> recipes = recipeService.getAll(); //fetches all recipes
-        recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
-
-        List<Ingredient> ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId()); //fetches the ingredients in the user's pantry
         user.setLikes(tagService.getLikesByUserId(user.getId()));
         user.setDislikes(tagService.getDislikesByUserId(user.getId()));
+
+        List<Recipe> recipes;
+        List<Ingredient> ingredientsInPantry = ingredientService.getProductsEnteredAWeekAgo(user.getId());
+        if (ingredientsInPantry.size() > 0) {
+            recipes = recipeService.getRecipeByIngredient(ingredientsInPantry);
+        } else {
+            ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
+            recipes = recipeService.getRecipeByIngredient(ingredientsInPantry);
+        }
+        recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
         List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
-        //makes a recommendation based on user preference and the ingredients in the user's pantry
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
 

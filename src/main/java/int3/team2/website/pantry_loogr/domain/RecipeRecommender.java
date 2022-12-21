@@ -1,10 +1,9 @@
 package int3.team2.website.pantry_loogr.domain;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * The RecipeRecommender is a static class that uses information like ingredients in the pantry and the user's preference to give recipe recommendation
@@ -24,6 +23,17 @@ public class RecipeRecommender {
         recipes.removeIf(recipe -> getTagPoints(recipe, user) == -1);
         Map<Integer, Recipe> points = new HashMap<>();
         recipes.forEach(recipe -> points.put(countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, user), recipe));
+
+        TreeMap<Integer, Recipe> sorted = new TreeMap<>(Collections.reverseOrder());
+        sorted.putAll(points);
+
+        return new ArrayList<>(sorted.values());
+    }
+
+    public static List<Recipe> filter(List<Recipe> recipes, EndUser user) {
+        recipes.removeIf(recipe -> getTagPoints(recipe, user) == -1);
+        Map<Integer, Recipe> points = new HashMap<>();
+        recipes.forEach(recipe -> points.put(getTagPoints(recipe, user), recipe));
 
         TreeMap<Integer, Recipe> sorted = new TreeMap<>(Collections.reverseOrder());
         sorted.putAll(points);

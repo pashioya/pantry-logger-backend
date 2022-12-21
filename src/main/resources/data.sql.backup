@@ -227,8 +227,6 @@ VALUES (3, 1),
        (5, 2),
        (5, 4);
 
-
-
 INSERT INTO INGREDIENT_TAGS(INGREDIENT_ID, TAG_ID)
 VALUES (3, 5),
        (4, 5),

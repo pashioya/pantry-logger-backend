@@ -68,7 +68,7 @@ CREATE TABLE END_USERS
     LAST_NAME      VARCHAR(255),
     CITY           VARCHAR(255),
     STATE_REGION   VARCHAR(255),
-    "ZIP"          VARCHAR(255),
+    "zip"          VARCHAR(255),
     COUNTRY        VARCHAR(255),
     CURRENT_RECIPE INTEGER      NOT NULL
 );

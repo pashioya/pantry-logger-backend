@@ -102,11 +102,11 @@
                                 </h4>
                                 <h4>
                                     Temperature:
-                                    <span th:text="${pantryZone.latestTemp + ' RH '}" class="sensorBox-temp"></span>
+                                    <span th:text="${pantryZone.latestTemp + '° '}" class="sensorBox-temp"></span>
                                 </h4>
                                 <h4>
                                     Humidity:
-                                    <span th:text="${pantryZone.latestHum + ' RH '}" class="sensorBox-hum"></span>
+                                    <span th:text="${pantryZone.latestHum + '% '}" class="sensorBox-hum"></span>
                                 </h4>
                                 <h4>
                                     Brightness:
@@ -122,7 +122,7 @@
                                 <span class="modal-title">Edit Sensor Box</span>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="/profile/editSensorBox">
+                                <form method="POST" action="/profile/editSensorBox" id="edit-sensor-box-modal">
                                     <label for="sensor-id">Sensor Box ID</label>
                                     <input type="text" id="sensor-id" name="sensor-box-code" disabled/>
                                     <label for="new-pantry-zone">Location</label>

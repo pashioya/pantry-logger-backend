@@ -168,7 +168,12 @@ public class ItemsController {
             return "redirect:/login";
         }
         logger.debug(pantryZoneData.toString());
-        user.getPantryZones().add(new PantryZone(user.getPantryZones().size()+1,pantryZoneData.get("newPantryZoneName").get(0)));
+
+        pantryZoneService.add(new PantryZone(
+                user.getId(),
+                pantryZoneData.get("newPantryZoneName").get(0)
+        ));
+
         userService.updateUser(user);
         return "redirect:pantry-zones";
     }

@@ -184,7 +184,7 @@ public class UserController {
         return "redirect:/profile";
     }
 
-//    delete sensor box
+
     @RequestMapping(
             value="/deleteSensorBox",
             method= RequestMethod.POST,

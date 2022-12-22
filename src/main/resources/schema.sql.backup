@@ -1,3 +1,24 @@
+drop type sensor_type cascade;
+drop table recipe_ingredients cascade;
+drop table ingredient_tags cascade;
+drop table recipe_tags cascade;
+drop table recipes cascade;
+drop type recipe_difficulty cascade;
+drop type recipe_time cascade;
+drop table sensor_data cascade;
+drop table user_preferences cascade;
+drop table tags cascade;
+drop type flag cascade;
+drop table pantry_zone_products cascade;
+drop table pantry_zones cascade;
+drop table products cascade;
+drop table shopping_list_ingredients cascade;
+drop table ingredients cascade;
+drop table shopping_lists cascade;
+drop table end_users cascade;
+
+
+
 CREATE TYPE FLAG AS ENUM ('ALLERGEN', 'CUISINE', 'GENERAL');
 CREATE TYPE RECIPE_DIFFICULTY AS ENUM ('EASY', 'MEDIUM', 'HARD');
 CREATE TYPE RECIPE_TIME AS ENUM ('QUICK', 'MEDIUM', 'LONG');

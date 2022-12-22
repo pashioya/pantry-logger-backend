@@ -47,7 +47,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.HEADER_TITLES),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -110,7 +110,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.HEADER_TITLES),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -140,7 +140,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.HEADER_TITLES),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -170,11 +170,9 @@ public class ItemsController {
         logger.debug(pantryZoneData.toString());
 
         pantryZoneService.add(new PantryZone(
-                user.getId(),
-                pantryZoneData.get("newPantryZoneName").get(0)
+                pantryZoneData.get("newPantryZoneName").get(0),
+                user.getId(),0,0,0,0,0,0
         ));
-
-        userService.updateUser(user);
         return "redirect:pantry-zones";
     }
 

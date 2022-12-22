@@ -45,7 +45,7 @@
                     </form>
                 </div>
 
-                <div id="password-modal" class="modal">
+                <div id="password-modal" class="modal" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <span class="close">&times;</span>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div th:each="pantryZone, iStat: ${pantryZones}" class="sensor-box" th:sensor-box-code="${pantryZone.sensorBoxCode}">
+                        <div th:each="pantryZone, iStat: ${pantryZones}" th:class="${pantryZone.enviroOutOfRange ? 'enviroOutOfRange sensor-box' : 'sensor-box'}">
                             <img src='/icons/sensor-box.png'
                                     class="sensor-box-image"
                                     alt="sensor box icon"
@@ -113,44 +113,45 @@
                                     <span th:text="${pantryZone.latestBright + ' LUM '}" class="sensorBox-Brightness"></span>
                                 </h4>
                             </div>
+                            <div class="modal" id="sensor-box-editor-modal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span class="close">&times;</span>
+                                        <span class="modal-title">Edit Sensor Box</span>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/profile/editSensorBox" id="edit-sensor-box-modal">
+                                            <label for="sensor-id">Sensor-ID</label>
+                                            <input type="text" id="sensor-id" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}"/>
+                                            <label for="new-pantry-zone" >Location</label>
+                                            <select id="new-pantry-zone" name="new-pantry-zone" th:selected="${pantryZone.getName()}" >
+                                                <option th:each="pantryZone : ${pantryZones}" th:value="${pantryZone.id}" th:text="${pantryZone.name}"></option>
+                                            </select>
+                                            <label for="temp-lower-limit">Temperature Lower Limit</label>
+                                            <input type="number" id="temp-lower-limit" name="temp-lower-limit" th:value="${pantryZone.getMinTemp()}"/>
+                                            <label for="temp-upper-limit">Temperature Upper Limit</label>
+                                            <input type="number" id="temp-upper-limit" name="temp-upper-limit" th:value="${pantryZone.getMaxTemp()}"/>
+                                            <label for="hum-lower-limit">Humidity Lower Limit</label>
+                                            <input type="number" id="hum-lower-limit" name="hum-lower-limit" th:value="${pantryZone.getMinHum()}"/>
+                                            <label for="hum-upper-limit">Humidity Upper Limit</label>
+                                            <input type="number" id="hum-upper-limit" name="hum-upper-limit" th:value="${pantryZone.getMaxHum()}"/>
+                                            <label for="bright-lower-limit">Brightness Lower Limit</label>
+                                            <input type="number" id="bright-lower-limit" name="bright-lower-limit" th:value="${pantryZone.getMinBright()}"/>
+                                            <label for="bright-upper-limit">Brightness Upper Limit</label>
+                                            <input type="number" id="bright-upper-limit" name="bright-upper-limit" th:value="${pantryZone.getMaxBright()}"/>
+                                            <input type="submit" value="submit" />
+                                        </form>
+                                    </div>
+                                </div>
                         </div>
                     </div>
-                    <div class="modal" id="sensor-box-editor-modal" >
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <span class="close">&times;</span>
-                                <span class="modal-title">Edit Sensor Box</span>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" action="/profile/editSensorBox" id="edit-sensor-box-modal">
-                                    <label for="sensor-id">Sensor Box ID</label>
-                                    <input type="text" id="sensor-id" name="sensor-box-code" disabled/>
-                                    <label for="new-pantry-zone">Location</label>
-                                    <select id="new-pantry-zone" name="pantry-zone">
-                                    </select>
-                                    <label for="temp-lower-limit">Temperature Lower Limit</label>
-                                    <input type="number" id="temp-lower-limit" name="temp-lower-limit" value="${pantryZone.minTemp}"/>
-                                    <label for="temp-upper-limit">Temperature Upper Limit</label>
-                                    <input type="number" id="temp-upper-limit" name="temp-upper-limit" value="${pantryZone.maxTemp}"/>
-                                    <label for="hum-lower-limit">Humidity Lower Limit</label>
-                                    <input type="number" id="hum-lower-limit" name="hum-lower-limit" value="${pantryZone.minHum}"/>
-                                    <label for="hum-upper-limit">Humidity Upper Limit</label>
-                                    <input type="number" id="hum-upper-limit" name="hum-upper-limit" value="${pantryZone.maxHum}"/>
-                                    <label for="brightness-lower-limit">Brightness Lower Limit</label>
-                                    <input type="number" id="brightness-lower-limit" name="brightness-lower-limit" value="${pantryZone.minBright}"/>
-                                    <label for="brightness-upper-limit">Brightness Upper Limit</label>
-                                    <input type="number" id="brightness-upper-limit" name="brightness-upper-limit" value="${pantryZone.maxBright}"/>
-                                    <input type="submit" value="submit" />
-                                </form>
-                            </div>
-                        </div>
                     </div>
 
                     <button class="button" id="add-sensor-box-btn">
                         Add Sensor Box
                     </button>
 
-                    <div id="add-sensor-box-modal" class="modal">
+                    <div id="add-sensor-box-modal" class="modal" >
                         <div class="modal-content">
                             <div class="modal-header">
                                 <span class="close">&times;</span>
@@ -161,11 +162,8 @@
                                     <label for="sensor-box-code"> Sensor Box Code</label>
                                     <input required type="text" id="sensor-box-code" name="sensor-box-code"/>
                                     <label for="select-pantry-zone">Choose Pantry Zone</label>
-                                    <select th:if="${pantryZones.isEmpty()}" name="pantry-zone">
-                                        <option value="" disabled selected>Select Pantry Zone</option>
-                                    </select>
                                     <select th:unless="${pantryZones.isEmpty()}" id="select-pantry-zone" name="pantry-zone">
-                                        <option></option>
+                                        <option value="" disabled selected>Select Pantry Zone</option>-->
                                         <option th:each="pantryZone:${pantryZones}" th:value="${pantryZone.id}" th:text="${pantryZone.name}">
                                     </select>
                                     <div id="no-zones-error" class="error"> No Pantry Zones Added</div>

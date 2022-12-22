@@ -1135,7 +1135,20 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     flex-direction: row-reverse;
     padding: 5px 5px 0 0;
 }
-/* recipe look when in list form */
+
+.current-recipe{
+    -webkit-box-shadow: 0 0 10px 5px var(--dark-color-transparent) !important;
+}
+
+/*disable cook this button*/
+.current-recipe > .cook-this{
+    display: none;
+    pointer-events: none;
+}
+.current-recipe > .cook-this div{
+    display: none;
+}
+
 /* reccomandations stop*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/

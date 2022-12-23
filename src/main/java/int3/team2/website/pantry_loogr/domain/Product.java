@@ -6,10 +6,10 @@ package int3.team2.website.pantry_loogr.domain;
  * it also holds how much of that product is in one pack and what barCode it is associated to
  */
 public class Product extends Ingredient {
-    protected int productId;
     protected String productName;
     protected String code;
     protected int size;
+    protected int productId;
 
     /**
      * Constructor to create a new Product before it is inserted into the database.
@@ -36,12 +36,36 @@ public class Product extends Ingredient {
      * @param size teh quantity of the product in one pack
      * @param imagePath used to tie the ingredient to the image
      */
-    public Product(int id, int productId, String name, String productName, String code, int size, String imagePath) {
-        super(id, name, imagePath);
+
+    public Product(int ingredientId, String name, String productName, String code, int size, String imagePath) {
+        super(ingredientId, name, imagePath);
+        this.productName = productName;
+        this.code = code;
+        this.size = size;
+    }
+
+    public Product(int ingredientId, int productId, String name, String productName, String code, int size, String imagePath) {
+        super(ingredientId, name, imagePath);
         this.productId = productId;
         this.productName = productName;
         this.code = code;
         this.size = size;
+    }
+
+    public Product(Product product) {
+        super(product.getIngredient()) ;
+        this.productId = product.getProductId();
+        this.productName = product.getProductName();
+        this.size = product.getSize();
+        this.code = product.getCode();
+    }
+
+    public Product(Ingredient ingredient, int productId, String productName, int size, String code) {
+        super(ingredient);
+        this.productId = productId;
+        this.productName = productName;
+        this.size = size;
+        this.code = code;
     }
 
 
@@ -64,7 +88,24 @@ public class Product extends Ingredient {
         return size;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getProductId() { return productId; }
+
+    public void setProductId(int id) {this.productId = id;}
+
+    public Ingredient getIngredient() {
+        return new Ingredient(this.id, this.name, this.imagePath);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productName='" + productName + '\'' +
+                ", code='" + code + '\'' +
+                ", size=" + size +
+                ", productId=" + productId +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                '}';
     }
 }

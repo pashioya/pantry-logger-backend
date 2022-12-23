@@ -44,6 +44,12 @@ public class Ingredient {
         this.imagePath = imagePath;
     }
 
+    public Ingredient(Ingredient ingredient) {
+        this.id = ingredient.id;
+        this.name = ingredient.name;
+        this.imagePath = ingredient.imagePath;
+    }
+
     public int getId() {
         return id;
     }

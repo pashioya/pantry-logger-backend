@@ -17,8 +17,16 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
     private SimpleJdbcInsert inserter;
     private List<Recipe> recipeList = new ArrayList<>();
 
+    public PantryZoneRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.inserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("PANTRY_ZONES")
+                .usingGeneratedKeyColumns("ID");
+    }
+
     private PantryZone mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new PantryZone(rs.getInt("ID"),
+        return new PantryZone(
+                rs.getInt("ID"),
                 rs.getString("NAME"),
                 rs.getInt("MIN_TEMP"),
                 rs.getInt("MAX_TEMP"),
@@ -26,14 +34,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
                 rs.getInt("MAX_HUM"),
                 rs.getInt("MIN_BRIGHT"),
                 rs.getInt("MAX_BRIGHT")
-                );
-    }
-
-    public PantryZoneRepositoryImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.inserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("PANTRY_ZONES")
-                .usingGeneratedKeyColumns("ID");
+        );
     }
 
     @Override

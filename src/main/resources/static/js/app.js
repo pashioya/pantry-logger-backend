@@ -149,35 +149,29 @@ if (item_list) {
 }
 
 // Scanner Page JS
-let itemscanback = document.getElementById("itemscan-back");
+const itemscan_back = document.getElementById("product-scan-back");
+const item_continue = document.getElementById("product-continue");
+const add_single_item = document.getElementById("add-single-item");
 
-if (itemscanback) {
-    console.log("here");
-    itemscanback.onclick = function () {
-        document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
-        console.log("back");
-    };
-    document.getElementById("item-continue").onclick = function () {
-        document.getElementsByTagName("body")[0].setAttribute("stage", "two");
-        console.log("continue");
-    };
-}
-
-
-// Scanner Page JS
-const itemscan_back = document.getElementById("itemscan-back");
 if (itemscan_back) {
     itemscan_back.onclick = function() {
         document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
-        console.log("back")
+        document.getElementsByClassName("selected-picture")[0].classList.remove("hidden");
     }
 }
-const item_continue = document.getElementById("item-continue");
+
+
+if (add_single_item) {
+    add_single_item.onclick = function () {
+        setStageTwo();
+        document.getElementsByClassName("selected-picture")[0].classList.add("hidden");
+    }
+}
+
+
 if (item_continue) {
     item_continue.onclick = function() {
         document.getElementsByTagName("body")[0].setAttribute("stage", "two");
-        console.log(document.getElementById("item-name").value)
-        console.log("continue")
     }
 }
 

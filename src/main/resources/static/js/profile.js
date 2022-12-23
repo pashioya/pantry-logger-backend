@@ -72,8 +72,8 @@ if(modal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
             addSensorBoxModal.style.display = "none";
-            for (let i = 0; i < sensorBox.length; i++) {
-                sensorBox[i].setAttribute("sensor-selected", "false");
+            for (let i = 0; i < editSensorBoxModal.length; i++) {
+
                 editSensorBoxModal[i].style.display = "none";
             }
         }

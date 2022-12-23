@@ -197,4 +197,8 @@ public class PantryZone {
     public String getSensorBoxCode() {
         return this.sensorBoxCode;
     }
+
+    public boolean isSelectedLocation(String location) {
+        return location.equals(this.name);
+    }
 }

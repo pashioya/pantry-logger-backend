@@ -190,6 +190,7 @@ public class ItemsController {
                 pantryZoneData.get("newPantryZoneName").get(0),
                 user.getId(),0,0,0,0,0,0
         ));
+
         return "redirect:pantry-zones";
     }
 

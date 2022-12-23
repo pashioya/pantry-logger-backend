@@ -38,7 +38,7 @@ let modal = document.getElementsByClassName("modal");
 let passwordModal = document.getElementById("password-modal");
 let editProfileModal = document.getElementById("edit-profile-modal");
 let addSensorBoxModal = document.getElementById("add-sensor-box-modal");
-let editSensorBoxModal = document.getElementById("sensor-box-editor-modal");
+let editSensorBoxModal = document.getElementsByClassName("sensor-box-editor-modal");
 
 let editProfileBtn = document.getElementById("edit-profile-btn");
 let changePassBtn = document.getElementById("change-password-btn");
@@ -62,10 +62,7 @@ if(modal) {
 
     for (let i = 0; i < sensorBox.length; i++) {
         sensorBox[i].onclick = function () {
-            editSensorBoxModal.style.display = "block";
-            let selectedId = sensorBox[i].getAttribute("sensor-box-code");
-            let sensorBoxId = document.getElementById("sensor-id");
-            sensorBoxId.value = selectedId;
+            editSensorBoxModal[i].style.display = "block";
         }
     }
 
@@ -75,7 +72,10 @@ if(modal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
             addSensorBoxModal.style.display = "none";
-            editSensorBoxModal.style.display = "none";
+            for (let i = 0; i < editSensorBoxModal.length; i++) {
+
+                editSensorBoxModal[i].style.display = "none";
+            }
         }
     }
 
@@ -83,10 +83,11 @@ if(modal) {
         if (event.target === passwordModal || event.target === editProfileModal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
+            console.log("test");
         }
-        if(event.target === addSensorBoxModal || event.target === editSensorBoxModal) {
+        if(event.target === addSensorBoxModal) {
             addSensorBoxModal.style.display = "none";
-            editSensorBoxModal.style.display = "none";
+            console.log("test");
         }
     }
 }

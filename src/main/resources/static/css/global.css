@@ -1664,6 +1664,20 @@ body[id="profile"] > section > .profile-image > img{
     align-items: center;
 }
 
+.sensor-box[sensor-selected="true"] > .modal{
+    display: block;
+}
+.sensor-box[sensor-selected="false"] > .modal{
+    display: none;
+}
+
+.enviroOutOfRange[sensor-selected="false"] > .modal{
+    display: none;
+}
+.enviroOutOfRange[sensor-selected="true"] > .modal{
+    display: block;
+}
+
 /* The Close Button */
 .close {
     color: black;

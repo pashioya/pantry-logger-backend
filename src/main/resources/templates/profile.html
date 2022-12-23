@@ -90,7 +90,7 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div th:each="pantryZone, iStat: ${pantryZones}" th:class="${pantryZone.enviroOutOfRange ? 'enviroOutOfRange sensor-box' : 'sensor-box'}" sensor-selected="false">
+                        <div th:each="pantryZone, iStat: ${pantryZones}" th:class="${pantryZone.enviroOutOfRange ? 'sensor-box enviroOutOfRange ' : 'sensor-box'}" sensor-selected="false">
                             <img src='/icons/sensor-box.png'
                                     class="sensor-box-image"
                                     alt="sensor box icon"

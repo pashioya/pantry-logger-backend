@@ -69,7 +69,6 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
         parameters.put("MAX_HUM", pantryzone.getMaxHum());
         parameters.put("MIN_BRIGHT", pantryzone.getMinBright());
         parameters.put("MAX_BRIGHT", pantryzone.getMaxBright());
-
         pantryzone.setId(inserter.executeAndReturnKey(parameters).intValue());
         return pantryzone;
     }

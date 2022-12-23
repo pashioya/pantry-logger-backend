@@ -40,7 +40,7 @@ public class ScannerController {
         if(user == null) {
             return "redirect:/login";
         }
-        List<PantryZone> pantryZones = pantryZoneService.getAll();
+        List<PantryZone> pantryZones = pantryZoneService.getAllForUser(user.getId());
         model.addAttribute("pantryZones", pantryZones);
         model.addAttribute("title", "Scanner");
         model.addAttribute("ingredients", ingredientService.getAll());

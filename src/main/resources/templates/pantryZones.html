@@ -15,9 +15,9 @@
                 />
 
                 <h3 th:text="${pantryZone.name}"></h3>
-				<span class="pantry-temp" th:text="${pantryZone.latestTemp + ' C '}"></span>
-				<span class="pantry-hum" th:text="${pantryZone.latestHum + ' RH '}"></span>
-				<span class="pantry-brightness" th:text="${pantryZone.latestBright + ' '}"></span>
+                <span th:if="${pantryZone.sensorBoxCode != ''}" class="pantry-temp" th:text="${pantryZone.latestTemp + ' C '}"></span>
+                <span th:if="${pantryZone.sensorBoxCode != ''}" class="pantry-hum" th:text="${pantryZone.latestHum + ' RH '}"></span>
+                <span th:if="${pantryZone.sensorBoxCode != ''}" class="pantry-brightness" th:text="${pantryZone.latestBright + ' '}"></span>
             </div>
         </a>
     </div>

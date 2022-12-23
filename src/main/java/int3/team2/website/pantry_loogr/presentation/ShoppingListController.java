@@ -18,6 +18,9 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * allows the user to access his shoppingList
+ */
 @Controller
 @RequestMapping("/shoppinglist")
 public class ShoppingListController {

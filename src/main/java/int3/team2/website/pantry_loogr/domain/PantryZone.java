@@ -20,7 +20,6 @@ public class PantryZone {
     private int maxHum;
     private int minBright;
     private int maxBright;
-
     private int latestTemp;
     private int latestHum;
     private int latestBright;

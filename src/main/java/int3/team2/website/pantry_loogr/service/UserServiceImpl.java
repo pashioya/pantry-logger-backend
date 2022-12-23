@@ -46,7 +46,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-
+    /**
+     * checks if an account exists with that username and checks if the password is correct
+     */
     public EndUser authenticate(String username, String password) {
         if(this.usernameExists(username)) {
             EndUser user = this.getByUsername(username);

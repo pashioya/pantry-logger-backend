@@ -13,10 +13,8 @@ import org.slf4j.LoggerFactory;
  * necessary parameters.
  */
 public class EndUser {
-
     private Logger logger;
     private int id;
-
     private String password;
     private String username;
     private String firstName;
@@ -47,10 +45,8 @@ public class EndUser {
     }
 
     /**
-     *
      * Constructor that is used when getting users from the database.
      * All values except username, email and password may be null.
-     *
      * @param id id from the database
      * @param password password of the user
      * @param username username of the user
@@ -61,6 +57,7 @@ public class EndUser {
      * @param stateRegion stateRegion of residence
      * @param zip zip code of residence
      * @param country country of residence
+     * @param currentRecipe the recipe that the User is currently cooking
      */
     public EndUser(int id, String password, String username, String firstName, String lastName, String email, String city, String stateRegion, String zip, String country, int currentRecipe) {
         this.logger = LoggerFactory.getLogger(this.getClass());

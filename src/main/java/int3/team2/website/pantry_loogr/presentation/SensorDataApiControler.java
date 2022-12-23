@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * allows the user to see the temperature, humidity and brightness in each of the places where he has put a sensor
+ */
 @RestController
 @RequestMapping("/data/")
 public class SensorDataApiControler {

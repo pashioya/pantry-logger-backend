@@ -33,7 +33,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("PANTRY_ZONES")
-                .usingGeneratedKeyColumns("ID");
+                .usingGeneratedKeyColumns("id");
     }
 
     @Override

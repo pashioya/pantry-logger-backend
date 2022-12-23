@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * allows the user to see all the data and sensor boxes related to his account, he can modify that data (preferences, username, password...) and can logout of his account
+ */
 @Controller
 @RequestMapping("/profile")
 public class UserController {

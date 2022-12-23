@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ * Shows all the products that the user has or all the products in one of the user's pantryZones
+ */
 @Controller
 @RequestMapping("/items")
 public class ItemsController {
@@ -63,6 +66,14 @@ public class ItemsController {
         return "items";
     }
 
+    /**
+     * Allows the user to change the amount contained in a product using the product and its location. i.e. if the user previously had a whole pack of spaghetti but used half, he can indicate that he used 50% of the pack and that information will be updated in the DB
+     * @param httpSession used to identify the user
+     * @param pantryId used to know the location of the product
+     * @param productId used to identify which product the user wants to change
+     * @param percentage the percentage that is remaining
+     * @return redirects the user back to the items section
+     */
     @GetMapping("/editItem/{pantryId}/{productId}/{percentage}")
     public String editItem(HttpSession httpSession,@PathVariable int pantryId, @PathVariable int productId, @PathVariable double percentage) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -79,6 +90,12 @@ public class ItemsController {
         return "redirect:/items";
     }
 
+    /**
+     * Allows the user to edit the quantity of a product. i.e. if the user has a pack of spaghetti and buys another one, he can input 2 and that information will be updated in the DB
+     * @param httpSession used to identify the user
+     * @param editData the new information about of the product that the user wants to update (id, location and new amount)
+     * @return redirects the user back to the items section
+     */
     @RequestMapping(
             value="/editItem",
             method= RequestMethod.POST,

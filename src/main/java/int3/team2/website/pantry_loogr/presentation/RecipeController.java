@@ -191,19 +191,25 @@ public class RecipeController {
 
         List<Recipe> recipes;
         List<Ingredient> ingredientsInPantry = ingredientService.getProductsEnteredAWeekAgo(user.getId());
+        List<Recipe> filteredRecipes;
         if (ingredientsInPantry.size() > 0) {
             recipes = recipeService.getRecipeByIngredient(ingredientsInPantry);
+            recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
+            filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
         } else {
             ingredientsInPantry = ingredientService.getIngredientsByUser(user.getId());
-            recipes = recipeService.getRecipeByIngredient(ingredientsInPantry);
+            if (ingredientsInPantry.size() > 0) {
+                recipes = recipeService.getRecipeByIngredient(ingredientsInPantry);
+                recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
+                filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
+            } else {
+                recipes = recipeService.getAll();
+                recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
+                filteredRecipes = RecipeRecommender.filter(recipes, user);
+            }
         }
-        recipes.replaceAll(recipe -> recipeService.get(recipe.getId()));
-        List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
-        /*
-         */
-
         model.addAttribute("recommendations", recommendations);
         return "recommendations";
     }

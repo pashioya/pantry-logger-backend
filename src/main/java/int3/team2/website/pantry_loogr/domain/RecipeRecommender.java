@@ -21,24 +21,39 @@ public class RecipeRecommender {
      */
     public static List<Recipe> filter(List<Recipe> recipes, List<Ingredient> ingredientsInPantry, EndUser user) {
         recipes.removeIf(recipe -> getTagPoints(recipe, user) == -1);
-        Map<Integer, Recipe> points = new HashMap<>();
-        recipes.forEach(recipe -> points.put(countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, user), recipe));
+        Map<Recipe, Integer> points = new HashMap<>();
+        recipes.forEach(recipe -> points.put(recipe, countIngredients(recipe, ingredientsInPantry) + getTagPoints(recipe, user)));
 
-        TreeMap<Integer, Recipe> sorted = new TreeMap<>(Collections.reverseOrder());
-        sorted.putAll(points);
-
-        return new ArrayList<>(sorted.values());
+        Map<Recipe, Integer> sorted = sortMap(points);
+        return new ArrayList<>(sorted.keySet());
     }
 
     public static List<Recipe> filter(List<Recipe> recipes, EndUser user) {
         recipes.removeIf(recipe -> getTagPoints(recipe, user) == -1);
-        Map<Integer, Recipe> points = new HashMap<>();
-        recipes.forEach(recipe -> points.put(getTagPoints(recipe, user), recipe));
 
-        TreeMap<Integer, Recipe> sorted = new TreeMap<>(Collections.reverseOrder());
-        sorted.putAll(points);
+        Map<Recipe, Integer> points = new HashMap<>();
+        recipes.forEach(recipe -> points.put(recipe, getTagPoints(recipe, user)));
 
-        return new ArrayList<>(sorted.values());
+        Map<Recipe, Integer> sorted = sortMap(points);
+        return new ArrayList<>(sorted.keySet());
+    }
+
+    private static Map<Recipe, Integer> sortMap(Map<Recipe, Integer> points) {
+        LinkedHashMap<Recipe, Integer> sortedPoints = new LinkedHashMap<>();
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (Map.Entry<Recipe, Integer> entry : points.entrySet()) {
+            list.add(entry.getValue());
+        }
+        Collections.sort(list);
+        for (Integer point : list) {
+            for (Map.Entry<Recipe, Integer> entry : points.entrySet()) {
+                if (entry.getValue().equals(point)) {
+                    sortedPoints.put(entry.getKey(), point);
+                }
+            }
+        }
+        return sortedPoints;
     }
 
     /**
@@ -50,6 +65,7 @@ public class RecipeRecommender {
      * @return points related to how many recipe.tags are matching with user.likes
      */
     public static int getTagPoints(Recipe recipe, EndUser user) {
+        user.getDislikes().forEach(d -> logger.debug(d.toString()));
         int points = 0;
         for (Tag tag: user.getDislikes()) {
             if (recipe.getTags().contains(tag)) {return -1;}
@@ -58,7 +74,6 @@ public class RecipeRecommender {
         for (Tag tag: user.getLikes()) {
             if (recipe.getTags().contains(tag)) {points += 10;}
         }
-
         return points;
     }
 

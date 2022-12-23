@@ -151,14 +151,23 @@ if (item_list) {
 // Scanner Page JS
 const itemscan_back = document.getElementById("product-scan-back");
 const item_continue = document.getElementById("product-continue");
-
+const add_single_item = document.getElementById("add-single-item");
 
 if (itemscan_back) {
     itemscan_back.onclick = function() {
         document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
-        console.log("back")
+        document.getElementsByClassName("selected-picture")[0].classList.remove("hidden");
     }
 }
+
+
+if (add_single_item) {
+    add_single_item.onclick = function () {
+        setStageTwo();
+        document.getElementsByClassName("selected-picture")[0].classList.add("hidden");
+    }
+}
+
 
 if (item_continue) {
     item_continue.onclick = function() {

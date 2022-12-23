@@ -270,14 +270,13 @@ $(function() {
         if (App.currentNumberScans > minNumberOfScans) {
             let code = CodesMap.getMax();
             if(document.querySelector("body[stage='scan']")) {
-                document.querySelector("body[stage='scan']").setAttribute("stage", "one");
+                setStageTwo();
 
                 let $node = null, canvas = Quagga.canvas.dom.image;
 
                 $node = $('<div class="imgWrapper"><img /></div>');
                 $node.find("img").attr("src", canvas.toDataURL());
                 $("#picture-display").append($node);
-                $("body").attr("stage", "one");
 
 
                 $.ajax({
@@ -333,6 +332,8 @@ $(function() {
 
     });
 
+
+
     // For debugging, should only be uncommented if respective html is also uncommented
     //      in scanner.html page
     // document.getElementById("scan_now").addEventListener("click",function(e){
@@ -365,3 +366,9 @@ $(function() {
     //
     // });
 });
+
+
+function setStageTwo() {
+    document.querySelector("body[stage='scan']").setAttribute("stage", "one");
+    $("body").attr("stage", "one");
+}

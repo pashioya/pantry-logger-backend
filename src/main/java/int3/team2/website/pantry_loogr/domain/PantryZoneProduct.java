@@ -70,6 +70,13 @@ public class PantryZoneProduct extends Product{
         this.dateEntered = dateEntered;
     }
 
+    public PantryZoneProduct(Product product, int quantity, int amountUsed, LocalDate dateEntered) {
+        super(product);
+        this.quantity = quantity;
+        this.amountUsed = amountUsed;
+        this.dateEntered = dateEntered;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -111,5 +118,44 @@ public class PantryZoneProduct extends Product{
 
     public int getProductId() {
         return productId;
+    }
+
+    public Product getProduct() {
+        return new Product(
+                super.getIngredient(),
+                this.productId,
+                this.productName,
+                this.size,
+                this.code
+        );
+    }
+
+    public boolean combine(PantryZoneProduct product) {
+        if (this.getProductId() != product.getProductId()) {
+            return false;
+        }
+
+        this.quantity += product.getQuantity();
+        if ((this.getAmountUsed() + product.getAmountUsed()) >= this.getSize()) {
+            this.quantity -= 1;
+            this.amountUsed = this.getAmountUsed() + product.getAmountUsed() - this.getSize();
+        } else {
+            this.amountUsed = this.getAmountUsed() + product.getAmountUsed();
+        }
+
+        this.dateEntered = LocalDate.now();
+        return true;
+    }
+
+    public boolean equals(PantryZoneProduct product) {
+        return
+                this.getPantryZone().getId() == product.getPantryZone().getId()
+                && this.getProductId() == product.getProductId()
+                && this.getAmountUsed() == product.getAmountUsed();
+    }
+
+
+    public void setPantryZone(PantryZone pantryZone) {
+        this.pantryZone = pantryZone;
     }
 }

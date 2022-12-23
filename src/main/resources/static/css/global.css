@@ -844,12 +844,22 @@ body[item-selected="true"] .item[change="selected"] {
     width: 80%;
 }
 
-.text-panel > form > input[type="text"] {
+.text-panel > form h3:not(h3:first-child) {
+    margin-top: 20px;
+}
+
+.text-panel > form > input[type="text"]{
     height: 30px;
-    margin-bottom: 20px;
+    width: calc(80% - 8px);
+}
+
+.text-panel > form > input[type="number"]{
+    height: 30px;
+    width: calc(80% - 8px);
 }
 
 .text-panel > form > .submit-container {
+    margin-top: 20px;
     display: flex;
     justify-content: space-around;
 }
@@ -883,7 +893,7 @@ body[stage="two"]#scanner *[view-stage="scan"] {
     display: none;
 }
 
-body[stage="two"]#scanner *[view-stage="one"] {
+body[stage="two"]#scanner *[view-stage="one"], body[stage="two"]#scanner .select2 {
     display: none;
 }
 

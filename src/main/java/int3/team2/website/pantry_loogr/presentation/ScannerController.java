@@ -1,9 +1,7 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 
-import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.Product;
-import int3.team2.website.pantry_loogr.domain.PantryZone;
+import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
 import int3.team2.website.pantry_loogr.service.UserService;
@@ -16,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -44,6 +43,7 @@ public class ScannerController {
         List<PantryZone> pantryZones = pantryZoneService.getAll();
         model.addAttribute("pantryZones", pantryZones);
         model.addAttribute("title", "Scanner");
+        model.addAttribute("ingredients", ingredientService.getAll());
         return "scanner";
     }
 
@@ -57,9 +57,34 @@ public class ScannerController {
             return "redirect:/login";
         }
         logger.debug(registerData.toString());
-        logger.debug(registerData.getFirst("item_id"));
-        logger.debug(registerData.getFirst("zone"));
-        ingredientService.addToPantry(Integer.parseInt(registerData.getFirst("item_id")), Integer.parseInt(registerData.getFirst("zone")));
+
+        Product product;
+
+        if (registerData.keySet().contains("create") && registerData.get("create").get(0).equals("on")) {
+            Ingredient ingredient = ingredientService.get(Integer.parseInt(registerData.get("ingredient").get(0)));
+
+            product = ingredientService.addProduct(new Product(
+                    Integer.parseInt(registerData.get("ingredient").get(0)),
+                    ingredient.getName(),
+                    registerData.get("name").get(0),
+                    registerData.get("code").get(0),
+                    Integer.parseInt(registerData.get("amount").get(0)),
+                    ingredient.getImagePath()
+            ));
+        } else {
+            product = ingredientService.getProduct(Integer.parseInt(registerData.getFirst("productId")));
+        }
+        int quantity = Integer.parseInt(registerData.get("quantity").get(0));
+
+        ingredientService.addToPantry(
+                new PantryZoneProduct(
+                        product,
+                        quantity,
+                        0,
+                        LocalDate.now()
+                ),
+                Integer.parseInt(registerData.getFirst("zone"))
+        );
         return "redirect:/scanner";
     }
 
@@ -69,25 +94,23 @@ public class ScannerController {
             produces="application/json"
     )
     public @ResponseBody Map<String, String> checkForItem(HttpSession httpSession, @RequestParam("code") String code) {
-        logger.debug("code: " + code);
         Map<String, String> map = new HashMap<>();
         map.put("found", "false");
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return map;
         }
+
         Product product = ingredientService.getByCode(code);
-
-
-        if(product.getId() > 0) {
+        if(product != null && product.getId() > 0) {
             map.put("found", "true");
-            logger.debug(String.format("found item: %s, (%d)",product.getProductName(), product.getSize()));
-
-            //TODO replace with actual filling code
-            map.put("itemId", String.valueOf(product.getId()));
-            map.put("name", product.getName());
+            map.put("productId", String.valueOf(product.getProductId()));
+            map.put("name", product.getProductName());
+            map.put("ingredientId", String.valueOf(product.getId()));
             map.put("amount", String.valueOf(product.getSize()));
         }
         return map;
     }
+
+
 }

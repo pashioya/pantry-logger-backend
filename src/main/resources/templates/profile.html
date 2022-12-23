@@ -90,7 +90,7 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div th:each="pantryZone, iStat: ${pantryZones}" th:class="${pantryZone.enviroOutOfRange ? 'sensor-box enviroOutOfRange ' : 'sensor-box'}" th:if="${pantryZone.sensorBoxCode == '' }" sensor-selected="false">
+                        <div th:each="pantryZone, iStat: ${pantryZones}" th:class="${pantryZone.enviroOutOfRange ? 'sensor-box enviroOutOfRange ' : 'sensor-box'}" th:unless="${pantryZone.sensorBoxCode == '' }" sensor-selected="false">
                             <img src='/icons/sensor-box.png'
                                     class="sensor-box-image"
                                     alt="sensor box icon"
@@ -123,7 +123,7 @@
                                         <form method="POST" action="/profile/editSensorBox">
                                             <label>
                                                 Sensor-ID
-                                                <input type="text" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}" disabled/>
+                                                <input type="text" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}" />
                                             </label>
                                             <label>
                                                 Temp Lower

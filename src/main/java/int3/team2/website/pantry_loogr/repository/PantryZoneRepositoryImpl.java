@@ -28,6 +28,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
         return new PantryZone(
                 rs.getInt("id"),
                 rs.getString("name"),
+                rs.getString("sensor_box_code"),
                 rs.getInt("min_temp"),
                 rs.getInt("max_temp"),
                 rs.getInt("min_hum"),

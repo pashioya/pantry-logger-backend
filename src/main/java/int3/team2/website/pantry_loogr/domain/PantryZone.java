@@ -77,9 +77,10 @@ public class PantryZone {
      * @param maxBright if the recorded brightness in that zone goes over this value,
      *                  it will send a notification to the user
      */
-    public PantryZone(int id, String name, int minTemp, int maxTemp, int minHum, int maxHum, int minBright, int maxBright) {
+    public PantryZone(int id, String name,String sensorBoxCode, int minTemp, int maxTemp, int minHum, int maxHum, int minBright, int maxBright) {
         this.id = id;
         this.name = name;
+        this.sensorBoxCode = sensorBoxCode;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.minHum = minHum;

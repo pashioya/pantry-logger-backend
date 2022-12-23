@@ -17,10 +17,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The index page is the welcoming page the user lands in when first entering the website.
+ * The user can log in or register to a new account
+ */
 @Controller
 @RequestMapping("/")
 public class IndexController {
-
     private Logger logger;
     private UserService userService;
 
@@ -88,6 +91,13 @@ public class IndexController {
         return "register";
     }
 
+    /**
+     * fetches the information given by the register form and checks if the email & username are not already taken
+     * if they are, user is not created
+     * @param httpSession used to identify the user
+     * @param data data provided by the form in the form of a Map
+     * @return redirects either to the pantry list of the newly registered user or to the register page if something went wrong
+     */
     @RequestMapping(
             value="/register",
             method= RequestMethod.POST,
@@ -95,18 +105,18 @@ public class IndexController {
     )
     public String registerUser(HttpSession httpSession, @RequestBody MultiValueMap<String, String> data) {
         logger.debug(data.toString());
-
         EndUser user;
-        //TODO check for username and email uniqueness
         if (data.get("password").get(0).equals(data.get("confirm-password").get(0))) {
-            user = userService.add(new EndUser(
-                    data.get("username").get(0),
-                    data.get("email").get(0),
-                    data.get("password").get(0)
-            ));
-            if (user == null) {
-                logger.info("User already exists with this name please use a different name!");
+            if (userService.getByEmail(data.get("email").get(0)) != null) {
+                logger.debug("This email is already taken");
+            } else if (userService.getByUsername(data.get("username").get(0)) != null) {
+                logger.debug("This username is already taken");
             } else {
+                user = userService.add(new EndUser(
+                        data.get("username").get(0),
+                        data.get("email").get(0),
+                        data.get("password").get(0)
+                ));
                 logger.debug(user.toString());
                 httpSession.setAttribute("username", data.get("username").get(0));
                 httpSession.setAttribute("password", data.get("password").get(0));

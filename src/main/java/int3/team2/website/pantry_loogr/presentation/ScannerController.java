@@ -17,6 +17,9 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * shows the page that allows the user to scan a product and to add it into his pantry
+ */
 @Controller
 @RequestMapping("/scanner")
 public class ScannerController {
@@ -47,6 +50,9 @@ public class ScannerController {
         return "scanner";
     }
 
+    /**
+     * Allows the user to add a new product if it doesn't already exist in the DB
+     */
     @RequestMapping(
             method= RequestMethod.POST,
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
@@ -88,6 +94,9 @@ public class ScannerController {
         return "redirect:/scanner";
     }
 
+    /**
+     * checks if a product already exists in the DB, it does so by using the code (unique for every product in Europe)
+     */
     @RequestMapping(
             value = "/checkForItem",
             method= RequestMethod.GET,

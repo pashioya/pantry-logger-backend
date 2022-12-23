@@ -1,17 +1,15 @@
 package int3.team2.website.pantry_loogr.service;
 
 import int3.team2.website.pantry_loogr.domain.Tag;
-import int3.team2.website.pantry_loogr.domain.UserTagRealationship;
+import int3.team2.website.pantry_loogr.domain.UserTagRelationship;
 import int3.team2.website.pantry_loogr.repository.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class TagServiceImpl implements TagService {
@@ -58,6 +56,9 @@ public class TagServiceImpl implements TagService {
         return tagRepository.getDislikesByUserId(userId);
     }
 
+    /**
+     * when creating a recipe, it will add all the tags related to that recipe in the relational table
+     */
     @Override
     public List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> recipeTags) {
         if (recipeTags != null) {
@@ -66,20 +67,23 @@ public class TagServiceImpl implements TagService {
         return null;
     }
 
+    /**
+     * creates a map of all the tags and assigns to each a UserRelationship, it defines for each if the user likes or dislikes a tag or if we don't know
+     */
     @Override
-    public Map<Tag, UserTagRealationship> getTagsByUserRelationship(int userId) {
+    public Map<Tag, UserTagRelationship> getTagsByUserRelationship(int userId) {
         List<Tag> allTags = tagRepository.findAll();
         Map<Tag, Boolean> userTags = tagRepository.getAllByUser(userId);
-        Map<Tag, UserTagRealationship> exitMap = new HashMap<>();
-        allTags.forEach(x -> {
-            if (userTags.containsKey(x)) {
-                if (userTags.get(x)) {
-                    exitMap.put(x, UserTagRealationship.LIKES);
+        Map<Tag, UserTagRelationship> exitMap = new HashMap<>();
+        allTags.forEach(tag -> {
+            if (userTags.containsKey(tag)) {
+                if (userTags.get(tag)) {
+                    exitMap.put(tag, UserTagRelationship.LIKES);
                 } else {
-                    exitMap.put(x, UserTagRealationship.DISLIKES);
+                    exitMap.put(tag, UserTagRelationship.DISLIKES);
                 }
             } else {
-                exitMap.put(x, UserTagRealationship.UNDEFINED);
+                exitMap.put(tag, UserTagRelationship.UNDEFINED);
             }
         });
         return exitMap;

@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/**
+ * Allows the user to see all teh recipes, he can add them to his favourites, or he can indicate that he wants to cook one and the ingredients that he needs for it will be added to his shopping list
+ */
 @Controller
 @RequestMapping("/recipes")
 public class RecipeController {
@@ -158,7 +161,10 @@ public class RecipeController {
     }
 
     /**
-     * shows the recommended recipe tab to the user
+     * Fetches all the ingredients that have been entered a week ago or more (these are likely to be expiring soon) and fetches all the recipes that contain these ingredients.
+     * If there are no Ingredients about to expire, fetches all the recipes that contain ingredients that the user has.
+     * It then filters the recipes based on the user's preferences and sorts them (first is the most likely to be at the user's taste).
+     * Lastly, it looks which ingredient the user already has and which he needs for the recipe
      */
     @GetMapping("/recommend")
     public String recommendations(HttpSession httpSession, Model model) {
@@ -195,6 +201,8 @@ public class RecipeController {
         List<Recipe> filteredRecipes = RecipeRecommender.filter(recipes, ingredientsInPantry, user);
 
         Map<Recipe, List<List<Ingredient>>> recommendations = RecipeRecommender.showIngredients(filteredRecipes, ingredientsInPantry);
+        /*
+         */
 
         model.addAttribute("recommendations", recommendations);
         return "recommendations";
@@ -215,6 +223,9 @@ public class RecipeController {
         return "recipes";
     }
 
+    /**
+     * The User can select a recipe to cook, it will then add all the ingredients he doesn't have and adds them to his shopping list, it then redirects him to it
+     */
     @GetMapping("/select-current/{recipeId}")
     public String selectRecipe(HttpSession httpSession, @PathVariable int recipeId) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));

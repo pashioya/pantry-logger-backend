@@ -53,16 +53,30 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.findByName(name);
     }
 
+    /**
+     * fetches all the ingredients in a recipe
+     * @param id id of the recipe
+     * @return a map of ingredients and the amount needed
+     */
     @Override
     public Map<Ingredient, Integer> getIngredientsByRecipeId(int id) {
         return ingredientRepository.findIngredientsByRecipeId(id);
     }
 
+    /**
+     * when creating a recipe, this functions adds all the ingredients needed for the recipe to the relational table in the DB
+     * @param recipeID id of the recipe
+     * @param ingredients a map of ingredients and the amount needed for each one
+     */
     @Override
     public Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients) {
         return ingredientRepository.addToRelationTable(recipeID, ingredients);
     }
 
+    /**e
+     * fetches all the pantryZoneProducts in a pantryZone
+     * @param pantryZoneId id of the pantryZone
+     */
     @Override
     public Product addProduct(Product product) {
         return ingredientRepository.addProduct(product);
@@ -122,6 +136,12 @@ public class IngredientServiceImpl implements IngredientService {
         }
     }
 
+    /**
+     * the user can edit how many entities he has of a product. i.e. if a user has 3 boxes of spaghetti and uses 2, he can edit the auntity to 1
+     * @param pantryId location where the product is located at
+     * @param productId id of the product
+     * @param quantity how many of the product the user has
+     */
     @Override
     public void editPantryZoneProductQuantity(int pantryId, int productId, int quantity) {
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
@@ -145,6 +165,11 @@ public class IngredientServiceImpl implements IngredientService {
         }
     }
 
+    /**
+     * fetches all the ingredients in a shopping list
+     * @param shoppingListId id of the shopping list
+     * @return a map of ingredients and their amounts
+     */
     @Override
     public  Map<Ingredient, Integer> getForShoppingList(int shoppingListId) {
         return ingredientRepository.getForShoppingList(shoppingListId);
@@ -160,6 +185,9 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.findIngredientsByUser(userID);
     }
 
+    /**
+     * fetches all ingredients that he has entered a week ago or more
+     */
     @Override
     public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
         return ingredientRepository.getProductsEnteredAWeekAgo(userId);

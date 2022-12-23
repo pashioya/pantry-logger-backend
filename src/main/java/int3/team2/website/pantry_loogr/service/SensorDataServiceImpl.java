@@ -22,6 +22,9 @@ public class SensorDataServiceImpl implements SensorDataService{
         return sensorDataRepository.getByPantryZone(pantryZoneID);
     }
 
+    /**
+     * gets sensor data that has been recorded between two date and times
+     */
     @Override
     public List<SensorData> getByPantryZoneBetween(int pantryZoneID, LocalDateTime from, LocalDateTime to) {
         return sensorDataRepository.getByPantryZoneBetween(pantryZoneID, from, to);
@@ -32,6 +35,10 @@ public class SensorDataServiceImpl implements SensorDataService{
         return sensorDataRepository.create(sensorData, pantryZoneId);
     }
 
+    /**
+     * get the latest values recorded by the sensors and puts them in a map
+     * @return first key is temperature, second is humidity and third is bright
+     */
     @Override
     public Map<String, Integer> getLatest(int pantryZoneId) {
         Map<String, Integer> sensorData = new HashMap<>();

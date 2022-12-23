@@ -65,10 +65,12 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findByTime(time);
     }
 
+    /**
+     * fetches recipes that contain one or more of the inputted ingredients
+     * @param ingredients a list of Ingredients
+     */
     @Override
     public List<Recipe> getRecipeByIngredient(List<Ingredient> ingredients) {
         return recipeRepository.getRecipeByIngredient(ingredients);
     }
-
-
 }

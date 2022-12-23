@@ -26,62 +26,53 @@ public class UserRepositoryImpl implements UserRepository {
     public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("END_USERS")
+                .withTableName("end_users")
                 .usingGeneratedKeyColumns("id");
         this.userPreferenceInsertser = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("USER_PREFERENCES")
+                .withTableName("user_preferences")
                 .usingColumns("user_id", "tag_id", "'LIKE'");
     }
 
     private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {
-        return new EndUser(rs.getInt("ID"),
-                rs.getString("PASSWORD"),
-                rs.getString("USERNAME"),
-                rs.getString("FIRST_NAME"),
-                rs.getString("LAST_NAME"),
-                rs.getString("EMAIL"),
-                rs.getString("CITY"),
-                rs.getString("STATE_REGION"),
-                rs.getString("ZIP"),
-                rs.getString("COUNTRY"),
-                rs.getInt("CURRENT_RECIPE"));
+        return new EndUser(rs.getInt("id"),
+                rs.getString("password"),
+                rs.getString("username"),
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("email"),
+                rs.getString("city"),
+                rs.getString("state_region"),
+                rs.getString("zip"),
+                rs.getString("country"),
+                rs.getInt("current_recipe"));
     }
 
     @Override
     public List<EndUser> findAll() {
-        return jdbcTemplate.query("SELECT * FROM END_USERS", this::mapRow);
+        return jdbcTemplate.query("SELECT * FROM end_users", this::mapRow);
     }
 
     @Override
     public EndUser get(int id) {
-        return jdbcTemplate.query("SELECT * FROM END_USERS WHERE ID = ?", this::mapRow, id).get(0);
+        return jdbcTemplate.query("SELECT * FROM end_users WHERE ID = ?", this::mapRow, id).get(0);
     }
 
     @Override
     public EndUser add(EndUser user) {
-        PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-                "INSERT INTO END_USERS(USERNAME, EMAIL, PASSWORD, CURRENT_RECIPE) " +
-                        "VALUES (?, ?, ?, ?)",
-                VARCHAR, VARCHAR, VARCHAR, INTEGER
-        );
-        pscf.setReturnGeneratedKeys(true);
-        PreparedStatementCreator psc = pscf.newPreparedStatementCreator(
-                Arrays.asList(
-                        user.getUsername(),
-                        user.getEmail(),
-                        user.getPassword(),
-                        0
-                )
-        );
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(psc, keyHolder);
-        return this.get(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("username", user.getUsername());
+        parameters.put("email", user.getEmail());
+        parameters.put("password", user.getPassword());
+        parameters.put("current_recipe", 0);
+
+        user.setId(inserter.executeAndReturnKey(parameters).intValue());
+        return user;
     }
 
     @Override
     public EndUser findByUsername(String username) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE USERNAME = ?", this::mapRow, username);
+            return jdbcTemplate.queryForObject("SELECT * FROM end_users WHERE username = ?", this::mapRow, username);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }

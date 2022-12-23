@@ -4,6 +4,7 @@ import int3.team2.website.pantry_loogr.domain.Ingredient;
 import int3.team2.website.pantry_loogr.domain.PantryZoneProduct;
 import int3.team2.website.pantry_loogr.domain.Product;
 import int3.team2.website.pantry_loogr.repository.IngredientRepository;
+import int3.team2.website.pantry_loogr.repository.PantryZoneRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -24,10 +25,12 @@ import static java.sql.Types.VARCHAR;
 public class IngredientServiceImpl implements IngredientService {
     private Logger logger;
     private IngredientRepository ingredientRepository;
+    private PantryZoneRepository pantryZoneRepository;
 
-    public IngredientServiceImpl(IngredientRepository ingredientRepository) {
+    public IngredientServiceImpl(IngredientRepository ingredientRepository, PantryZoneRepository pantryZoneRepository) {
         this.logger = LoggerFactory.getLogger(this.getClass());
         this.ingredientRepository = ingredientRepository;
+        this.pantryZoneRepository = pantryZoneRepository;
     }
 
     @Override
@@ -66,6 +69,11 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
+    public Product getProduct(int productId) {
+        return ingredientRepository.getProduct(productId);
+    }
+
+    @Override
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
         return ingredientRepository.getByPantryZoneId(pantryZoneId);
     }
@@ -76,8 +84,21 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public void addToPantry(int productId, int zone, int quantity, int amountUsed) {
-        ingredientRepository.addToPantry(productId, zone, quantity, amountUsed);
+    public void addToPantry(PantryZoneProduct product, int pantryId) {
+        //gets the already present product in the pantry, is null if there is no product
+        PantryZoneProduct alreadyPresentProduct = ingredientRepository.getPantryZoneProduct(product.getProductId(), pantryId);
+        //sets the PantryZone object in the PantryZoneProducts object
+        product.setPantryZone(pantryZoneRepository.get(pantryId));
+        //if already present in the pantry then the objects are combined and updated.
+        if (alreadyPresentProduct != null) {
+            if (!alreadyPresentProduct.combine(product)) {
+                logger.error("The two PantryZoneProducts that are being combined are not the same.");
+            }
+            ingredientRepository.updatePantryZoneProduct(alreadyPresentProduct);
+        } else {
+            //else the new product is added to the pantry.
+            ingredientRepository.addToPantry(product);
+        }
     }
 
     /**

@@ -14,15 +14,15 @@ public interface IngredientService {
     Map<Ingredient, Integer> getIngredientsByRecipeId(int id);
     Map<Ingredient, Integer> addToRelationTable(int recipeID, Map<Ingredient, Integer> ingredients);
     Product addProduct(Product product);
+    Product getProduct(int productId);
     Product getByCode(String code);
-    void addToPantry(int productId, int zone, int );
-    Map<Ingredient, Integer> getForShoppingList(int id);
+    void addToPantry(PantryZoneProduct product, int pantryId);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
-
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
+    void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
     void editPantryZoneProductQuantity(int pantryId, int productId, int quantity);
     void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage);
+    Map<Ingredient, Integer> getForShoppingList(int id);
     void addShoppingListIngredients(int shoppingListId,  Map<Ingredient, Integer> shoppingListIngredients);
-    void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
     void clearShoppingListIngredients(int shopping_list_id);
 }

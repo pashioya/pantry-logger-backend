@@ -847,6 +847,11 @@ body[item-selected="true"] .item[change="selected"] {
     width: calc(80% - 8px);
 }
 
+.text-panel > form > input[type="number"]{
+    height: 30px;
+    width: calc(80% - 8px);
+}
+
 .text-panel > form > .submit-container {
     margin-top: 20px;
     display: flex;

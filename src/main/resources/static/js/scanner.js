@@ -1,5 +1,28 @@
 $(function() {
-    var App = {
+    let CodesMap = {
+        map : new Map(),
+        getMax : function() {
+            const interator = this.map.keys();
+            let maxAmount = 0;
+            let maxCode = 0;
+            for (const currentCode of interator) {
+                maxCode = maxAmount > this.map.get(currentCode) ? maxCode : currentCode;
+                maxAmount = maxAmount > this.map.get(currentCode) ? maxAmount : this.map.get(currentCode);
+            }
+            return maxCode;
+        },
+        addCode : function(code) {
+            if (this.map.has(code)) {
+                this.map.set(code, this.map.get(code) + 1);
+            } else {
+                this.map.set(code, 1);
+            }
+        },
+        clear : function () {
+            this.map = new Map();
+        }
+    };
+    let App = {
         init : function() {
             Quagga.init(this.state, function(err) {
                 if (err) {
@@ -211,7 +234,7 @@ $(function() {
             },
             locate: true
         },
-        lastResult : null
+        currentNumberScans : 0
     };
 
     App.init();
@@ -241,51 +264,71 @@ $(function() {
     });
 
     Quagga.onDetected(function(result) {
-        const code = result.codeResult.code;
-        App.lastResult = code;
-        if(App.lastResult == code && document.querySelector("body[stage='scan']")) {
-            document.querySelector("body[stage='scan']").setAttribute("stage", "one");
+        const minNumberOfScans = 5;
+        CodesMap.addCode(result.codeResult.code);
 
-            let $node = null, canvas = Quagga.canvas.dom.image;
+        if (App.currentNumberScans > minNumberOfScans) {
+            let code = CodesMap.getMax();
+            if(document.querySelector("body[stage='scan']")) {
+                document.querySelector("body[stage='scan']").setAttribute("stage", "one");
 
-            $node = $('<div class="imgWrapper"><img /></div>');
-            $node.find("img").attr("src", canvas.toDataURL());
-            $("#picture-display").append($node);
-            $("body").attr("stage", "one");
+                let $node = null, canvas = Quagga.canvas.dom.image;
+
+                $node = $('<div class="imgWrapper"><img /></div>');
+                $node.find("img").attr("src", canvas.toDataURL());
+                $("#picture-display").append($node);
+                $("body").attr("stage", "one");
 
 
-            $.ajax({
-                url:"/scanner/checkForItem?code=" +code,
-                type: "GET",
-                success: function (data) {
-                    if (data.found === "true") {
-                        const name = document.getElementById("product-name");
-                        name.value = data.name;
-                        name.readOnly = true;
+                $.ajax({
+                    url:"/scanner/checkForItem?code=" +code,
+                    type: "GET",
+                    success: function (data) {
+                        if (data.found === "true") {
+                            let newIngredientName = document.getElementById("ingredient-name").cloneNode(true);
+                            newIngredientName.removeAttribute("id");
+                            newIngredientName.classList.add("hidden");
+                            document.getElementById("scan-item-form").append(newIngredientName);
+                            let ingredientName = document.getElementById("ingredient-name")
+                            ingredientName.removeAttribute("name");
+                            $(document).ready(function() {
+                                $("#ingredient-name").select2();
+                                $("#ingredient-name").val(data.ingredientId);
+                                $("#ingredient-name").trigger('change')
+                            });
 
-                        const amount = document.getElementById("product-amount");
-                        amount.value = data.amount;
-                        amount.readOnly = true;
+                            const name = document.getElementById("product-name");
+                            name.value = data.name;
+                            name.readOnly = true;
 
-                        const productId = document.getElementById("product-id");
-                        productId.value = data.productId;
-                        productId.readOnly = true;
+                            const amount = document.getElementById("product-amount");
+                            amount.value = data.amount;
+                            amount.readOnly = true;
 
-                    } else if(data.found === "false") {
-                        const ingredientName = document.getElementById("ingredient-name");
-                        ingredientName.classList.remove("hidden");
-                        $(document).ready(function() {
-                            $("#ingredient-name").select2();
-                        });
-                        document.getElementById("create-product").setAttribute("checked", "")
-                        document.getElementById("product-code").value = code;
+                            const productId = document.getElementById("product-id");
+                            productId.value = data.productId;
+                            productId.readOnly = true;
+
+                        } else if(data.found === "false") {
+                            const ingredientName = document.getElementById("ingredient-name");
+                            $(document).ready(function() {
+                                $("#ingredient-name").select2();
+                            });
+                            document.getElementById("create-product").setAttribute("checked", "")
+                            document.getElementById("product-code").value = code;
+                        }
+
+                    },
+                    error: function (data) {
                     }
-
-                },
-                error: function (data) {
-                }
-            })
+                })
+            }
+            CodesMap.clear();
+            App.currentNumberScans = 0;
+        } else {
+            App.currentNumberScans += 1;
         }
+
 
 
     });

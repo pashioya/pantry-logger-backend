@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -25,6 +26,7 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     private Logger logger;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert ingredientInserter;
+    private SimpleJdbcInsert productInserter;
     private SimpleJdbcInsert ingredientRecipeInserter;
     private SimpleJdbcInsert shoppingListInserter;
     private SimpleJdbcInsert pantryZoneProductInserter;
@@ -35,29 +37,32 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         this.ingredientInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("INGREDIENTS")
                 .usingGeneratedKeyColumns("id");
+        this.productInserter = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("products")
+                .usingGeneratedKeyColumns("id");
         this.ingredientRecipeInserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("RECIPE_INGREDIENTS")
+                .withTableName("recipe_ingredients")
                 .usingColumns("recipe_id", "ingredient_id", "quantity", "optional");
         this.shoppingListInserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("SHOPPING_LIST_INGREDIENTS")
+                .withTableName("shopping_list_ingredients")
                 .usingColumns("shopping_list_id", "ingredient_id", "amount");
         this.pantryZoneProductInserter = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("PANTRY_ZONE_PRODUCTS")
-                .usingColumns("product_id", "pantry_zone_id");
+                .withTableName("pantry_zone_products")
+                .usingColumns("product_id", "pantry_zone_id", "quantity", "amount_used", "date_entered");
     }
     private Ingredient mapIngredientRow(ResultSet rs, int rowid) throws SQLException {
         return new Ingredient(
-                rs.getInt("ID"),
-                rs.getString("NAME"),
-                rs.getString("IMAGE_PATH")
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("image_path")
         );
     }
 
     private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
         return new Product(
                 rs.getInt("INGREDIENT_ID"),
-                rs.getInt("ID"),
-                rs.getString("NAME"),
+                rs.getInt("PRODUCT_ID"),
+                rs.getString("INGREDIENT_NAME"),
                 rs.getString("PRODUCT_NAME"),
                 rs.getString("CODE"),
                 rs.getInt("SIZE"),
@@ -67,23 +72,22 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
 
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
-        PantryZoneProduct product = new PantryZoneProduct(
-                rs.getInt("INGREDIENT_ID"),
-                rs.getInt("PRODUCT_ID"),
-                rs.getString("NAME"),
-                rs.getString("PRODUCT_NAME"),
-                rs.getString("CODE"),
-                rs.getInt("SIZE"),
-                rs.getInt("QUANTITY"),
-                rs.getInt("AMOUNT_USED"),
+        return new PantryZoneProduct(
+                rs.getInt("ingredient_id"),
+                rs.getInt("product_id"),
+                rs.getString("ingredient_name"),
+                rs.getString("product_name"),
+                rs.getString("code"),
+                rs.getInt("size"),
+                rs.getInt("quantity"),
+                rs.getInt("amount_used"),
                 new PantryZone(
-                        rs.getInt("PANTRY_ID"),
-                        rs.getString("PANTRY_NAME")
+                        rs.getInt("pantry_id"),
+                        rs.getString("pantry_name")
                 ),
-                rs.getDate("DATE_ENTERED").toLocalDate(),
-                rs.getString("IMAGE_PATH")
+                rs.getDate("date_entered").toLocalDate(),
+                rs.getString("image_path")
         );
-        return product;
     }
 
     @Override
@@ -160,57 +164,60 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     public Product getProduct(int id) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "PRODUCTS.ID, PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, " +
-                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH " +
+                            "PRODUCTS.ID AS PRODUCT_ID, PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, " +
+                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, INGREDIENTS.IMAGE_PATH " +
                         "FROM PRODUCTS " +
                         "JOIN INGREDIENTS ON PRODUCTS.INGREDIENT_ID = INGREDIENTS.ID " +
                         "WHERE PRODUCTS.ID = ?",
-                preparedStatement -> preparedStatement.setInt(1, id),
-                this::mapProductRow).get(0);
+                this::mapProductRow,
+                id
+        ).get(0);
     }
 
     @Override
     public Product addProduct(Product product) {
-        PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-                "INSERT INTO PRODUCTS(INGREDIENT_ID, PRODUCT_NAME, CODE, SIZE) " +
-                        "VALUES (?, ?, ?, ?)",
-                INTEGER, VARCHAR, VARCHAR, INTEGER
-        );
-        pscf.setReturnGeneratedKeys(true);
-        PreparedStatementCreator psc = pscf.newPreparedStatementCreator(
-                Arrays.asList(
-                        product.getId(),
-                        product.getProductName(),
-                        product.getCode(),
-                        product.getSize()
-                )
-        );
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(psc, keyHolder);
-        return this.getProduct(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        logger.debug(product.toString());
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("ingredient_id", product.getId());
+        parameters.put("product_name", product.getProductName());
+        parameters.put("code", product.getCode());
+        parameters.put("size", product.getSize());
+        product.setProductId(productInserter.executeAndReturnKey(parameters).intValue());
+        return product;
     }
 
     @Override
     public Product getByCode(String code) {
-        List<Product> list = jdbcTemplate.query("SELECT PRODUCTS.*,INGREDIENTS.NAME as INGREDIENT_NAME FROM PRODUCTS JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID WHERE PRODUCTS.CODE = ?",
-                preparedStatement -> preparedStatement.setString(1, code),
-                this::mapProductRow);
+        List<Product> list = jdbcTemplate.query(
+                "SELECT " +
+                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, INGREDIENTS.IMAGE_PATH, " +
+                            "PRODUCTS.ID AS PRODUCT_ID, PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE " +
+                        "FROM PRODUCTS " +
+                            "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                        "WHERE PRODUCTS.CODE = ?",
+                this::mapProductRow,
+                code
+        );
         return list.isEmpty() ? null : list.get(0);
     }
+
+    //TODO make so that it combines products
     @Override
-    public void addToPantry(int productId, int zone, int quantity, int amountUsed) {
+    public void addToPantry(PantryZoneProduct product) {
+        logger.debug(product.getDateEntered().toString());
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("PRODUCT_ID", productId);
-        parameters.put("PANTRY_ZONE_ID", zone);
-        parameters.put("QUANTITY", quantity);
-        parameters.put("AMOUNT_USED", amountUsed);
+        parameters.put("PRODUCT_ID", product.getProductId());
+        parameters.put("PANTRY_ZONE_ID", product.getPantryZone().getId());
+        parameters.put("quantity", product.getQuantity());
+        parameters.put("amount_used", product.getAmountUsed());
+        parameters.put("date_entered", Date.valueOf(product.getDateEntered()));
         pantryZoneProductInserter.execute(parameters);
     }
     @Override
     public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {
-        return jdbcTemplate.query(
+        List<PantryZoneProduct> list = jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH, " +
+                            "ingredients.id AS ingredient_id, ingredients.name AS ingredient_name, ingredients.image_path, " +
                             "PRODUCTS.PRODUCT_NAME, PANTRY_ZONE_PRODUCTS.PRODUCT_ID, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
@@ -222,17 +229,20 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                         "JOIN PANTRY_ZONES " +
                             "ON PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = PANTRY_ZONES.ID " +
                         "WHERE PRODUCT_ID = ? AND PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = ?",
-                preparedStatement -> {
-                    preparedStatement.setInt(1, productId);
-                    preparedStatement.setInt(2, pantryId);
-                },
-                this::mapPantryZoneProductRow).get(0);
+                this::mapPantryZoneProductRow,
+                productId,
+                pantryId
+        );
+        if (list.isEmpty()) {
+            return null;
+        }
+        return list.get(0);
     }
 
     @Override
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
         String sql = "SELECT " +
-                "INGREDIENTS.ID AS INGREDIENT_ID, PANTRY_ZONE_PRODUCTS.PRODUCT_ID AS PRODUCT_ID, INGREDIENTS.NAME, " +
+                "INGREDIENTS.ID AS INGREDIENT_ID, PANTRY_ZONE_PRODUCTS.PRODUCT_ID AS PRODUCT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, " +
                 "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, " +
                 "INGREDIENTS.IMAGE_PATH, PANTRY_ZONE_PRODUCTS.DATE_ENTERED, " +
                 "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
@@ -243,15 +253,15 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "WHERE PANTRY_ZONES.ID = ? ";
         return jdbcTemplate.query(
                 sql,
-                preparedStatement -> preparedStatement.setInt(1, pantryZoneId),
-                this::mapPantryZoneProductRow
+                this::mapPantryZoneProductRow,
+                pantryZoneId
         );
     }
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
         return jdbcTemplate.query(
                 "SELECT " +
-                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME, INGREDIENTS.IMAGE_PATH," +
+                            "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, INGREDIENTS.IMAGE_PATH," +
                             "PRODUCTS.PRODUCT_NAME, PANTRY_ZONE_PRODUCTS.PRODUCT_ID, PRODUCTS.CODE, PRODUCTS.SIZE," +
                             "PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, PANTRY_ZONE_PRODUCTS.DATE_ENTERED," +
                             "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
@@ -260,8 +270,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                             "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
                             "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
                         "WHERE USER_ID = ? ",
-                preparedStatement -> preparedStatement.setInt(1, userId),
-                this::mapPantryZoneProductRow
+                this::mapPantryZoneProductRow,
+                userId
         );
     }
     @Override

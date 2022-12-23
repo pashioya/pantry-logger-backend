@@ -6,7 +6,6 @@ package int3.team2.website.pantry_loogr.domain;
  * it also holds how much of that product is in one pack and what barCode it is associated to
  */
 public class Product extends Ingredient {
-    protected int productId;
     protected String productName;
     protected String code;
     protected int size;
@@ -53,6 +52,22 @@ public class Product extends Ingredient {
         this.size = size;
     }
 
+    public Product(Product product) {
+        super(product.getIngredient()) ;
+        this.productId = product.getProductId();
+        this.productName = product.getProductName();
+        this.size = product.getSize();
+        this.code = product.getCode();
+    }
+
+    public Product(Ingredient ingredient, int productId, String productName, int size, String code) {
+        super(ingredient);
+        this.productId = productId;
+        this.productName = productName;
+        this.size = size;
+        this.code = code;
+    }
+
 
     public int getId() {
         return id;
@@ -74,6 +89,12 @@ public class Product extends Ingredient {
     }
 
     public int getProductId() { return productId; }
+
+    public void setProductId(int id) {this.productId = id;}
+
+    public Ingredient getIngredient() {
+        return new Ingredient(this.id, this.name, this.imagePath);
+    }
 
     @Override
     public String toString() {

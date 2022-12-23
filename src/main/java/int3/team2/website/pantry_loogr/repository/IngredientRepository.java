@@ -18,7 +18,7 @@ public interface IngredientRepository {
     Product getProduct(int id);
     Product addProduct(Product product);
     Product getByCode(String code);
-    void addToPantry(int productId, int zone, int quantity, int amountUsed);
+    void addToPantry(PantryZoneProduct product);
     Map<Ingredient, Integer> getForShoppingList(int shoppingListId);
     PantryZoneProduct getPantryZoneProduct(int productId, int pantryId);
     void updatePantryZoneProduct(PantryZoneProduct product);

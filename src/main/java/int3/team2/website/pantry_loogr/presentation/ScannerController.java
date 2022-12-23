@@ -1,10 +1,7 @@
 package int3.team2.website.pantry_loogr.presentation;
 
 
-import int3.team2.website.pantry_loogr.domain.EndUser;
-import int3.team2.website.pantry_loogr.domain.Ingredient;
-import int3.team2.website.pantry_loogr.domain.Product;
-import int3.team2.website.pantry_loogr.domain.PantryZone;
+import int3.team2.website.pantry_loogr.domain.*;
 import int3.team2.website.pantry_loogr.service.IngredientService;
 import int3.team2.website.pantry_loogr.service.PantryZoneService;
 import int3.team2.website.pantry_loogr.service.UserService;
@@ -17,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -60,10 +58,12 @@ public class ScannerController {
         }
         logger.debug(registerData.toString());
 
-        if (registerData.get("create").get(0).equals("on")) {
+        Product product;
+
+        if (registerData.keySet().contains("create") && registerData.get("create").get(0).equals("on")) {
             Ingredient ingredient = ingredientService.get(Integer.parseInt(registerData.get("ingredient").get(0)));
 
-            Product product = ingredientService.addProduct(new Product(
+            product = ingredientService.addProduct(new Product(
                     Integer.parseInt(registerData.get("ingredient").get(0)),
                     ingredient.getName(),
                     registerData.get("name").get(0),
@@ -71,11 +71,20 @@ public class ScannerController {
                     Integer.parseInt(registerData.get("amount").get(0)),
                     ingredient.getImagePath()
             ));
-            ingredientService.addToPantry(product.getProductId(), Integer.parseInt(registerData.getFirst("zone")));
         } else {
-            ingredientService.addToPantry(Integer.parseInt(registerData.getFirst("productId")), Integer.parseInt(registerData.getFirst("zone")));
-
+            product = ingredientService.getProduct(Integer.parseInt(registerData.getFirst("productId")));
         }
+        int quantity = Integer.parseInt(registerData.get("quantity").get(0));
+
+        ingredientService.addToPantry(
+                new PantryZoneProduct(
+                        product,
+                        quantity,
+                        0,
+                        LocalDate.now()
+                ),
+                Integer.parseInt(registerData.getFirst("zone"))
+        );
         return "redirect:/scanner";
     }
 
@@ -95,8 +104,9 @@ public class ScannerController {
         Product product = ingredientService.getByCode(code);
         if(product != null && product.getId() > 0) {
             map.put("found", "true");
-            map.put("productId", String.valueOf(product.getId()));
-            map.put("name", product.getName());
+            map.put("productId", String.valueOf(product.getProductId()));
+            map.put("name", product.getProductName());
+            map.put("ingredientId", String.valueOf(product.getId()));
             map.put("amount", String.valueOf(product.getSize()));
         }
         return map;

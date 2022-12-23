@@ -108,14 +108,16 @@
 				<input class="hidden" id="create-product" type="checkbox" name="create">
 				<input class="hidden" id="product-code" type="number" name="code">
 				<h3 view-stage="one">Type of Ingredient</h3>
-				<select view-stage="one" class="hidden" name="ingredient" id="ingredient-name">
+				<select view-stage="one" name="ingredient" id="ingredient-name">
 					<option></option>
-					<option th:each="ingredient : ${ingredients}" th:value="${ingredient.id}" th:text="${ingredient.name}"></option>
+					<option th:each="ingredient : ${ingredients}" th:value="${ingredient.id}" th:id="${ingredient.id}" th:text="${ingredient.name}"></option>
 				</select>
 				<h3 view-stage="one">Product Name</h3>
 				<input type="text" id="product-name" name="name" view-stage="one" />
 				<h3 view-stage="one">Package amount [in g or ml]</h3>
 				<input type="text" id="product-amount" name="amount" view-stage="one" />
+				<h3 view-stage="one">Quantity of the Product</h3>
+				<input type="number" id="product-quantity" name="quantity" view-stage="one" min="1" value="1"/>
 				<input type="hidden" id="product-id" name="productId" view-stage="one" />
 				<div class="submit-container" view-stage="one">
 					<input class="styled-button-dark" type="button" value="cancel" id="product-scan-back" />

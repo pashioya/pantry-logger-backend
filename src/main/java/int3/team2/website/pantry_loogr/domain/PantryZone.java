@@ -12,7 +12,7 @@ public class PantryZone {
 
     private int userId;
     private String name;
-    private String sensorBoxCode;
+    private String sensorBoxCode = "";
     private List<PantryZoneProduct> products;
     private int minTemp;
     private int maxTemp;

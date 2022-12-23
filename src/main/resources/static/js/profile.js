@@ -38,12 +38,13 @@ let modal = document.getElementsByClassName("modal");
 let passwordModal = document.getElementById("password-modal");
 let editProfileModal = document.getElementById("edit-profile-modal");
 let addSensorBoxModal = document.getElementById("add-sensor-box-modal");
-let editSensorBoxModal = document.getElementById("sensor-box-editor-modal");
+let editSensorBoxModal = document.getElementsByClassName("modal sensor-box-editor-modal");
 
 let editProfileBtn = document.getElementById("edit-profile-btn");
 let changePassBtn = document.getElementById("change-password-btn");
 let addSensorBoxBtn = document.getElementById("add-sensor-box-btn");
 let sensorBox = document.getElementsByClassName("sensor-box");
+let otherSensorBox = document.getElementsByClassName("enviroOutOfRange");
 
 let closeBtn = document.getElementsByClassName("close");
 
@@ -62,10 +63,10 @@ if(modal) {
 
     for (let i = 0; i < sensorBox.length; i++) {
         sensorBox[i].onclick = function () {
-            editSensorBoxModal.style.display = "block";
-            let selectedId = sensorBox[i].getAttribute("sensor-box-code");
-            let sensorBoxId = document.getElementById("sensor-id");
-            sensorBoxId.value = selectedId;
+            sensorBox[i].setAttribute("sensor-selected", "true");
+        }
+        otherSensorBox[i].onclick = function () {
+            otherSensorBox[i].setAttribute("sensor-selected", "true");
         }
     }
 
@@ -75,7 +76,10 @@ if(modal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
             addSensorBoxModal.style.display = "none";
-            editSensorBoxModal.style.display = "none";
+            for (let i = 0; i < sensorBox.length; i++) {
+                sensorBox[i].setAttribute("sensor-selected", "false");
+                editSensorBoxModal[i].style.display = "none";
+            }
         }
     }
 
@@ -86,7 +90,19 @@ if(modal) {
         }
         if(event.target === addSensorBoxModal || event.target === editSensorBoxModal) {
             addSensorBoxModal.style.display = "none";
-            editSensorBoxModal.style.display = "none";
+
+        }
+        for (let i = 0; i < sensorBox.length; i++) {
+            if (event.target === sensorBox[i]) {
+                sensorBox[i].setAttribute("sensor-selected", "false");
+                editSensorBoxModal[i].style.display = "none";
+            }
+        }
+        for (let i = 0; i < otherSensorBox.length; i++) {
+            if (event.target === otherSensorBox[i]) {
+                otherSensorBox[i].setAttribute("sensor-selected", "false");
+                editSensorBoxModal[i].style.display = "none";
+            }
         }
     }
 }

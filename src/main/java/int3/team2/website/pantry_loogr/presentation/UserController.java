@@ -217,7 +217,7 @@ public class UserController {
         PantryZone pantryzone = pantryZoneService.getBySensorBoxCode(sensorID);
 
         pantryzone.setSensorBoxCode(sensorID);
-        pantryzone.setName(sensorBoxData.get("new-pantry-zone").get(0));
+
         pantryzone.setMaxTemp(Integer.parseInt(sensorBoxData.get("temp-upper-limit").get(0)));
         pantryzone.setMinTemp(Integer.parseInt(sensorBoxData.get("temp-lower-limit").get(0)));
         pantryzone.setMaxHum(Integer.parseInt(sensorBoxData.get("hum-upper-limit").get(0)));

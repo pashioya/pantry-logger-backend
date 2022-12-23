@@ -750,6 +750,12 @@ body[item-selected="true"] .item[change="selected"] {
     background-color: var(--dark-color-transparent);
 }
 
+
+.enviroOutOfRange {
+    -webkit-box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.6) !important;
+}
+
+
 .add-pantry-zone{
     --storage-space-height: 130px;
     height: calc(var(--storage-space-height)/2);
@@ -1139,7 +1145,20 @@ body[stage="two"]#scanner .text-panel > form .storage-spaces {
     flex-direction: row-reverse;
     padding: 5px 5px 0 0;
 }
-/* recipe look when in list form */
+
+.current-recipe{
+    -webkit-box-shadow: 0 0 10px 5px var(--dark-color-transparent) !important;
+}
+
+/*disable cook this button*/
+.current-recipe > .cook-this{
+    display: none;
+    pointer-events: none;
+}
+.current-recipe > .cook-this div{
+    display: none;
+}
+
 /* reccomandations stop*/
 /*--------------------------------------------------------------------*/
 /*--------------------------------------------------------------------*/
@@ -1669,6 +1688,7 @@ body[id="profile"] > section > .profile-image > img{
 .edit-sensor-boxes{
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
 .sensor-box{
@@ -1709,7 +1729,7 @@ body[id="profile"] > section > .profile-image > img{
     width: 100%;
 }
 
-#sensor-id{
+#sensor-box-code{
     text-align: center;
 }
 

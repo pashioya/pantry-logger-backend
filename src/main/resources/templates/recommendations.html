@@ -20,7 +20,7 @@
 			/>
 		</div>
 		<div class="recommendations-recipe-container">
-			<div th:each="recipe : ${recommendations.keySet()}" th:class="${user.currentRecipe == recipe.id ? 'current-recipe ' : ''} + 'recipe'" look="image" change="none">
+			<div th:each="recipe : ${recommendations.keySet()}" th:class="${user.currentRecipe == recipe.id ? 'current-recipe recipe' : 'recipe'} " look="image" change="none">
 				<a th:href="'/recipes/' + ${recipe.id}" class="recipe-container">
 					<div class="recipe-image">
 						<img

@@ -25,6 +25,7 @@ public interface IngredientRepository {
     void removePantryZoneProduct(PantryZoneProduct product);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
+    List<Ingredient> getProductsEnteredAWeekAgo(int userId);
     void addToShoppingListIngredients(int shoppingListId, Map<Ingredient, Integer> shoppingListIngredients);
     void clearShoppingListIngredients(int shopping_list_id);
 }

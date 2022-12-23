@@ -63,7 +63,7 @@ if(modal) {
     for (let i = 0; i < sensorBox.length; i++) {
         sensorBox[i].onclick = function () {
             editSensorBoxModal.style.display = "block";
-            let selectedId = sensorBox[i].getAttribute("sensor-id");
+            let selectedId = sensorBox[i].getAttribute("sensor-box-code");
             let sensorBoxId = document.getElementById("sensor-id");
             sensorBoxId.value = selectedId;
         }
@@ -80,11 +80,11 @@ if(modal) {
     }
 
     window.onclick = function (event) {
-        if (event.target == passwordModal || event.target == editProfileModal) {
+        if (event.target === passwordModal || event.target === editProfileModal) {
             passwordModal.style.display = "none";
             editProfileModal.style.display = "none";
         }
-        if(event.target == addSensorBoxModal || event.target == editSensorBoxModal) {
+        if(event.target === addSensorBoxModal || event.target === editSensorBoxModal) {
             addSensorBoxModal.style.display = "none";
             editSensorBoxModal.style.display = "none";
         }
@@ -95,11 +95,9 @@ let selectPantryZone = document.getElementById("select-pantry-zone");
 
 // if select pantry zone is empty disable submit button
 if(selectPantryZone) {
-    if(selectPantryZone.options.length == 1) {
+    if(selectPantryZone.options.length === 1) {
         document.getElementById("select-pantry-zone").disabled = true;
         document.getElementById("submit-sensor-box").disabled = true;
         document.getElementById("no-zones-error").style.display = "block";
     }
 }
-// console.log(sensorBox.getAttribute("sensor-id"));
-// document.getElementById("sensor-id").value = 12345;

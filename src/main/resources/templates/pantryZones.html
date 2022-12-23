@@ -21,17 +21,31 @@
             </div>
         </a>
     </div>
-    <a href="/addPantryZone">
         <div class="add-pantry-zone">
             <button id="add-pantry-zone-btn">
                 Add Pantry Zone
             </button>
         </div>
-    </a>
+    <div id="add-pantry-zone-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <span class="modal-title">Add Pantry Zone</span>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/items/addPantryZone">
+                    <label for="newPantryZoneName">Name</label>
+                    <input type="text" id="newPantryZoneName" name="newPantryZoneName" placeholder="Name" required>
+                    <input type="submit"  value="submit" />
+                </form>
+            </div>
+        </div>
+    </div>
 
 
 </section>
 
 <footer th:replace="fragments/footer :: footer (${leftFooterList}, ${rightFooterList})"></footer>
 </body>
+<script src="/js/pantryZones.js"></script>
 </html>

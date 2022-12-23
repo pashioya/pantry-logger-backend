@@ -9,6 +9,8 @@ import java.util.Map;
  */
 public class PantryZone {
     private int id;
+
+    private int userId;
     private String name;
     private String sensorBoxCode;
     private List<PantryZoneProduct> products;
@@ -32,7 +34,8 @@ public class PantryZone {
     /**
      * Constructor to create a new PantryZone before it is inserted into the database.
      *
-     * @param name name of the zone (e.g. fridge, pantry, fruitBowl, ...)
+     * @param name name of the zone (e.g. fridge, pantry, fruitBowl, ...),
+     * @param userId id of the user that owns the zone
      * @param minTemp if the recorded temperature in that zone goes under this value,
      *                it will send a notification to the user
      * @param maxTemp if the recorded temperature in that zone goes over this value,
@@ -46,8 +49,9 @@ public class PantryZone {
      * @param maxBright if the recorded brightness in that zone goes over this value,
      *                  it will send a notification to the user
      */
-    public PantryZone(String name, int minTemp, int maxTemp, int minHum, int maxHum, int minBright, int maxBright) {
+    public PantryZone(String name,int userId, int minTemp, int maxTemp, int minHum, int maxHum, int minBright, int maxBright) {
         this.name = name;
+        this.userId = userId;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.minHum = minHum;
@@ -140,8 +144,39 @@ public class PantryZone {
         return latestBright;
     }
 
+    public int getUserId() {
+        return userId;
+    }
     public boolean isEnviroOutOfRange() {
         return enviroOutOfRange;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMinTemp(int minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public void setMaxTemp(int maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public void setMinHum(int minHum) {
+        this.minHum = minHum;
+    }
+
+    public void setMaxHum(int maxHum) {
+        this.maxHum = maxHum;
+    }
+
+    public void setMinBright(int minBright) {
+        this.minBright = minBright;
+    }
+
+    public void setMaxBright(int maxBright) {
+        this.maxBright = maxBright;
     }
 
     public void setEnviro(Map<String, Integer> latest) {

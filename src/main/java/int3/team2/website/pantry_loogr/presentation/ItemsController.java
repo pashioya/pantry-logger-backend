@@ -47,7 +47,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.HEADER_TITLES),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -110,7 +110,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.HEADER_TITLES),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -140,7 +140,7 @@ public class ItemsController {
                 new DataItem(HtmlItems.HEADER_TITLES),
                 new DataItem(HtmlItems.SEARCH_CONTAINER)
         )));
-        model.addAttribute("leftFooterList", new ArrayList<>(Arrays.asList(
+        model.addAttribute("leftFooterList", new ArrayList<>(List.of(
                 new DataItem(HtmlItems.RECOMMENDATIONS)
         )));
         model.addAttribute("rightFooterList", new ArrayList<>(Arrays.asList(
@@ -156,5 +156,25 @@ public class ItemsController {
 
         return "items";
     }
+
+    @RequestMapping(
+            value="/addPantryZone",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String addPantryZone(HttpSession httpSession, @RequestBody MultiValueMap<String, String> pantryZoneData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        logger.debug(pantryZoneData.toString());
+
+        pantryZoneService.add(new PantryZone(
+                pantryZoneData.get("newPantryZoneName").get(0),
+                user.getId(),0,0,0,0,0,0
+        ));
+        return "redirect:pantry-zones";
+    }
+
 
 }

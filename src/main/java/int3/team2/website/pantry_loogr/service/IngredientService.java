@@ -20,6 +20,7 @@ public interface IngredientService {
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);
     void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove);
+    List<Ingredient> getProductsEnteredAWeekAgo(int userId);
     void editPantryZoneProductQuantity(int pantryId, int productId, int quantity);
     void editPantryZoneProductAmountUsed(int pantryId, int productId, double percentage);
     Map<Ingredient, Integer> getForShoppingList(int id);

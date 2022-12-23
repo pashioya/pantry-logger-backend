@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 @Repository
 public class PantryZoneRepositoryImpl implements PantryZoneRepository {
     private JdbcTemplate jdbcTemplate;
@@ -42,20 +39,17 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
 
     @Override
     public PantryZone get(int id) {
-        PantryZone pantryZone = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where ID = ?", this::mapRow, id).get(0);
-        return pantryZone;
+        return jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where ID = ?", this::mapRow, id).get(0);
     }
 
     @Override
     public PantryZone getBySensorBoxCode(String sensorBoxCode) {
-        PantryZone pantryZone = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where SENSOR_BOX_CODE = ?", this::mapRow, sensorBoxCode).get(0);
-        return pantryZone;
+        return jdbcTemplate.query("SELECT * FROM PANTRY_ZONES where SENSOR_BOX_CODE = ?", this::mapRow, sensorBoxCode).get(0);
     }
 
     @Override
     public List<PantryZone> getAll() {
-        List<PantryZone> pantryZones = jdbcTemplate.query("SELECT * FROM PANTRY_ZONES", this::mapRow);
-        return pantryZones;
+        return jdbcTemplate.query("SELECT * FROM PANTRY_ZONES", this::mapRow);
     }
 
     @Override
@@ -67,6 +61,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
     @Override
     public PantryZone create(PantryZone pantryzone) {
         Map<String, Object> parameters = new HashMap<>();
+        parameters.put("USER_ID", pantryzone.getUserId());
         parameters.put("NAME", pantryzone.getName());
         parameters.put("MIN_TEMP", pantryzone.getMinTemp());
         parameters.put("MAX_TEMP", pantryzone.getMaxTemp());
@@ -74,6 +69,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
         parameters.put("MAX_HUM", pantryzone.getMaxHum());
         parameters.put("MIN_BRIGHT", pantryzone.getMinBright());
         parameters.put("MAX_BRIGHT", pantryzone.getMaxBright());
+
         pantryzone.setId(inserter.executeAndReturnKey(parameters).intValue());
         return pantryzone;
     }

@@ -184,4 +184,48 @@ public class UserController {
         return "redirect:/profile";
     }
 
+
+    @RequestMapping(
+            value="/deleteSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String deleteSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        PantryZone pantryzone = pantryZoneService.get(Integer.parseInt(sensorBoxData.get("pantry-zone").get(0)));
+
+        pantryzone.setSensorBoxCode(null);
+        pantryZoneService.update(pantryzone);
+        return "redirect:/profile";
+    }
+
+
+    @RequestMapping(
+            value="/editSensorBox",
+            method= RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public String editSensorBox(HttpSession httpSession, @RequestBody MultiValueMap<String, String> sensorBoxData) {
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return "redirect:/login";
+        }
+        String sensorID = sensorBoxData.get("sensor-id").get(0);
+        PantryZone pantryzone = pantryZoneService.getBySensorBoxCode(sensorID);
+
+        pantryzone.setSensorBoxCode(sensorID);
+        pantryzone.setName(sensorBoxData.get("new-pantry-zone").get(0));
+        pantryzone.setMaxTemp(Integer.parseInt(sensorBoxData.get("temp-upper-limit").get(0)));
+        pantryzone.setMinTemp(Integer.parseInt(sensorBoxData.get("temp-lower-limit").get(0)));
+        pantryzone.setMaxHum(Integer.parseInt(sensorBoxData.get("hum-upper-limit").get(0)));
+        pantryzone.setMinHum(Integer.parseInt(sensorBoxData.get("hum-lower-limit").get(0)));
+        pantryzone.setMaxBright(Integer.parseInt(sensorBoxData.get("bright-upper-limit").get(0)));
+        pantryzone.setMinBright(Integer.parseInt(sensorBoxData.get("bright-lower-limit").get(0)));
+        pantryZoneService.update(pantryzone);
+        return "redirect:/profile";
+    }
+
 }

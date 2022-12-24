@@ -22,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * allows the user to see all the data and sensor boxes related to his account, he can modify that data (preferences, username, password...) and can logout of his account
@@ -60,6 +62,8 @@ public class UserController {
         model.addAttribute("email", user.getEmail());
         model.addAttribute("tagMap", tagService.getTagsByUserRelationship(user.getId()));
         model.addAttribute("pantryZones", pantryZoneService.getAllForUser(user.getId()));
+        model.addAttribute("emptyPantryZones", pantryZoneService.getAllForUser(user.getId()).stream()
+                .filter(pantryZone -> Objects.equals(pantryZone.getSensorBoxCode(), "")).collect(Collectors.toList()));
         model.addAttribute("user", user);
         return "profile";
     }
@@ -90,6 +94,11 @@ public class UserController {
         }
         List<Integer> list = tagData.get("liked-tags").stream().map(Integer::parseInt).toList();
         tagService.updateUserTagRelationship(user.getId(), list, true);
+
+        pantryZoneService.getAllForUser(user.getId())
+                .stream()
+                .filter(pantryZone -> pantryZone.getSensorBoxCode() != null);
+
         return "redirect:/profile";
     }
 

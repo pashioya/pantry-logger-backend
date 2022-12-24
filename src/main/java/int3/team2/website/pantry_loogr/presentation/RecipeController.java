@@ -215,17 +215,17 @@ public class RecipeController {
     }
 
 
-    @GetMapping("/search/{name}")
-    public String getRecipeByName(HttpSession httpSession, Model model, @PathVariable String name) {
+    @RequestMapping("/search/{searchTerm}")
+    public String getRecipeByName(HttpSession httpSession, Model model, @PathVariable String searchTerm) {
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
         if(user == null) {
             return "redirect:/login";
         }
-        List<Recipe> recipes = recipeService.getByName(name);
-        logger.debug(String.valueOf(ingredientService.getByName("cucumber").size()));
-
-        model.addAttribute("recipes", recipes);
-
+//        List<Recipe> recipes = recipeService.getByName(searchTerm);
+////        logger.debug(String.valueOf(ingredientService.getByName("cucumber").size()));
+//
+//        model.addAttribute("recipes", recipes);
+        System.out.println(searchTerm);
         return "recipes";
     }
 

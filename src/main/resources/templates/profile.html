@@ -123,7 +123,7 @@
                                         <form method="POST" action="/profile/editSensorBox">
                                             <label>
                                                 Sensor-ID
-                                                <input type="text" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}" />
+                                                <input disabled type="text" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}" />
                                             </label>
                                             <label>
                                                 Temp Lower
@@ -172,9 +172,9 @@
                                     <label for="select-pantry-zone">Choose Pantry Zone</label>
                                     <select th:unless="${pantryZones.isEmpty()}" id="select-pantry-zone" name="pantry-zone">
                                         <option value="" disabled selected>Select Pantry Zone</option>-->
-                                        <option th:each="pantryZone:${pantryZones}" th:value="${pantryZone.id}" th:text="${pantryZone.name}">
+                                        <option th:each="pantryZone:${emptyPantryZones}" th:value="${pantryZone.id}" th:text="${pantryZone.name}">
                                     </select>
-                                    <div id="no-zones-error" class="error"> No Pantry Zones Added</div>
+                                    <div id="no-zones-error" class="error"> No Pantry Zones without active sensor box.</div>
                                     <input id="submit-sensor-box" type="submit"  value="submit" />
                                 </form>
                             </div>

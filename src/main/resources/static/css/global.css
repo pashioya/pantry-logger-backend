@@ -1757,7 +1757,11 @@ body[id="profile"] > section > .profile-image > img{
     width: 100%;
 }
 
-#sensor-box-code{
+.sensor-box > .modal > .modal-content > .modal-body > label > input{
+    text-align: center;
+}
+
+body[id="profile"] input{
     text-align: center;
 }
 

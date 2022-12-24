@@ -22,8 +22,8 @@
 </div>
 
 <div th:fragment="search-container (content)" class="search-container">
-	<form action="/search" method="get">
-		<input class="search" id="searchright" type="search" name="q" placeholder="Search"/>
+	<form action="/recipes/search" method="GET" >
+		<input required class="search" id="searchright" type="search" name="searchTerm"/>
 		<label class="searchbutton" for="searchright">
 			<img src="/icons/search-icon-1.png" alt="search icon"/>
 		</label>

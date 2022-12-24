@@ -280,7 +280,7 @@ $(function() {
 
 
                 $.ajax({
-                    url:"/scanner/checkForItem?code=" +code,
+                    url:"/scanner/checkForProduct?code=" +code,
                     type: "GET",
                     success: function (data) {
                         if (data.found === "true") {
@@ -327,44 +327,7 @@ $(function() {
         } else {
             App.currentNumberScans += 1;
         }
-
-
-
     });
-
-
-
-    // For debugging, should only be uncommented if respective html is also uncommented
-    //      in scanner.html page
-    // document.getElementById("scan_now").addEventListener("click",function(e){
-    //     $.ajax({
-    //         url: "/scanner/checkForItem?code=3253581087107",
-    //         type: "GET",
-    //         success: function (data) {
-    //             $("body").attr("stage", "one");
-    //             if (data.found == "true") {
-    //                 const name = document.getElementById("item-name");
-    //                 name.value = data.name;
-    //                 name.readOnly = true;
-    //
-    //                 const amount = document.getElementById("item-amount");
-    //                 amount.value = data.amount;
-    //                 amount.readOnly = true;
-    //
-    //                 const itemId = document.getElementById("item-id");
-    //                 itemId.value = data.itemId;
-    //                 itemId.readOnly = true;
-    //             }
-    //         },
-    //         error: function (data) {
-    //             console.log("ERROR: Code search did not work!");
-    //         }
-    //     });
-    // });
-
-    // Quagga.updateView(function() {
-    //
-    // });
 });
 
 
@@ -372,3 +335,93 @@ function setStageTwo() {
     document.querySelector("body[stage='scan']").setAttribute("stage", "one");
     $("body").attr("stage", "one");
 }
+
+const itemscan_back = document.getElementById("product-scan-back");
+const item_continue = document.getElementById("product-continue");
+const add_single_item = document.getElementById("add-single-item");
+const multiple_select = document.getElementById("unpackaged-product-select");
+
+if (itemscan_back) {
+    itemscan_back.onclick = function() {
+        document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
+        document.getElementsByClassName("selected-picture")[0].classList.remove("hidden");
+    }
+}
+
+if (multiple_select) {
+    $(document).ready(function() {
+        $("#unpackaged-product-select").select2();
+    })
+}
+
+if (add_single_item) {
+    add_single_item.onclick = function () {
+        if (multiple_select.value !== "null") {
+            setStageTwo();
+            document.getElementsByClassName("selected-picture")[0].classList.add("hidden");
+            $.ajax({
+                url:"/scanner/checkForUnpackagedProduct?productId=" + multiple_select.value,
+                type: "GET",
+                success: function (data) {
+                    if (data.found === "true") {
+                        let newIngredientName = document.getElementById("ingredient-name").cloneNode(true);
+                        newIngredientName.removeAttribute("id");
+                        newIngredientName.classList.add("hidden");
+                        document.getElementById("scan-item-form").append(newIngredientName);
+                        let ingredientName = document.getElementById("ingredient-name")
+                        ingredientName.removeAttribute("name");
+                        $(document).ready(function() {
+                            $("#ingredient-name").select2();
+                            $("#ingredient-name").val(data.ingredientId);
+                            $("#ingredient-name").trigger('change')
+                        });
+
+                        const name = document.getElementById("product-name");
+                        name.value = data.name;
+                        name.readOnly = true;
+
+                        const amount = document.getElementById("product-amount");
+                        const amountHeader = document.getElementById("product-amount-header");
+                        // amount.classList.add("hidden");
+                        // amountHeader.classList.add("hidden");
+                        amount.value = data.amount;
+                        amount.readOnly = true;
+
+                        const productId = document.getElementById("product-id");
+                        productId.value = data.productId;
+                        productId.readOnly = true;
+
+                    } else if(data.found === "false") {
+                    }
+
+                },
+                error: function (data) {
+                }
+            })
+        }
+    }
+}
+
+
+if (item_continue) {
+    item_continue.onclick = function() {
+        document.getElementsByTagName("body")[0].setAttribute("stage", "two");
+    }
+}
+
+
+let spaces = document.getElementById("scanner");
+if (spaces) {
+    spaces = spaces.getElementsByClassName("storage-space")
+    Array.from(spaces).forEach(x => {
+        x.querySelector("input").addEventListener("change", function () {
+            Array.from(spaces).forEach(y => {
+                y.setAttribute("selected", "false");
+                if (y.querySelector("input").checked) {
+                    y.setAttribute("selected", "true")
+                }
+            })
+        })
+    })
+}
+

@@ -190,8 +190,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     }
 
     @Override
-    public Product getByCode(String code) {
-        List<Product> list = jdbcTemplate.query(
+    public List<Product> getByCode(String code) {
+        return jdbcTemplate.query(
                 "SELECT " +
                             "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, INGREDIENTS.IMAGE_PATH, " +
                             "PRODUCTS.ID AS PRODUCT_ID, PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE " +
@@ -201,7 +201,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 this::mapProductRow,
                 code
         );
-        return list.isEmpty() ? null : list.get(0);
     }
 
     //TODO make so that it combines products

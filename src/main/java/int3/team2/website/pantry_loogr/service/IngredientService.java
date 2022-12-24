@@ -16,6 +16,7 @@ public interface IngredientService {
     Product addProduct(Product product);
     Product getProduct(int productId);
     Product getByCode(String code);
+    List<Product> getUnpackagedProducts();
     void addToPantry(PantryZoneProduct product, int pantryId);
     List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId);
     List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId);

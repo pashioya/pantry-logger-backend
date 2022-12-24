@@ -94,7 +94,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Product getByCode(String code) {
-        return ingredientRepository.getByCode(code);
+        List<Product> list = ingredientRepository.getByCode(code);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public List<Product> getUnpackagedProducts() {
+        return ingredientRepository.getByCode("NoCode");
     }
 
     @Override

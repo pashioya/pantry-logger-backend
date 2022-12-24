@@ -47,6 +47,9 @@ public class ScannerController {
         model.addAttribute("pantryZones", pantryZones);
         model.addAttribute("title", "Scanner");
         model.addAttribute("ingredients", ingredientService.getAll());
+
+
+        model.addAttribute("singleIngredientsList", ingredientService.getUnpackagedProducts());
         return "scanner";
     }
 
@@ -98,11 +101,11 @@ public class ScannerController {
      * checks if a product already exists in the DB, it does so by using the code (unique for every product in Europe)
      */
     @RequestMapping(
-            value = "/checkForItem",
+            value = "/checkForProduct",
             method= RequestMethod.GET,
             produces="application/json"
     )
-    public @ResponseBody Map<String, String> checkForItem(HttpSession httpSession, @RequestParam("code") String code) {
+    public @ResponseBody Map<String, String> checkForProduct(HttpSession httpSession, @RequestParam("code") String code) {
         Map<String, String> map = new HashMap<>();
         map.put("found", "false");
         EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
@@ -121,5 +124,29 @@ public class ScannerController {
         return map;
     }
 
+    @RequestMapping(
+            value = "/checkForUnpackagedProduct",
+            method= RequestMethod.GET,
+            produces="application/json"
+    )
+    public @ResponseBody Map<String, String> checkForUnpackagedProduct(HttpSession httpSession, @RequestParam("productId") int id) {
+        Map<String, String> map = new HashMap<>();
+        EndUser user = userService.authenticate((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        if(user == null) {
+            return map;
+        }
+        map.put("found", "false");
 
+        List<Product> list = ingredientService.getUnpackagedProducts();
+        Product product = list.stream().filter(x -> x.getProductId() == id).findFirst().orElse(null);
+
+        if (product != null) {
+            map.put("found", "true");
+            map.put("ingredientId", String.valueOf(product.getId()));
+            map.put("name", product.getProductName());
+            map.put("amount", String.valueOf(product.getSize()));
+            map.put("productId", String.valueOf(product.getProductId()));
+        }
+        return map;
+    }
 }

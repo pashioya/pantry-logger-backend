@@ -33,7 +33,7 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
                 .usingGeneratedKeyColumns("id");
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
-    private SensorData mapRow(ResultSet rs, int rowid) throws SQLException {
+    private SensorData mapSensorDataRow(ResultSet rs, int rowid) throws SQLException {
         return new SensorData(
                 rs.getInt("ID"),
                 rs.getTimestamp("TIME_STAMP").toLocalDateTime(),
@@ -42,15 +42,7 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
                 rs.getInt("PANTRY_ZONE_ID")
         );
     }
-    @Override
-    public List<SensorData> getByPantryZone(int pantryZoneId) {
-        return jdbcTemplate.query("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ?", this::mapRow, pantryZoneId);
-    }
 
-    @Override
-    public List<SensorData> getByPantryZoneBetween(int pantryZoneId, LocalDateTime from, LocalDateTime to) {
-        return jdbcTemplate.query("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND TIME_STAMP BETWEEN ? AND ?", this::mapRow, pantryZoneId, Timestamp.valueOf(from), Timestamp.valueOf(to));
-    }
     @Override
     public SensorData create(SensorData sensorData, int pantryZoneId) {
         Map<String, Object> parameters = new HashMap<>();
@@ -63,9 +55,19 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
     }
 
     @Override
+    public List<SensorData> getByPantryZone(int pantryZoneId) {
+        return jdbcTemplate.query("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ?", this::mapSensorDataRow, pantryZoneId);
+    }
+
+    @Override
+    public List<SensorData> getByPantryZoneBetween(int pantryZoneId, LocalDateTime from, LocalDateTime to) {
+        return jdbcTemplate.query("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND TIME_STAMP BETWEEN ? AND ?", this::mapSensorDataRow, pantryZoneId, Timestamp.valueOf(from), Timestamp.valueOf(to));
+    }
+
+    @Override
     public int getLatestTemp(int pantryZoneId) {
         try {
-            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'TEMPERATURE' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapRow, pantryZoneId);
+            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'TEMPERATURE' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapSensorDataRow, pantryZoneId);
             return sensorData.getValue();
         } catch (EmptyResultDataAccessException e) {
             return 0;
@@ -75,7 +77,7 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
     @Override
     public int getLatestHum(int pantryZoneId) {
         try {
-            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'HUMIDITY' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapRow, pantryZoneId);
+            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'HUMIDITY' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapSensorDataRow, pantryZoneId);
             return sensorData.getValue();
         } catch (EmptyResultDataAccessException e) {
             return 0;
@@ -85,7 +87,7 @@ public class SensorDataRepositoryImpl implements SensorDataRepository{
     @Override
     public int getLatestBright(int pantryZoneId) {
         try {
-            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'BRIGHTNESS' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapRow, pantryZoneId);
+            SensorData sensorData = jdbcTemplate.queryForObject("SELECT * FROM SENSOR_DATA where PANTRY_ZONE_ID = ? AND SENSOR_TYPE = 'BRIGHTNESS' ORDER BY TIME_STAMP DESC LIMIT 1", this::mapSensorDataRow, pantryZoneId);
             return sensorData.getValue();
         } catch (EmptyResultDataAccessException e) {
             return 0;

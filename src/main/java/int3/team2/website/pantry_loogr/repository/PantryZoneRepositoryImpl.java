@@ -24,7 +24,7 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    private PantryZone mapRow(ResultSet rs, int rowid) throws SQLException {
+    private PantryZone mapPantryZoneRow(ResultSet rs, int rowid) throws SQLException {
         return new PantryZone(
                 rs.getInt("id"),
                 rs.getString("name"),
@@ -40,23 +40,8 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
 
     @Override
     public PantryZone get(int id) {
-        return jdbcTemplate.query("SELECT * FROM pantry_zones where id = ?", this::mapRow, id).get(0);
-    }
-
-    @Override
-    public PantryZone getBySensorBoxCode(String sensorBoxCode) {
-        return jdbcTemplate.query("SELECT * FROM pantry_zones where sensor_box_code = ?", this::mapRow, sensorBoxCode).get(0);
-    }
-
-    @Override
-    public List<PantryZone> getAll() {
-        return jdbcTemplate.query("SELECT * FROM pantry_zones", this::mapRow);
-    }
-
-    @Override
-    public List<PantryZone> getAllForUser(int userId) {
-        String sql = "SELECT * FROM pantry_zones WHERE user_id = ?";
-        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userId), this::mapRow);
+        List<PantryZone> list = jdbcTemplate.query("SELECT * FROM pantry_zones where id = ?", this::mapPantryZoneRow, id);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
@@ -88,8 +73,33 @@ public class PantryZoneRepositoryImpl implements PantryZoneRepository {
                         "max_hum = ?, " +
                         "min_bright = ?," +
                         "max_bright = ? " +
-                    "WHERE pantry_zones.id = ?;",
+                        "WHERE pantry_zones.id = ?;",
                 pantryzone.getName(), pantryzone.getSensorBoxCode(), pantryzone.getMinTemp(), pantryzone.getMaxTemp(), pantryzone.getMinHum(), pantryzone.getMaxHum(), pantryzone.getMinBright(), pantryzone.getMaxBright(), pantryzone.getId()
         );
     }
+
+    @Override
+    public PantryZone getBySensorBoxCode(String sensorBoxCode) {
+        List<PantryZone> list = jdbcTemplate.query("SELECT * FROM pantry_zones where sensor_box_code = ?", this::mapPantryZoneRow, sensorBoxCode);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public List<PantryZone> getAll() {
+        return jdbcTemplate.query("SELECT * FROM pantry_zones", this::mapPantryZoneRow);
+    }
+
+    @Override
+    public List<PantryZone> getAllForUser(int userId) {
+        String sql = "SELECT * FROM pantry_zones WHERE user_id = ?";
+        return jdbcTemplate.query(
+                sql,
+                this::mapPantryZoneRow,
+                userId
+        );
+    }
+
+
+
+
 }

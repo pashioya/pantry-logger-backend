@@ -3,19 +3,12 @@ package int3.team2.website.pantry_loogr.repository;
 import int3.team2.website.pantry_loogr.domain.EndUser;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-
-import static java.sql.Types.INTEGER;
-import static java.sql.Types.VARCHAR;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -33,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .usingColumns("user_id", "tag_id", "'LIKE'");
     }
 
-    private EndUser mapRow(ResultSet rs, int rowid) throws SQLException {
+    private EndUser mapUserRow(ResultSet rs, int rowid) throws SQLException {
         return new EndUser(rs.getInt("id"),
                 rs.getString("password"),
                 rs.getString("username"),
@@ -47,14 +40,11 @@ public class UserRepositoryImpl implements UserRepository {
                 rs.getInt("current_recipe"));
     }
 
-    @Override
-    public List<EndUser> findAll() {
-        return jdbcTemplate.query("SELECT * FROM end_users", this::mapRow);
-    }
 
     @Override
     public EndUser get(int id) {
-        return jdbcTemplate.query("SELECT * FROM end_users WHERE ID = ?", this::mapRow, id).get(0);
+        List<EndUser> list = jdbcTemplate.query("SELECT * FROM end_users WHERE ID = ?", this::mapUserRow, id);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
@@ -71,19 +61,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public EndUser findByUsername(String username) {
-        try {
-            return jdbcTemplate.queryForObject("SELECT * FROM end_users WHERE username = ?", this::mapRow, username);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        List<EndUser> list = jdbcTemplate.query("SELECT * FROM end_users WHERE username = ?", this::mapUserRow, username);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     public EndUser findByEmail(String email) {
-        try {
-            return jdbcTemplate.queryForObject("SELECT * FROM END_USERS WHERE EMAIL = ?", this::mapRow, email);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        List<EndUser> list = jdbcTemplate.query("SELECT * FROM END_USERS WHERE EMAIL = ?", this::mapUserRow, email);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
@@ -103,4 +87,10 @@ public class UserRepositoryImpl implements UserRepository {
                 endUser.getId()
         );
     }
+
+    @Override
+    public List<EndUser> findAll() {
+        return jdbcTemplate.query("SELECT * FROM end_users", this::mapUserRow);
+    }
+
 }

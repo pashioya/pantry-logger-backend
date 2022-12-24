@@ -11,14 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface SensorDataRepository {
+    SensorData create(SensorData sensorData, int pantryZoneId);
     List<SensorData> getByPantryZone(int pantryZoneId);
     List<SensorData> getByPantryZoneBetween(int pantryZoneId, LocalDateTime from, LocalDateTime to);
-
-    SensorData create(SensorData sensorData, int pantryZoneId);
-
     int getLatestTemp(int pantryZoneId);
-
     int getLatestHum(int pantryZoneId);
-
     int getLatestBright(int pantryZoneId);
 }

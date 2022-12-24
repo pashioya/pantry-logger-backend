@@ -32,7 +32,7 @@ public class TagRepositoryImpl implements TagRepository {
                 .usingColumns("tag_id", "recipe_id");
     }
 
-    private Tag mapRow(ResultSet rs, int rowid) throws SQLException {
+    private Tag mapTagRow(ResultSet rs, int rowid) throws SQLException {
         return new Tag(
                 rs.getInt("TAG_ID"),
                 rs.getString("NAME"),
@@ -54,13 +54,10 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public List<Tag> findAll() {
-        return jdbcTemplate.query("SELECT * FROM TAGS", this::mapRow);
-    }
-
-    @Override
     public Tag get(int id) {
-        return jdbcTemplate.query("SELECT * FROM TAGS WHERE TAG_ID = ?", this::mapRow, id).get(0);
+        List<Tag> list = jdbcTemplate.query("SELECT * FROM TAGS WHERE TAG_ID = ?", this::mapTagRow, id);
+        return list.isEmpty() ? null : list.get(0);
+
     }
 
     @Override
@@ -73,8 +70,30 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public void addUserPreference(int userId, int tagId, boolean likes) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("USER_ID", userId);
+        parameters.put("TAG_ID", tagId);
+        parameters.put("likes", likes);
+        preferenceInserter.execute(parameters);
+    }
+
+    @Override
+    public void removeUserPreference(int userId, int tagId) {
+        jdbcTemplate.update(
+                "DELETE FROM USER_PREFERENCES WHERE USER_ID = ? AND TAG_ID = ?;", userId, tagId
+        );
+    }
+
+    @Override
+    public List<Tag> findAll() {
+        return jdbcTemplate.query("SELECT * FROM TAGS", this::mapTagRow);
+    }
+
+
+    @Override
     public List<Tag> findByName(String name) {
-        return jdbcTemplate.query("SELECT * FROM TAGS WHERE NAME LIKE ?", this::mapRow, name);
+        return jdbcTemplate.query("SELECT * FROM TAGS WHERE NAME LIKE ?", this::mapTagRow, name);
     }
 
     @Override
@@ -99,12 +118,33 @@ public class TagRepositoryImpl implements TagRepository {
                 "LEFT JOIN RECIPE_TAGS ON RECIPE_TAGS.TAG_ID=TAGS.TAG_ID " +
                 "WHERE " +
                 "   RECIPE_TAGS.RECIPE_ID = ?;";
-        return jdbcTemplate.query(sql, this::mapRow, recipeId, recipeId);
+        return jdbcTemplate.query(sql, this::mapTagRow, recipeId, recipeId);
     }
 
     @Override
     public List<Tag> getByIngredientId(int ingredientId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM INGREDIENT_TAGS JOIN TAGS USING(TAG_ID) WHERE INGREDIENTS.ID = ?", this::mapRow, ingredientId);
+        return jdbcTemplate.query("SELECT TAGS.* FROM INGREDIENT_TAGS JOIN TAGS USING(TAG_ID) WHERE INGREDIENTS.ID = ?", this::mapTagRow, ingredientId);
+    }
+
+    @Override
+    public List<Tag> getLikesByUserId(int userId) {
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.likes = TRUE", this::mapTagRow, userId);
+    }
+
+    @Override
+    public List<Tag> getDislikesByUserId(int userId) {
+        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.likes = FALSE", this::mapTagRow, userId);
+    }
+
+    @Override
+    public List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> tagList) {
+        for (Tag tag : tagList) {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("RECIPE_ID", recipeId);
+            parameters.put("TAG_ID", tag.getId());
+            recipeTagInserter.execute(parameters);
+        }
+        return tagList;
     }
 
     @Override
@@ -117,43 +157,6 @@ public class TagRepositoryImpl implements TagRepository {
             });
         });
         return map;
-    }
-
-    @Override
-    public void addUserPreference(int userId, int tagId, boolean likes) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("USER_ID", userId);
-        parameters.put("TAG_ID", tagId);
-        parameters.put("likes", likes);
-        preferenceInserter.execute(parameters);
-    }
-
-    @Override
-    public void removeUserPreference(int userId, int tagId) {
-        jdbcTemplate.update(
-                "DELETE FROM USER_PREFERENCES WHERE USER_ID = ? AND TAG_ID = ?;", userId, tagId
-        );
-    }
-
-    @Override
-    public List<Tag> getLikesByUserId(int userId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.likes = TRUE", this::mapRow, userId);
-    }
-
-    @Override
-    public List<Tag> getDislikesByUserId(int userId) {
-        return jdbcTemplate.query("SELECT TAGS.* FROM USER_PREFERENCES JOIN TAGS USING(TAG_ID) WHERE USER_PREFERENCES.USER_ID = ? AND USER_PREFERENCES.likes = FALSE", this::mapRow, userId);
-    }
-
-    @Override
-    public List<Tag> addToRecipeRelationTable(int recipeId, List<Tag> tagList) {
-        for (Tag tag : tagList) {
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("RECIPE_ID", recipeId);
-            parameters.put("TAG_ID", tag.getId());
-            recipeTagInserter.execute(parameters);
-        }
-        return tagList;
     }
 
 }

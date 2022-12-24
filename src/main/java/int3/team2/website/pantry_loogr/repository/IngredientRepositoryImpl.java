@@ -57,7 +57,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getString("image_path")
         );
     }
-
     private Product mapProductRow(ResultSet rs, int rowid) throws SQLException {
         return new Product(
                 rs.getInt("INGREDIENT_ID"),
@@ -69,8 +68,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 rs.getString("IMAGE_PATH")
         );
     }
-
-
     private PantryZoneProduct mapPantryZoneProductRow(ResultSet rs, int rowid) throws SQLException {
         return new PantryZoneProduct(
                 rs.getInt("ingredient_id"),
@@ -92,10 +89,11 @@ public class IngredientRepositoryImpl implements IngredientRepository {
 
     @Override
     public Ingredient get(int id) {
-        return jdbcTemplate.query(
+        List<Ingredient> list = jdbcTemplate.query(
                 "SELECT * FROM INGREDIENTS where id = ?",
                 preparedStatement -> preparedStatement.setInt(1, id),
-                this::mapIngredientRow).get(0);
+                this::mapIngredientRow);
+        return list.isEmpty() ? null : list.get(0);
     }
     @Override
     public List<Ingredient> findAll() {
@@ -109,30 +107,33 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 "SELECT * FROM INGREDIENTS WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapIngredientRow
         );
     }
-
-
-
     @Override
     public List<Ingredient> findIngredientsByUser(int userID) {
-        String sql = "SELECT " +
-                "          INGREDIENTS.*" +
-                "       FROM " +
-                "           PANTRY_ZONES "+
-                "       JOIN " +
-                "           PANTRY_ZONE_PRODUCTS " +
-                "               ON " +
-                "           PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
-                "       JOIN " +
-                "           PRODUCTS " +
-                "               ON " +
-                "           PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
-                "       JOIN " +
-                "           INGREDIENTS " +
-                "               ON " +
-                "           INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
-                "       WHERE " +
-                "           PANTRY_ZONES.USER_ID = ?";
-        return jdbcTemplate.query(sql, preparedStatement -> preparedStatement.setInt(1, userID), this::mapIngredientRow);
+        String sql =
+                "SELECT INGREDIENTS.* FROM PANTRY_ZONES " +
+                    "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
+                    "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                    "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                "WHERE PANTRY_ZONES.USER_ID = ?";
+        return jdbcTemplate.query(
+                sql,
+                this::mapIngredientRow,
+                userID
+        );
+    }
+    @Override
+    public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
+        String sql =
+                "SELECT INGREDIENTS.* " +
+                "FROM INGREDIENTS " +
+                    "JOIN PRODUCTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                    "JOIN PANTRY_ZONE_PRODUCTS ON PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
+                    "JOIN PANTRY_ZONES ON PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = PANTRY_ZONES.ID " +
+                "WHERE DATE_ENTERED < CURRENT_DATE - interval '1 week' AND USER_ID = ?";
+        return jdbcTemplate.query(sql,
+                this::mapIngredientRow,
+                userId
+        );
     }
     @Override
     public Map<Ingredient, Integer> findIngredientsByRecipeId(int id) {
@@ -141,13 +142,15 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                         "FROM RECIPE_INGREDIENTS " +
                         "JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID " +
                         "WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?",
-                this::mapIngredientRow, id);
+                this::mapIngredientRow, id
+        );
         List<Integer> amounts = jdbcTemplate.query(
                 "SELECT QUANTITY " +
                         "FROM RECIPE_INGREDIENTS " +
                         "JOIN INGREDIENTS ON INGREDIENTS.ID = RECIPE_INGREDIENTS.INGREDIENT_ID " +
                         "WHERE RECIPE_INGREDIENTS.RECIPE_ID = ?",
-                (rs, rowNum) -> rs.getInt("QUANTITY"), id);
+                (rs, rowNum) -> rs.getInt("QUANTITY"), id
+        );
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
     }
     @Override
@@ -162,10 +165,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         }
         return ingredients;
     }
-
     @Override
     public Product getProduct(int id) {
-        return jdbcTemplate.query(
+        List<Product> list = jdbcTemplate.query(
                 "SELECT " +
                             "PRODUCTS.ID AS PRODUCT_ID, PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, " +
                             "INGREDIENTS.ID AS INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, INGREDIENTS.IMAGE_PATH " +
@@ -174,9 +176,9 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                         "WHERE PRODUCTS.ID = ?",
                 this::mapProductRow,
                 id
-        ).get(0);
+        );
+        return list.isEmpty() ? null : list.get(0);
     }
-
     @Override
     public Product addProduct(Product product) {
         logger.debug(product.toString());
@@ -188,7 +190,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         product.setProductId(productInserter.executeAndReturnKey(parameters).intValue());
         return product;
     }
-
     @Override
     public List<Product> getByCode(String code) {
         return jdbcTemplate.query(
@@ -202,8 +203,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 code
         );
     }
-
-    //TODO make so that it combines products
     @Override
     public void addToPantry(PantryZoneProduct product) {
         logger.debug(product.getDateEntered().toString());
@@ -214,6 +213,24 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         parameters.put("amount_used", product.getAmountUsed());
         parameters.put("date_entered", Date.valueOf(product.getDateEntered()));
         pantryZoneProductInserter.execute(parameters);
+    }
+    @Override
+    public void updatePantryZoneProduct(PantryZoneProduct product) {
+        jdbcTemplate.update(
+                "UPDATE PANTRY_ZONE_PRODUCTS SET " +
+                        "QUANTITY = ?, " +
+                        "AMOUNT_USED = ? ," +
+                        "DATE_ENTERED = ? " +
+                        "WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
+                product.getQuantity(), product.getAmountUsed(), product.getDateEntered(), product.getProductId(), product.getPantryZone().getId()
+        );
+    }
+    @Override
+    public void removePantryZoneProduct(PantryZoneProduct product) {
+        jdbcTemplate.update(
+                "DELETE FROM PANTRY_ZONE_PRODUCTS WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
+                product.getProductId(), product.getPantryZone().getId()
+        );
     }
     @Override
     public PantryZoneProduct getPantryZoneProduct(int productId, int pantryId) {
@@ -235,23 +252,20 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 productId,
                 pantryId
         );
-        if (list.isEmpty()) {
-            return null;
-        }
-        return list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
-
     @Override
     public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
-        String sql = "SELECT " +
-                "INGREDIENTS.ID AS INGREDIENT_ID, PANTRY_ZONE_PRODUCTS.PRODUCT_ID AS PRODUCT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, " +
-                "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, " +
-                "INGREDIENTS.IMAGE_PATH, PANTRY_ZONE_PRODUCTS.DATE_ENTERED, " +
-                "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
+        String sql =
+                "SELECT " +
+                    "INGREDIENTS.ID AS INGREDIENT_ID, PANTRY_ZONE_PRODUCTS.PRODUCT_ID AS PRODUCT_ID, INGREDIENTS.NAME AS INGREDIENT_NAME, " +
+                    "PRODUCTS.PRODUCT_NAME, PRODUCTS.CODE, PRODUCTS.SIZE, PANTRY_ZONE_PRODUCTS.QUANTITY, PANTRY_ZONE_PRODUCTS.AMOUNT_USED, " +
+                    "INGREDIENTS.IMAGE_PATH, PANTRY_ZONE_PRODUCTS.DATE_ENTERED, " +
+                    "PANTRY_ZONES.ID AS PANTRY_ID, PANTRY_ZONES.NAME AS PANTRY_NAME " +
                 "FROM PANTRY_ZONES " +
-                "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
-                "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
-                "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
+                    "JOIN PANTRY_ZONE_PRODUCTS ON PANTRY_ZONES.ID = PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID " +
+                    "JOIN PRODUCTS ON PANTRY_ZONE_PRODUCTS.PRODUCT_ID = PRODUCTS.ID " +
+                    "JOIN INGREDIENTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
                 "WHERE PANTRY_ZONES.ID = ? ";
         return jdbcTemplate.query(
                 sql,
@@ -276,41 +290,20 @@ public class IngredientRepositoryImpl implements IngredientRepository {
                 userId
         );
     }
-
     @Override
-    public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
-        String sql = "SELECT INGREDIENTS.*" +
-                    "FROM INGREDIENTS " +
-                    "JOIN PRODUCTS ON INGREDIENTS.ID = PRODUCTS.INGREDIENT_ID " +
-                    "JOIN PANTRY_ZONE_PRODUCTS ON PRODUCTS.ID = PANTRY_ZONE_PRODUCTS.PRODUCT_ID " +
-                    "JOIN PANTRY_ZONES ON PANTRY_ZONE_PRODUCTS.PANTRY_ZONE_ID = PANTRY_ZONES.ID " +
-                    "WHERE DATE_ENTERED < CURRENT_DATE - interval '1 week' AND USER_ID = ?";
-        return jdbcTemplate.query(sql,
-                preparedStatement -> preparedStatement.setInt(1, userId),
-                this::mapIngredientRow
-        );
+    public void addToShoppingListIngredients(int shoppingListId, Map<Ingredient, Integer> shoppingListIngredients) {
+        for (Ingredient i: shoppingListIngredients.keySet()) {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("SHOPPING_LIST_ID", shoppingListId);
+            parameters.put("INGREDIENT_ID", i.getId());
+            parameters.put("AMOUNT", shoppingListIngredients.get(i));
+            shoppingListInserter.execute(parameters);
+        }
     }
-
     @Override
-    public void updatePantryZoneProduct(PantryZoneProduct product) {
-        jdbcTemplate.update(
-                "UPDATE PANTRY_ZONE_PRODUCTS SET " +
-                            "QUANTITY = ?, " +
-                            "AMOUNT_USED = ? ," +
-                            "DATE_ENTERED = ? " +
-                        "WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
-                product.getQuantity(), product.getAmountUsed(), product.getDateEntered(), product.getProductId(), product.getPantryZone().getId()
-        );
+    public void clearShoppingListIngredients(int shopping_list_id) {
+        jdbcTemplate.update("DELETE FROM SHOPPING_LIST_INGREDIENTS WHERE SHOPPING_LIST_ID = ?", shopping_list_id);
     }
-
-    @Override
-    public void removePantryZoneProduct(PantryZoneProduct product) {
-        jdbcTemplate.update(
-                "DELETE FROM PANTRY_ZONE_PRODUCTS WHERE PRODUCT_ID = ? AND PANTRY_ZONE_ID = ?;",
-                product.getProductId(), product.getPantryZone().getId()
-        );
-    }
-
     @Override
     public  Map<Ingredient, Integer> getForShoppingList(int shoppingListId) {
         String sql = "SELECT " +
@@ -327,22 +320,6 @@ public class IngredientRepositoryImpl implements IngredientRepository {
         List<Integer> amounts = jdbcTemplate.query("SELECT AMOUNT FROM SHOPPING_LIST_INGREDIENTS JOIN INGREDIENTS ON INGREDIENTS.ID = SHOPPING_LIST_INGREDIENTS.INGREDIENT_ID WHERE SHOPPING_LIST_INGREDIENTS.SHOPPING_LIST_ID = ?",
                 (rs, rowNum) -> rs.getInt("AMOUNT"), shoppingListId);
         return IntStream.range(0, ingredients.size()).boxed().collect(Collectors.toMap(ingredients::get, amounts::get));
-    }
-
-    @Override
-    public void clearShoppingListIngredients(int shopping_list_id) {
-        jdbcTemplate.update("DELETE FROM SHOPPING_LIST_INGREDIENTS WHERE SHOPPING_LIST_ID = ?", shopping_list_id);
-    }
-
-    @Override
-    public void addToShoppingListIngredients(int shoppingListId, Map<Ingredient, Integer> shoppingListIngredients) {
-        for (Ingredient i: shoppingListIngredients.keySet()) {
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("SHOPPING_LIST_ID", shoppingListId);
-            parameters.put("INGREDIENT_ID", i.getId());
-            parameters.put("AMOUNT", shoppingListIngredients.get(i));
-            shoppingListInserter.execute(parameters);
-        }
     }
 }
 

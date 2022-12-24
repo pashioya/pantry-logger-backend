@@ -69,25 +69,17 @@ if(modal) {
 
     for (let i = 0; i < closeBtn.length; i++) {
         closeBtn[i].onclick = function () {
-            passwordModal.style.display = "none";
-            editProfileModal.style.display = "none";
-            addSensorBoxModal.style.display = "none";
-            for (let i = 0; i < editSensorBoxModal.length; i++) {
-
-                editSensorBoxModal[i].style.display = "none";
+            for(let j = 0; j < modal.length; j++) {
+                modal[j].style.display = "none";
             }
         }
     }
 
     window.onclick = function (event) {
-        if (event.target === passwordModal || event.target === editProfileModal) {
-            passwordModal.style.display = "none";
-            editProfileModal.style.display = "none";
-            console.log("test");
-        }
-        if(event.target === addSensorBoxModal) {
-            addSensorBoxModal.style.display = "none";
-            console.log("test");
+        for(let i = 0; i < modal.length; i++) {
+            if (event.target === modal[i]) {
+                modal[i].style.display = "none";
+            }
         }
     }
 }

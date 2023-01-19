@@ -31,6 +31,7 @@
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:value="${key.id}" th:text="${key.name}" selected></option>
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
                         </select>
+						<input readonly style="display: none;" name="test"></input>
                     </form>
                     <form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
                         <div class="tag-edit-header">
@@ -42,6 +43,7 @@
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:value="${key.id}" th:text="${key.name}" selected></option>
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
                         </select>
+						<input readonly style="display: none;" name="test"></input>
                     </form>
                 </div>
 

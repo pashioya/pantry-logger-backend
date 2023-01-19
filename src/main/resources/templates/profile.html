@@ -123,7 +123,7 @@
                                         <form method="POST" action="/profile/editSensorBox">
                                             <label>
                                                 Sensor-ID
-                                                <input disabled type="text" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}" />
+                                                <input readonly type="text" name="sensor-id" th:value="${pantryZone.getSensorBoxCode()}"/>
                                             </label>
                                             <label>
                                                 Temp Lower

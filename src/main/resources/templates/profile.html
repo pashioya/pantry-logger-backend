@@ -31,6 +31,7 @@
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 1}" th:value="${key.id}" th:text="${key.name}" selected></option>
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
                         </select>
+						<input readonly style="display: none;" name="test"></input>
                     </form>
                     <form method="post" id="dislike-edit-form" status="none" action="/profile/editDislikes">
                         <div class="tag-edit-header">
@@ -42,6 +43,7 @@
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == -1}" th:value="${key.id}" th:text="${key.name}" selected></option>
                             <option th:each="key : ${tagMap.keySet()}" th:if="${tagMap.get(key).getVal() == 0}" th:value="${key.id}" th:text="${key.name}"></option>
                         </select>
+						<input readonly style="display: none;" name="test"></input>
                     </form>
                 </div>
 
@@ -90,28 +92,30 @@
                 </div>
                 <div class="edit-sensor-boxes">
                     <div class="all-sensor-boxes">
-                        <div th:each="pantryZone, iStat: ${pantryZones}" th:class="${pantryZone.enviroOutOfRange ? 'sensor-box enviroOutOfRange ' : 'sensor-box'}" th:unless="${pantryZone.sensorBoxCode == '' }" sensor-selected="false">
-                            <img src='/icons/sensor-box.png'
-                                    class="sensor-box-image"
-                                    alt="sensor box icon"
-                            />
-                            <div class="sensor-box-text">
-                                <h4>
-                                    Location:
-                                    <span th:text="${pantryZone.name}" class="pantry-zone-name"></span>
-                                </h4>
-                                <h4>
-                                    Temperature:
-                                    <span th:text="${pantryZone.latestTemp + '° '}" class="sensorBox-temp"></span>
-                                </h4>
-                                <h4>
-                                    Humidity:
-                                    <span th:text="${pantryZone.latestHum + '% '}" class="sensorBox-hum"></span>
-                                </h4>
-                                <h4>
-                                    Brightness:
-                                    <span th:text="${pantryZone.latestBright + ' LUM '}" class="sensorBox-Brightness"></span>
-                                </h4>
+                        <div th:each="pantryZone, iStat: ${pantryZones}" th:unless="${pantryZone.sensorBoxCode == '' }" sensor-selected="false">
+                            <div  th:class="${pantryZone.enviroOutOfRange ? 'sensor-box enviroOutOfRange ' : 'sensor-box'}" >
+                                <img src='/icons/sensor-box.png'
+                                        class="sensor-box-image"
+                                        alt="sensor box icon"
+                                />
+                                <div class="sensor-box-text">
+                                    <h4>
+                                        Location:
+                                        <span th:text="${pantryZone.name}" class="pantry-zone-name"></span>
+                                    </h4>
+                                    <h4>
+                                        Temperature:
+                                        <span th:text="${pantryZone.latestTemp + '° '}" class="sensorBox-temp"></span>
+                                    </h4>
+                                    <h4>
+                                        Humidity:
+                                        <span th:text="${pantryZone.latestHum + '% '}" class="sensorBox-hum"></span>
+                                    </h4>
+                                    <h4>
+                                        Brightness:
+                                        <span th:text="${pantryZone.latestBright + ' LUM '}" class="sensorBox-Brightness"></span>
+                                    </h4>
+                                </div>
                             </div>
                             <div class="modal sensor-box-editor-modal">
                                 <div class="modal-content">

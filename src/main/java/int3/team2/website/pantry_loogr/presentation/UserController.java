@@ -92,7 +92,10 @@ public class UserController {
         if(user == null) {
             return "redirect:/login";
         }
-        List<Integer> list = tagData.get("liked-tags").stream().map(Integer::parseInt).toList();
+        List<Integer> list = new ArrayList<>();
+        if (tagData.containsKey("liked-tags")) {
+            list = tagData.get("liked-tags").stream().map(Integer::parseInt).toList();
+        }
         tagService.updateUserTagRelationship(user.getId(), list, true);
 
         pantryZoneService.getAllForUser(user.getId())
@@ -112,7 +115,10 @@ public class UserController {
         if(user == null) {
             return "redirect:/login";
         }
-        List<Integer> list = tagData.get("disliked-tags").stream().map(Integer::parseInt).toList();
+        List<Integer> list = new ArrayList<>();
+        if(tagData.containsKey("disliked-tags")) {
+            list = tagData.get("disliked-tags").stream().map(Integer::parseInt).toList();
+        }
         tagService.updateUserTagRelationship(user.getId(), list, false);
         return "redirect:/profile";
     }

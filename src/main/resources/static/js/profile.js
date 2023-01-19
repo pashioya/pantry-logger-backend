@@ -2,7 +2,6 @@ $(".js-multiple").select2({
     placeholder: "Select your tags"
 });
 
-const edit_button = document.getElementById("edit-button");
 const likes_form = document.getElementById("like-edit-form");
 const edit_likes = document.getElementById("edit-likes");
 const dislikes_form = document.getElementById("dislike-edit-form");
@@ -21,26 +20,33 @@ function updateStatus(target, status) {
     }
 }
 
-edit_likes.onclick = function() {
-    updateStatus(likes_form, "edit");
+if(edit_likes) {
+    edit_likes.onclick = function() {
+        updateStatus(likes_form, "edit");
+    }
 }
 
-edit_dislikes.onclick = function() {
-    updateStatus(dislikes_form, "edit");
+if (edit_dislikes) {
+    edit_dislikes.onclick = function() {
+        updateStatus(dislikes_form, "edit");
+    }
 }
 
-updateStatus(likes_form, "none")
-updateStatus(dislikes_form, "none")
+if (likes_form) {
+    updateStatus(likes_form, "none");
+}
+
+if (dislikes_form) {
+    updateStatus(dislikes_form, "none");
+}
 
 
 
 let modal = document.getElementsByClassName("modal");
 let passwordModal = document.getElementById("password-modal");
-let editProfileModal = document.getElementById("edit-profile-modal");
 let addSensorBoxModal = document.getElementById("add-sensor-box-modal");
 let editSensorBoxModal = document.getElementsByClassName("sensor-box-editor-modal");
 
-let editProfileBtn = document.getElementById("edit-profile-btn");
 let changePassBtn = document.getElementById("change-password-btn");
 let addSensorBoxBtn = document.getElementById("add-sensor-box-btn");
 let sensorBox = document.getElementsByClassName("sensor-box");
@@ -48,32 +54,38 @@ let sensorBox = document.getElementsByClassName("sensor-box");
 let closeBtn = document.getElementsByClassName("close");
 
 if(modal) {
-    changePassBtn.onclick = function () {
-        passwordModal.style.display = "block";
-    }
-
-    editProfileBtn.onclick = function () {
-        editProfileModal.style.display = "block";
-    }
-
-    addSensorBoxBtn.onclick = function () {
-        addSensorBoxModal.style.display = "block";
-    }
-
-    for (let i = 0; i < sensorBox.length; i++) {
-        sensorBox[i].onclick = function () {
-            editSensorBoxModal[i].style.display = "block";
+    if (changePassBtn) {
+        changePassBtn.onclick = function () {
+            passwordModal.style.display = "block";
         }
     }
 
+    if (addSensorBoxBtn) {
+        addSensorBoxBtn.onclick = function () {
+            addSensorBoxModal.style.display = "block";
+        }
+    }
 
-    for (let i = 0; i < closeBtn.length; i++) {
-        closeBtn[i].onclick = function () {
-            for(let j = 0; j < modal.length; j++) {
-                modal[j].style.display = "none";
+    if (sensorBox) {
+        for (let i = 0; i < sensorBox.length; i++) {
+            sensorBox[i].onclick = function () {
+                editSensorBoxModal[i].style.display = "block";
             }
         }
     }
+
+
+    if (closeBtn) {
+        for (let i = 0; i < closeBtn.length; i++) {
+            closeBtn[i].onclick = function () {
+                for(let j = 0; j < modal.length; j++) {
+                    modal[j].removeAttribute("style");
+                    modal[j].setAttribute("style", "display: none;")
+                }
+            }
+        }
+    }
+
 
     window.onclick = function (event) {
         for(let i = 0; i < modal.length; i++) {

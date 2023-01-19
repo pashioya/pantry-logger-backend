@@ -2,7 +2,6 @@ $(".js-multiple").select2({
     placeholder: "Select your tags"
 });
 
-const edit_button = document.getElementById("edit-button");
 const likes_form = document.getElementById("like-edit-form");
 const edit_likes = document.getElementById("edit-likes");
 const dislikes_form = document.getElementById("dislike-edit-form");
@@ -45,11 +44,9 @@ if (dislikes_form) {
 
 let modal = document.getElementsByClassName("modal");
 let passwordModal = document.getElementById("password-modal");
-let editProfileModal = document.getElementById("edit-profile-modal");
 let addSensorBoxModal = document.getElementById("add-sensor-box-modal");
 let editSensorBoxModal = document.getElementsByClassName("sensor-box-editor-modal");
 
-let editProfileBtn = document.getElementById("edit-profile-btn");
 let changePassBtn = document.getElementById("change-password-btn");
 let addSensorBoxBtn = document.getElementById("add-sensor-box-btn");
 let sensorBox = document.getElementsByClassName("sensor-box");
@@ -60,12 +57,6 @@ if(modal) {
     if (changePassBtn) {
         changePassBtn.onclick = function () {
             passwordModal.style.display = "block";
-        }
-    }
-
-    if (editProfileBtn) {
-        editProfileBtn.onclick = function () {
-            editProfileModal.style.display = "block";
         }
     }
 

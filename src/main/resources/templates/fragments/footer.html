@@ -9,7 +9,6 @@
 	<div class="footer-section">
 		<div th:each="item : ${rightList}" class="button-container styled-button-icon">
 			<a th:replace="fragments/fragment_parts/footer-parts :: ${item.type} (${item.content})">
-
 			</a>
 		</div>
 	</div>

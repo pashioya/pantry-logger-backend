@@ -21,14 +21,14 @@ import static java.sql.Types.VARCHAR;
 public class UserRepositoryImpl implements UserRepository {
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert inserter;
-    private SimpleJdbcInsert userPreferenceInsertser;
+    private SimpleJdbcInsert userPreferenceInserter;
 
     public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.inserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("end_users")
                 .usingGeneratedKeyColumns("id");
-        this.userPreferenceInsertser = new SimpleJdbcInsert(jdbcTemplate)
+        this.userPreferenceInserter = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("user_preferences")
                 .usingColumns("user_id", "tag_id", "'LIKE'");
     }

@@ -24,12 +24,6 @@ public class SensorData {
         this.type = type;
         this.value = value;
     }
-    public SensorData(int id, LocalDateTime timestamp, SensorType type, int value) {
-        this.id = id;
-        this.timestamp = timestamp;
-        this.type = type;
-        this.value = value;
-    }
 
     /**
      * Constructor for retrieving from the DB

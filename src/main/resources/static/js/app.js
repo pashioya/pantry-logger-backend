@@ -148,49 +148,6 @@ if (item_list) {
     });
 }
 
-// Scanner Page JS
-const itemscan_back = document.getElementById("product-scan-back");
-const item_continue = document.getElementById("product-continue");
-const add_single_item = document.getElementById("add-single-item");
-
-if (itemscan_back) {
-    itemscan_back.onclick = function() {
-        document.getElementsByTagName("body")[0].setAttribute("stage", "scan");
-        document.getElementsByClassName("selected-picture")[0].classList.remove("hidden");
-    }
-}
-
-
-if (add_single_item) {
-    add_single_item.onclick = function () {
-        setStageTwo();
-        document.getElementsByClassName("selected-picture")[0].classList.add("hidden");
-    }
-}
-
-
-if (item_continue) {
-    item_continue.onclick = function() {
-        document.getElementsByTagName("body")[0].setAttribute("stage", "two");
-    }
-}
-
-
-let spaces = document.getElementById("scanner");
-if (spaces) {
-    spaces = spaces.getElementsByClassName("storage-space")
-    Array.from(spaces).forEach(x => {
-        x.querySelector("input").addEventListener("change", function () {
-            Array.from(spaces).forEach(y => {
-                y.setAttribute("selected", "false");
-                if (y.querySelector("input").checked) {
-                    y.setAttribute("selected", "true")
-                }
-            })
-        })
-    })
-}
-
 /* Recommender JS */
 
 const have = document.getElementsByClassName("ingredients-you-have");

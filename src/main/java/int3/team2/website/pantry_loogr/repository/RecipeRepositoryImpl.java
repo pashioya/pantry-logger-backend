@@ -30,7 +30,7 @@ public class RecipeRepositoryImpl implements RecipeRepository {
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
 
-    private Recipe mapRow(ResultSet rs, int rowid) throws SQLException {
+    private Recipe mapRecipeRow(ResultSet rs, int rowid) throws SQLException {
         return new Recipe(rs.getInt("ID"),
                 rs.getString("NAME"),
                 Difficulty.valueOf(rs.getString("DIFFICULTY")),
@@ -42,8 +42,42 @@ public class RecipeRepositoryImpl implements RecipeRepository {
     }
 
     @Override
+    public Recipe get(int id) {
+        List<Recipe> list = jdbcTemplate.query("SELECT * FROM RECIPES WHERE ID = ?", this::mapRecipeRow, id);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public Recipe createRecipe(Recipe recipe) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("NAME", recipe.getName());
+        parameters.put("DIFFICULTY", recipe.getDifficulty().toString());
+        parameters.put("DESCRIPTION", recipe.getDescription());
+        parameters.put("INSTRUCTIONS", recipe.getInstructions());
+        parameters.put("TIME", recipe.getTime().toString());
+        parameters.put("IMAGE_PATH", recipe.getImagePath());
+        recipe.setId(inserter.executeAndReturnKey(parameters).intValue());
+        return recipe;
+    }
+
+    @Override
+    public List<Recipe> findByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapRecipeRow);
+    }
+
+    @Override
+    public List<Recipe> findByDifficulty(Difficulty difficulty) {
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE DIFFICULTY = ?", this::mapRecipeRow, difficulty);
+    }
+
+    @Override
+    public List<Recipe> findByTime(Time time) {
+        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE 'TIME' = ?", this::mapRecipeRow, time);
+    }
+
+    @Override
     public List<Recipe> findAll() {
-        return jdbcTemplate.query("SELECT * FROM RECIPES", this::mapRow);
+        return jdbcTemplate.query("SELECT * FROM RECIPES", this::mapRecipeRow);
     }
 
     @Override
@@ -64,41 +98,18 @@ public class RecipeRepositoryImpl implements RecipeRepository {
                         .append("WHERE RECIPE_INGREDIENTS.RECIPE_ID = RECIPES.ID) ");
             }
         }
-        return jdbcTemplate.query(sql.toString(), this::mapRow);
-    }
-
-    @Override
-    public Recipe get(int id) {
-        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE ID = ?", this::mapRow, id).get(0);
-    }
-
-    @Override
-    public List<Recipe> findByName(String name) {
-        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE position(LOWER(?) in LOWER(NAME)) > 0", new Object[] {name}, this::mapRow);
+        return jdbcTemplate.query(sql.toString(), this::mapRecipeRow);
     }
 
 
 
-    @Override
-    public List<Recipe> findByDifficulty(Difficulty difficulty) {
-        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE DIFFICULTY = ?", this::mapRow, difficulty);
-    }
 
-    @Override
-    public List<Recipe> findByTime(Time time) {
-        return jdbcTemplate.query("SELECT * FROM RECIPES WHERE 'TIME' = ?", this::mapRow, time);
-    }
 
-    @Override
-    public Recipe createRecipe(Recipe recipe) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("NAME", recipe.getName());
-        parameters.put("DIFFICULTY", recipe.getDifficulty().toString());
-        parameters.put("DESCRIPTION", recipe.getDescription());
-        parameters.put("INSTRUCTIONS", recipe.getInstructions());
-        parameters.put("TIME", recipe.getTime().toString());
-        parameters.put("IMAGE_PATH", recipe.getImagePath());
-        recipe.setId(inserter.executeAndReturnKey(parameters).intValue());
-        return recipe;
-    }
+
+
+
+
+
+
+
 }

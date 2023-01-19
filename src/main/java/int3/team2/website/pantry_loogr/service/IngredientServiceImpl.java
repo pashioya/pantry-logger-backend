@@ -54,6 +54,13 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     /**
+     * fetches all ingredients that he has entered a week ago or more
+     */
+    @Override
+    public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
+        return ingredientRepository.getProductsEnteredAWeekAgo(userId);
+    }
+    /**
      * fetches all the ingredients in a recipe
      * @param id id of the recipe
      * @return a map of ingredients and the amount needed
@@ -73,6 +80,16 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.addToRelationTable(recipeID, ingredients);
     }
 
+    /**
+     * fetches all the ingredients in a shopping list
+     * @param shoppingListId id of the shopping list
+     * @return a map of ingredients and their amounts
+     */
+    @Override
+    public  Map<Ingredient, Integer> getForShoppingList(int shoppingListId) {
+        return ingredientRepository.getForShoppingList(shoppingListId);
+    }
+
     /**e
      * fetches all the pantryZoneProducts in a pantryZone
      * @param pantryZoneId id of the pantryZone
@@ -87,14 +104,17 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.getProduct(productId);
     }
 
-    @Override
-    public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
-        return ingredientRepository.getByPantryZoneId(pantryZoneId);
-    }
+
 
     @Override
     public Product getByCode(String code) {
-        return ingredientRepository.getByCode(code);
+        List<Product> list = ingredientRepository.getByCode(code);
+        return list.isEmpty() ? null : list.get(0);
+    }
+
+    @Override
+    public List<Product> getUnpackagedProducts() {
+        return ingredientRepository.getByCode("NoCode");
     }
 
     @Override
@@ -144,6 +164,8 @@ public class IngredientServiceImpl implements IngredientService {
      */
     @Override
     public void editPantryZoneProductQuantity(int pantryId, int productId, int quantity) {
+        logger.debug("" + pantryId);
+        logger.debug("" + productId);
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
         if(product.setQuantity(quantity)) {
             ingredientRepository.updatePantryZoneProduct(product);
@@ -154,26 +176,15 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public void removePantryZoneProductQuantity(int pantryId, int productId, int quantityToRemove) {
-        logger.debug(productId + " " + pantryId);
         PantryZoneProduct product = ingredientRepository.getPantryZoneProduct(productId, pantryId);
         if(product.removeFromQuantity(quantityToRemove)) {
-            logger.debug("yes");
             ingredientRepository.updatePantryZoneProduct(product);
         } else {
-            logger.debug("no");
             ingredientRepository.removePantryZoneProduct(product);
         }
     }
 
-    /**
-     * fetches all the ingredients in a shopping list
-     * @param shoppingListId id of the shopping list
-     * @return a map of ingredients and their amounts
-     */
-    @Override
-    public  Map<Ingredient, Integer> getForShoppingList(int shoppingListId) {
-        return ingredientRepository.getForShoppingList(shoppingListId);
-    }
+
 
     @Override
     public List<PantryZoneProduct> getProductsAndPantryZonesByUser(int userId) {
@@ -185,12 +196,10 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredientRepository.findIngredientsByUser(userID);
     }
 
-    /**
-     * fetches all ingredients that he has entered a week ago or more
-     */
+
     @Override
-    public List<Ingredient> getProductsEnteredAWeekAgo(int userId) {
-        return ingredientRepository.getProductsEnteredAWeekAgo(userId);
+    public List<PantryZoneProduct> getByPantryZoneId(int pantryZoneId) {
+        return ingredientRepository.getByPantryZoneId(pantryZoneId);
     }
 
     @Override

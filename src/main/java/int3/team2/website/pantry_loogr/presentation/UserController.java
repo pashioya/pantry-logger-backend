@@ -22,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * allows the user to see all the data and sensor boxes related to his account, he can modify that data (preferences, username, password...) and can logout of his account
@@ -60,6 +62,9 @@ public class UserController {
         model.addAttribute("email", user.getEmail());
         model.addAttribute("tagMap", tagService.getTagsByUserRelationship(user.getId()));
         model.addAttribute("pantryZones", pantryZoneService.getAllForUser(user.getId()));
+        model.addAttribute("emptyPantryZones", pantryZoneService.getAllForUser(user.getId()).stream()
+                .filter(pantryZone -> Objects.equals(pantryZone.getSensorBoxCode(), "")).collect(Collectors.toList()));
+        model.addAttribute("user", user);
         return "profile";
     }
 
@@ -89,6 +94,11 @@ public class UserController {
         }
         List<Integer> list = tagData.get("liked-tags").stream().map(Integer::parseInt).toList();
         tagService.updateUserTagRelationship(user.getId(), list, true);
+
+        pantryZoneService.getAllForUser(user.getId())
+                .stream()
+                .filter(pantryZone -> pantryZone.getSensorBoxCode() != null);
+
         return "redirect:/profile";
     }
 
@@ -125,19 +135,12 @@ public class UserController {
         String stateRegion = tagData.get("stateRegion").get(0);
         String country = tagData.get("country").get(0);
 
-        if(!username.isBlank()) {
             user.setUsername(username);
             httpSession.setAttribute("username", username);
-        }
-        if(!firstName.isBlank())
             user.setFirstName(firstName);
-        if(!lastName.isBlank())
             user.setLastName(lastName);
-        if(!city.isBlank())
             user.setCity(city);
-        if(!stateRegion.isBlank())
             user.setStateRegion(stateRegion);
-        if(!country.isBlank())
             user.setCountry(country);
 
 
@@ -216,11 +219,9 @@ public class UserController {
         if(user == null) {
             return "redirect:/login";
         }
+        logger.debug(sensorBoxData.toString());
         String sensorID = sensorBoxData.get("sensor-id").get(0);
         PantryZone pantryzone = pantryZoneService.getBySensorBoxCode(sensorID);
-
-        pantryzone.setSensorBoxCode(sensorID);
-
         pantryzone.setMaxTemp(Integer.parseInt(sensorBoxData.get("temp-upper-limit").get(0)));
         pantryzone.setMinTemp(Integer.parseInt(sensorBoxData.get("temp-lower-limit").get(0)));
         pantryzone.setMaxHum(Integer.parseInt(sensorBoxData.get("hum-upper-limit").get(0)));

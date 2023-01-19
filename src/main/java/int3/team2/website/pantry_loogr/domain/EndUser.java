@@ -122,17 +122,11 @@ public class EndUser {
 
     public void setCurrentRecipe(Recipe currentRecipe) {
         this.currentRecipe = currentRecipe.getId();
-        logger.debug(String.valueOf(pantryZones.size()));
         List<PantryZoneProduct> pantryZoneProducts = new ArrayList<>();
         pantryZones.forEach(pantryZone -> {
-            logger.debug(String.valueOf(pantryZone.getProducts().size()));
             pantryZoneProducts.addAll(pantryZone.getProducts());
         });
         Map<Ingredient, Integer> missingIngredients = currentRecipe.getMissingIngredients(pantryZoneProducts);
-        logger.debug("missingIngredients");
-        for (Ingredient i: missingIngredients.keySet()) {
-            logger.debug(i.getName() + " " +  missingIngredients.get(i));
-        }
 
         shoppingList.setIngredients(missingIngredients);
     }

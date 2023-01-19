@@ -102,7 +102,14 @@
 		<section class="text-panel">
 			<div view-stage="scan" class="scan-product-welcome">
 				<h1>Scan your product</h1>
-				<button class="styled-button-dark" id="add-single-item">add single items</button>
+				<div class="single-ingredient-add">
+					<select id="unpackaged-product-select">
+						<option value="null"></option>
+						<option th:each="product : ${singleIngredientsList}" th:value="${product.productId}" th:text="${product.productName}"></option>
+					</select>
+					<button class="styled-button-dark" id="add-single-item">add single items</button>
+				</div>
+
 				<a href="/items/pantry-zones" class="styled-button-dark">back</a>
 			</div>
 			<form id="scan-item-form" method="post">
@@ -115,7 +122,7 @@
 				</select>
 				<h3 view-stage="one">Product Name</h3>
 				<input type="text" id="product-name" name="name" view-stage="one" />
-				<h3 view-stage="one">Package amount [in g or ml]</h3>
+				<h3 id="product-amount-header" view-stage="one">Package amount [in g or ml]</h3>
 				<input type="text" id="product-amount" name="amount" view-stage="one" />
 				<h3 view-stage="one">Quantity of the Product</h3>
 				<input type="number" id="product-quantity" name="quantity" view-stage="one" min="1" value="1"/>

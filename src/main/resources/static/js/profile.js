@@ -21,16 +21,25 @@ function updateStatus(target, status) {
     }
 }
 
-edit_likes.onclick = function() {
-    updateStatus(likes_form, "edit");
+if(edit_likes) {
+    edit_likes.onclick = function() {
+        updateStatus(likes_form, "edit");
+    }
 }
 
-edit_dislikes.onclick = function() {
-    updateStatus(dislikes_form, "edit");
+if (edit_dislikes) {
+    edit_dislikes.onclick = function() {
+        updateStatus(dislikes_form, "edit");
+    }
 }
 
-updateStatus(likes_form, "none")
-updateStatus(dislikes_form, "none")
+if (likes_form) {
+    updateStatus(likes_form, "none");
+}
+
+if (dislikes_form) {
+    updateStatus(dislikes_form, "none");
+}
 
 
 
@@ -48,32 +57,44 @@ let sensorBox = document.getElementsByClassName("sensor-box");
 let closeBtn = document.getElementsByClassName("close");
 
 if(modal) {
-    changePassBtn.onclick = function () {
-        passwordModal.style.display = "block";
-    }
-
-    editProfileBtn.onclick = function () {
-        editProfileModal.style.display = "block";
-    }
-
-    addSensorBoxBtn.onclick = function () {
-        addSensorBoxModal.style.display = "block";
-    }
-
-    for (let i = 0; i < sensorBox.length; i++) {
-        sensorBox[i].onclick = function () {
-            editSensorBoxModal[i].style.display = "block";
+    if (changePassBtn) {
+        changePassBtn.onclick = function () {
+            passwordModal.style.display = "block";
         }
     }
 
+    if (editProfileBtn) {
+        editProfileBtn.onclick = function () {
+            editProfileModal.style.display = "block";
+        }
+    }
 
-    for (let i = 0; i < closeBtn.length; i++) {
-        closeBtn[i].onclick = function () {
-            for(let j = 0; j < modal.length; j++) {
-                modal[j].style.display = "none";
+    if (addSensorBoxBtn) {
+        addSensorBoxBtn.onclick = function () {
+            addSensorBoxModal.style.display = "block";
+        }
+    }
+
+    if (sensorBox) {
+        for (let i = 0; i < sensorBox.length; i++) {
+            sensorBox[i].onclick = function () {
+                editSensorBoxModal[i].style.display = "block";
             }
         }
     }
+
+
+    if (closeBtn) {
+        for (let i = 0; i < closeBtn.length; i++) {
+            closeBtn[i].onclick = function () {
+                for(let j = 0; j < modal.length; j++) {
+                    modal[j].removeAttribute("style");
+                    modal[j].setAttribute("style", "display: none;")
+                }
+            }
+        }
+    }
+
 
     window.onclick = function (event) {
         for(let i = 0; i < modal.length; i++) {
